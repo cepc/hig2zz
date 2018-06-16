@@ -20,10 +20,11 @@
 
  <global>
   <parameter name="LCIOInputFiles">
-/besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/E240.Pllh_zz.e0.p0.whizard195/llh_zz.e0.p0.00001_0000_dst.slcio  
+$slcio_in_list  
   </parameter>
   <!-- limit the number of processed records (run+evt): -->  
-  <parameter name="MaxRecordNumber" value="1000" />  
+  <!--<parameter name="MaxRecordNumber" value="1000" /> -->
+  <parameter name="MaxRecordNumber"> $max_event_num </parameter>
   <parameter name="SkipNEvents" value="0" />  
   <parameter name="SupressCheck" value="false" />  
   <parameter name="GearXMLFile"> 
@@ -39,7 +40,9 @@
   <parameter name="OverwriteFile" type="int"> 1 </parameter>
   <parameter name="TreeName" type="string">MCPart </parameter>
   <parameter name="LeptonIDTag" type="int">13 </parameter>       
-  <parameter name="TreeOutputFile" type="string">../run/test1.root </parameter>
+  <parameter name="TreeOutputFile" type="string"> 
+$output_rootfile 
+  </parameter>
 
 </processor>
 
