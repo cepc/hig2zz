@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Common tools 
+Common tools   (slightly modified from the one used in J/psi->invi.)
 """
 
 __author__ = "SHI Xin <shixin@ihep.ac.cn>"
@@ -133,15 +133,16 @@ def save_list_into_file(file_list, dst):
         os.makedirs(path)
                 
     fo = open(dst, 'w')
-    fo.write('EventCnvSvc.digiRootInputFile = {\n')
+#    fo.write('EventCnvSvc.digiRootInputFile = {\n')
 
     n = 0
     for f in file_list:
         n = n+1
-        if n<nfiles:
-            fo.write('"%s",\n' % f)
-        else:
-            fo.write('"%s"\n};\n' % f)
+        fo.write('%s \n' % f)
+#        if n<nfiles:
+#            fo.write('"%s",\n' % f)
+#        else:
+#            fo.write('"%s"\n};\n' % f)
 
     fo.close()
     sys.stdout.write('Saved as: %s\n' %dst)
