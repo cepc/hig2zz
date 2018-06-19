@@ -1,32 +1,40 @@
 # hig2inv
 
-Higgs Invisible Analysis
+Higgs to ZZ* analysis 
 
 ## Note
 
-- Please extract ROOT files by command line or by submitting jobs to backstage in bash mode (by excuting "bash" in your command line if your default mode is tcshell).
+- Server : SLC6 ( lxslc6.ihep.ac.cn ).  It does not work under the SLC5 (lxslc5.ihep.ac.cn) environment.
 
-- Set environment: source setup.sh(In bash mode)
+- Since the batch job system (HTCondor) requests the output directory not be located under /afs ,
+you need to make sure this point. Especially, a "run" directory is going to be created during the procedure (submit.sh) 
+and all of output files are stored in, therefore, the PATH of "run" directory should be taken care.  
 
-- Build program: ./build.sh
 
-- Run program: ./submit.sh X.X.X(find in submit.sh)
+## 1. Install  
 
-- Directories created by submit.sh: data/figs/presel/rawdata/steer.
+> ssh -X lxslc6.ihep.ac.cn
 
-## For developers
+> cd {some directory under which you want to setup the code}
 
-- Fork the code with your personal github ID. See [details](https://help.github.com/articles/fork-a-repo/)
+> git clone https://github.com/cepc/hig2zz.git
 
-> git clone git@github.com:cepc/hig2inv.git
+> cd hig2zz
 
-- Make your change, commit and push
 
-> git commit -a -m "Added feature A, B, C"
+## 2. Setup 
 
-> git push
+> source setup.sh
 
-- Make a pull request. See [details](https://help.github.com/articles/using-pull-requests/)
+
+## 3. Build code
+
+> ./build.sh 
+
+
+## 4. Submit jobs
+
+> ./submit.sh
 
 
 ## Some styles to follow 

@@ -58,6 +58,7 @@ case $option in
 
     0.1.3) echo "Run with a few events ..."
 	   source setup.sh
+	   ./build.sh
 	   Marlin ./run/llh2zz/steers/test/sample-1.xml
            ;;
     
