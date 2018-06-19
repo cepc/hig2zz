@@ -1,4 +1,4 @@
-# hig2inv
+# Higgs2ZZ
 
 Higgs to ZZ* analysis 
 
