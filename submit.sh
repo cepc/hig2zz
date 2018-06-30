@@ -21,7 +21,7 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.1.9"    "Merge event root files" 
 #	printf "\n\t%-9s  %-40s"  "0.1.10"   "Plot histograms" 
 	printf "\nDATE\n"
-	printf "\n\t%-5s\n" "AUGUST 2016"     
+	printf "\n\t%-5s\n" "JUNE 2018"     
 }
 
 
@@ -44,7 +44,7 @@ case $option in
     0.1) echo "Running on signal sample..."
          ;;
 
-    0.1.1) echo "Split signal sample with each group 1G..."
+    0.1.1) echo "Split signal sample with each group 0.5G..."
 	   mkdir -p   ./run/llh2zz/samples
            ./python/get_samples.py  ${signal_slcio_dir} ./run/llh2zz/samples/E240_Pllh_zz.txt 0.5G
            ;;
@@ -53,7 +53,7 @@ case $option in
 	   mkdir -p   ./run/llh2zz/steers 
 	   mkdir -p   ./run/llh2zz/steers/test 
 	   mkdir -p   ./run/llh2zz/ana
-           ./python/gen_steerfiles.py ./steer/template_job_20180605.xml ./run/llh2zz/samples ./run/llh2zz/steers ./run/llh2zz/ana/ana_File.root
+           ./python/gen_steerfiles.py ./steer/template_job_20180628.xml ./run/llh2zz/samples ./run/llh2zz/steers ./run/llh2zz/ana/ana_File.root
            ;;
 
     0.1.3) echo "Run with a few events ..."

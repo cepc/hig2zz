@@ -104,7 +104,7 @@ def main():
                 root_name = 'out_' + str(nfile) + '.root'
                 t = Template(xml_in)
                 lines = []
-                lines.append( t.substitute( slcio_in_list=data1, max_event_num=10, output_rootfile=root_name ) )
+                lines.append( t.substitute( slcio_in_list=data1, max_event_num=100, output_rootfile=root_name ) )
 
                 outname = './' + dst + '/test/sample-' + str(nfile) + '.xml'
                 fout = open(outname,'w')
