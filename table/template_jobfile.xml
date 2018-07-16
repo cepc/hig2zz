@@ -12,9 +12,9 @@
 <marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
  <execute>
    <processor name="MyIsolatedLeptonFinderProcessor"/>   
-   <processor name="VertexFinder"/>
-   <processor name="JetClusteringAndFlavorTag"/>
-   <processor name="MyFastJetClustering"/>   
+<!--   <processor name="VertexFinder"/>               -->
+<!--   <processor name="JetClusteringAndFlavorTag"/>  -->
+   <processor name="MyFastJetClustering"/>        
    <processor name="MyHiggs2zz"/>  
  </execute>
 
@@ -23,12 +23,11 @@
 $slcio_in_list  
   </parameter>
   <!-- limit the number of processed records (run+evt): -->  
-  <!--<parameter name="MaxRecordNumber" value="1000" /> -->
   <parameter name="MaxRecordNumber"> $max_event_num </parameter>
   <parameter name="SkipNEvents" value="0" />  
   <parameter name="SupressCheck" value="false" />  
   <parameter name="GearXMLFile"> 
-/besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/GearOutput.xml 
+$gear_xml
   </parameter>  
   <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT"> DEBUG  </parameter> 
  </global>
@@ -38,7 +37,7 @@ $slcio_in_list
 <processor name="MyHiggs2zz" type="Higgs2zz">
 
   <parameter name="OverwriteFile" type="int"> 1 </parameter>
-  <parameter name="Ecms" type="double"> 240.0 </parameter>
+  <parameter name="Ecms" type="double"> $ecms </parameter>
   <parameter name="EcmsOption" type="int"> 1 </parameter>
   <parameter name="TreeName" type="string"> tree </parameter>
   <parameter name="RecoEmax" type="double"> 100.0 </parameter>

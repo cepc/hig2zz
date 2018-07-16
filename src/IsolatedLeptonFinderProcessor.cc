@@ -335,6 +335,7 @@ void ISOlatedLeptonFinderProcessor::processEvent( LCEvent * evt ) {
 	}
 
 	// For test 
+	/*
 	{
 	  int n1 = otIsoLepCol->getNumberOfElements();
 	  int n2 = otPFOsRemovedIsoLepCol->getNumberOfElements();
@@ -352,8 +353,8 @@ void ISOlatedLeptonFinderProcessor::processEvent( LCEvent * evt ) {
 	  std::cout << "otPFOsRemovedIsoZLepCol: " << _outputPFOsRemovedIsoZLepCollection.c_str() << std::endl;
 	  std::cout << "otIsoZLepCol           : " << _outputIsoZLepCollection.c_str()  << std::endl;
 	}
-	  
-	  
+	*/  
+	
 	streamlog_out(DEBUG) << "   processing event: " << evt->getEventNumber() 
 		<< "   in run:  " << evt->getRunNumber() 
 		<< std::endl ;
@@ -388,14 +389,14 @@ vector<ReconstructedParticle*> ISOlatedLeptonFinderProcessor::getZLeptonPair( LC
 		for ( int j=i+1; j<nlep ; j++){
 			ReconstructedParticle* enflow2 = dynamic_cast<ReconstructedParticle*>(leps->getElementAt( j ));
 			int pdgid2=enflow2->getType();
-			std::cout << "pdgid1=" << pdgid1 << ", pdgid2=" << pdgid2 << std::endl;
+			//std::cout << "pdgid1=" << pdgid1 << ", pdgid2=" << pdgid2 << std::endl;
 			if(pdgid1+pdgid2!=0) continue;
 			Double_t energy2   = enflow2->getEnergy();
 			TVector3 momentum2 = TVector3(enflow2->getMomentum());
 			TLorentzVector p42 = TLorentzVector(momentum2,energy2);
 			//
 			double dmass = fabs( (p41+p42).M() - 91.18 ); 
-			std::cout << "Invariant Mass = " << (p41+p42).M() << std::endl;
+			//std::cout << "Invariant Mass = " << (p41+p42).M() << std::endl;
 			if ( dmass < dMass ){
 				dMass=dmass;
 				ret.clear();
