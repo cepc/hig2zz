@@ -11,6 +11,12 @@ import sys
 import os
 from string import Template
 
+GEAR_CEPC_V1 = '/workfs/bes/lig/config/ilcsoft/gear_cepc_v1.xml'
+GEAR_CEPC_V4 = '/besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/GearOutput.xml'
+
+ECMS_CEPC_V1 = 250.0
+ECMS_CEPC_V4 = 240.0
+
 
 def usage():
     sys.stdout.write('''
@@ -89,7 +95,8 @@ def main():
             # Replace Variables in XML Template
             t = Template(xml_in)
             lines = []
-            lines.append( t.substitute( slcio_in_list=data1, max_event_num=-1, output_rootfile=root_name ) )
+            lines.append( t.substitute( slcio_in_list=data1, max_event_num=-1, gear_xml=GEAR_CEPC_V4, 
+                                        ecms=ECMS_CEPC_V4, output_rootfile=root_name ) )
 
             # Generate XML files
             fout = open(outname,'w')
@@ -104,7 +111,9 @@ def main():
                 root_name = 'out_' + str(nfile) + '.root'
                 t = Template(xml_in)
                 lines = []
-                lines.append( t.substitute( slcio_in_list=data1, max_event_num=100, output_rootfile=root_name ) )
+                lines.append( t.substitute( slcio_in_list=data1, max_event_num=100, gear_xml=GEAR_CEPC_V4, 
+                                            ecms=ECMS_CEPC_V4, output_rootfile=root_name ) )
+
 
                 outname = './' + dst + '/test/sample-' + str(nfile) + '.xml'
                 fout = open(outname,'w')
