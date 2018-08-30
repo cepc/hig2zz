@@ -38,8 +38,8 @@ ww_l0ll         ,      mu tau nu_mu nu_tau            ,      392.96  ,      1984
 #
 #zzorww_h0udud   ,      uq uq dq dq                    ,     1570.40  ,     7930514  ,          not_generated_yet                                                                                ,       
 #zzorww_h0cscs   ,      cq cq sq sq                    ,     1568.94  ,     7923141  ,          not_generated_yet                                                                                ,    
-zzorww_h0udud   ,      uq uq dq dq                    ,     1570.40  ,      7930514  ,          /cefs/dirac/user/b/byzhang/zzorww_h/sim_01/rec/                                                  ,  CEPC_V4  ,  zzorww_h0udud.e0.p0
-zzorww_h0cscs   ,      cq cq sq sq                    ,     1568.94  ,      7923141  ,          /cefs/dirac/user/b/byzhang/zzorww_h/sim_01/rec/                                                  ,  CEPC_V4  ,  zzorww_h0cscs.e0.p0
+zzorww_h0udud   ,      uq uq dq dq                    ,     1570.40  ,      7930514  ,          /cefs/dirac/user/b/byzhang/zzorww_h/sim_01/rec/                                                  ,       V1  ,  zzorww_h0udud.e0.p0
+zzorww_h0cscs   ,      cq cq sq sq                    ,     1568.94  ,      7923141  ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzzorww_h.e0.p0.whizard195/                    ,  CEPC_V4  ,  zzorww_h0cscs.e0.p0
 zzorww_l0mumu   ,      mu mu nu_mu nu_mu              ,      214.81  ,      1084790  ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzzorww_l.e0.p0.whizard195/                    ,  CEPC_V4  ,  zzorww_l0mumu.e0.p0
 zzorww_l0tautau ,      tau tau nu_tau nu_tau          ,      205.84  ,      1039492  ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzzorww_l.e0.p0.whizard195/                    ,  CEPC_V4  ,  zzorww_l0tautau.e0.p0
 #
