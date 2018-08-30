@@ -42,7 +42,8 @@ def main():
                         if f.endswith('.slcio'):
                             file_time = os.path.getmtime(os.path.join(root, f)) 
                             diff_day = (ctime - file_time)/3600.0/24.0  
-                            if diff_day > 1.0 : ## to avoid access to generating slcio files
+                            #if diff_day > 1.0 : ## to avoid access to generating slcio files
+                            if diff_day > 0.0 :
                                 file_list.append(os.path.join(root, f))                                
 
             fname = l[0]   ## filename = dirname for the moment !            

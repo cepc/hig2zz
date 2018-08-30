@@ -73,7 +73,9 @@ private:
 
 	// the LC Collection names for input/output
 	string	_lcParticleInName;
-	string	_lcParticleOutName;
+	//string	_lcParticleOutName;
+	string	_lcParticleOutName1;
+	string	_lcParticleOutName2;
 	string	_lcJetOutName;
 
 

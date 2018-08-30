@@ -40,8 +40,9 @@ $gear_xml
   <parameter name="Ecms" type="double"> $ecms </parameter>
   <parameter name="EcmsOption" type="int"> 1 </parameter>
   <parameter name="TreeName" type="string"> tree </parameter>
-  <parameter name="RecoEmax" type="double"> 100.0 </parameter>
-  <parameter name="RecoEmin" type="double"> 10.0 </parameter>
+  <parameter name="LeptonEMax" type="double"> 100.0 </parameter>
+  <parameter name="LeptonEMin" type="double"> 10.0 </parameter>
+  <parameter name="LeptonPtMin" type="double"> 0.0 </parameter>
   <parameter name="TreeOutputFile" type="string"> 
 $output_rootfile 
   </parameter>
@@ -53,9 +54,12 @@ $output_rootfile
 <processor name="MyFastJetClustering" type="FastJetProcessor">
   <parameter name="recParticleIn" type="string" lcioOutType="ReconstructedParticle"> WithoutIsoLeps </parameter>
   <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">FastJets </parameter>
+  <parameter name="recParticleOut1" type="string" lcioOutType="ReconstructedParticle"> FJPList1 </parameter>
+  <parameter name="recParticleOut2" type="string" lcioOutType="ReconstructedParticle"> FJPList2 </parameter>
   <parameter name="algorithm" type="StringVec">ee_kt_algorithm  </parameter>   
   <parameter name="recombinationScheme" type="string"> E_scheme </parameter>
   <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 2 </parameter> 
+  <parameter name="storeParticlesInJets" type="bool"> true </parameter>
 </processor>
 
 
