@@ -4,9 +4,9 @@
 # ZH signals 
 # 
 # newly generated
-#e1e1h_X    ,      e e     higgs  ,          7.04  ,       35552  ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e1e1h_X/      ,  CEPC_V4  ,  e1e1h_X.e0.p0
-#e2e2h_X    ,      mu mu   higgs  ,          6.77  ,       34189  ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_X/      ,  CEPC_V4  ,  e2e2h_X.e0.p0
-#e3e3h_X    ,      tau tau higgs  ,          6.75  ,       34088  ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e3e3h_X/      ,  CEPC_V4  ,  e3e3h_X.e0.p0
+e1e1h_X    ,      e e     higgs  ,          7.04  ,       35552  ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e1e1h_X/      ,  CEPC_V4  ,  e1e1h_X.e0.p0
+e2e2h_X    ,      mu mu   higgs  ,          6.77  ,       34189  ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_X/      ,  CEPC_V4  ,  e2e2h_X.e0.p0
+e3e3h_X    ,      tau tau higgs  ,          6.75  ,       34088  ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e3e3h_X/      ,  CEPC_V4  ,  e3e3h_X.e0.p0
 nnh_X      ,      nu nu   higgs  ,         46.29  ,      233765  ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/nnh_X/        ,  CEPC_V4  ,  nnh_X.e0.p0
 qqh_X      ,      q q     higgs  ,        131.81  ,      665641  ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/qqh_X/        ,  CEPC_V4  ,  qqh_X.e0.p0
 #
