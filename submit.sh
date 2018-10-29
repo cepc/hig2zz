@@ -19,7 +19,6 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.1.7"    "Generate Condor job scripts for event selection" 	
 	printf "\n\t%-9s  %-40s"  "0.1.8"    "Submit Condor jobs for event selection on signal" 
 	printf "\n\t%-9s  %-40s"  "0.1.9"    "Merge event root files" 
-#	printf "\n\t%-9s  %-40s"  "0.1.10"   "Plot histograms" 
 
 	printf "\n" 
 	printf "\n\t%-9s  %-40s"  "0.2"      "[run Z(->ff)H(->inclusive) sample]" 
@@ -33,6 +32,7 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.2.8"    "Generate Condor job scripts for event selection" 	
 	printf "\n\t%-9s  %-40s"  "0.2.9"    "Submit Condor jobs for event selection on ZH sample" 
 	printf "\n\t%-9s  %-40s"  "0.2.10"   "Merge event root files" 
+	printf "\n\t%-9s  %-40s"  "0.2.11"    "Plot signal-zh histograms..."
 
 
 	printf "\n" 
@@ -47,7 +47,7 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.3.8"    "Generate Condor job scripts for event selection" 	
 	printf "\n\t%-9s  %-40s"  "0.3.9"    "Submit Condor jobs for event selection on Bg sample" 
 	printf "\n\t%-9s  %-40s"  "0.3.10"    "Merge event root files" 
-#	printf "\n\t%-9s  %-40s"  "0.3.11"   "Plot histograms" 
+	printf "\n\t%-9s  %-40s"  "0.3.11"    "Plot signal-bg histograms..."
 
 
 	printf "\n" 
@@ -168,6 +168,8 @@ case $option in
            ;;
 
     0.1.7) echo "Generate Condor job scripts for event selection..."
+		rm -rf ./run/llh2zz/events/ana
+		rm -rf ./run/llh2zz/condor/script/eventsel
 	   mkdir -p   ./run/llh2zz/events/ana
            mkdir -p   ./run/llh2zz/condor/script/eventsel
 	   ./python/gen_condorscripts.py  2  ./run/llh2zz/ana ./run/llh2zz/condor  ${sel_signal}
@@ -175,18 +177,16 @@ case $option in
 
     0.1.8) echo "Submit Condor jobs for event selection on signal..."
            cd ./run/llh2zz/condor
+		   rm -rf log/events
 	   mkdir -p log/events
 	   ./condor_submit_eventsel.sh
            ;;
 
     0.1.9) echo  "Merge event root files..."
+			rm -rf ./run/llh2zz/hist
            mkdir -p   ./run/llh2zz/hist
            ./python/mrg_rootfiles.py  ./run/llh2zz/events/ana  ./run/llh2zz/hist 
            ;; 
-
-#    0.1.10) echo  "Plot histograms..."
-#           ./python/plt_summary.py    ./run/ll_h2zz/hist/ 
-#           ;; 
 
 
     # --------------------------------------------------------------------------
@@ -285,10 +285,12 @@ case $option in
            ;;
 
     0.2.8) echo "Generate Condor job scripts for event selection..."
+		rm -rf ./run/zh/events/ana
 	   mkdir -p   ./run/zh/events/ana
 	   cd ./run/zh/ana
 	   for dir in *
 	   do
+	   	   rm -rf ../events/ana/$dir
 	       mkdir -p ../events/ana/$dir
 	   done
 
@@ -319,16 +321,23 @@ case $option in
            ;;
 
     0.2.10) echo  "Merge event root files..."
+			rm -rf ./run/zh/hist
            mkdir -p   ./run/zh/hist
 	   cd ./run/zh/events/ana
 	   for dir in *
 	   do
+	       rm -rf ../../hist/$dir
 	       mkdir -p ../../hist/$dir
 	       cd ../../../../
 
 	       ./python/mrg_rootfiles.py  ./run/zh/events/ana/$dir  ./run/zh/hist/$dir
 	       cd ./run/zh/events/ana	       
 	   done
+           ;; 
+
+    0.2.11) echo  "Plot signal-zh histograms..."
+           	mkdir -p   ./doc/fig
+           ./python/plt_bg.py  ./table/zh_sample_list.txt  zh
            ;; 
 
 
@@ -358,8 +367,8 @@ case $option in
 	   ;;
 	   
     0.3.4) echo "Run with a few events ..."
-	   source setup.sh
-	   ./build.sh
+	#    source setup.sh
+	#    ./build.sh
 	   cd ./run/bg/steers/
 
 	   array=("e3e3" "qq" "sznu_sl0nu_down" "sze_sl0uu" "ww_sl0muq" "zz_sl0mu_down")
@@ -392,7 +401,7 @@ case $option in
 	   done
 
 	   cd ../../../
-           ./python/gen_bg_condorscripts.py  1  ./run/bg/steers ./run/bg/condor  ${sel_signal}
+           ./python/gen_bg_condorscripts.py  1  ./run/bg/steers ./run/bg/condor  ${sel_signal} #1
            ;;
 
     0.3.6) echo "Submit Condor jobs for pre-selection on background sample..."
@@ -413,7 +422,7 @@ case $option in
 	   done
            ;;
 
-    0.3.7) echo "Select events on background (with a small sample)..."
+    0.3.7) echo "Select events on background (with a small sample)..."  #only one sample
 	   mkdir -p   ./run/bg/events/ana
 	   cd ./run/bg/ana
 	   for dir in *
@@ -422,14 +431,16 @@ case $option in
 	   done
 	   cd ../../../
 
-           ./python/sel_events.py  ./run/bg/ana/zz_sl0mu_up/ana_File-1.root  ./run/bg/events/ana/zz_sl0mu_up/ana_File-1_event.root  ${sel_all}
+           ./python/sel_events.py  ./run/bg/ana/zz_sl0mu_up/ana_File-1.root  ./run/bg/events/ana/zz_sl0mu_up/ana_File-1_event.root  ${sel_all}  #0
            ;;
 
     0.3.8) echo "Generate Condor job scripts for event selection..."
+		rm -rf ./run/bg/events/ana
 	   mkdir -p   ./run/bg/events/ana
 	   cd ./run/bg/ana
 	   for dir in *
 	   do
+	       rm -rf ../events/ana/$dir
 	       mkdir -p ../events/ana/$dir
 	   done
 
@@ -460,10 +471,12 @@ case $option in
            ;;
 
     0.3.10) echo  "Merge event root files..."
+		   rm -rf ./run/bg/hist
            mkdir -p   ./run/bg/hist
 	   cd ./run/bg/events/ana
 	   for dir in *
 	   do
+	       rm -rf ../../hist/$dir
 	       mkdir -p ../../hist/$dir
 	       cd ../../../../
 
@@ -472,6 +485,11 @@ case $option in
 	   done
            ;; 
 
+
+    0.3.11) echo  "Plot signal-bg histograms..."
+           	mkdir -p   ./doc/fig
+           ./python/plt_bg.py  ./table/bg_sample_list.txt  bg
+           ;; 
 
     # --------------------------------------------------------------------------
     #  0.4 nnHiggs Sample   
