@@ -168,8 +168,6 @@ case $option in
            ;;
 
     0.1.7) echo "Generate Condor job scripts for event selection..."
-		rm -rf ./run/llh2zz/events/ana
-		rm -rf ./run/llh2zz/condor/script/eventsel
 	   mkdir -p   ./run/llh2zz/events/ana
            mkdir -p   ./run/llh2zz/condor/script/eventsel
 	   ./python/gen_condorscripts.py  2  ./run/llh2zz/ana ./run/llh2zz/condor  ${sel_signal}
@@ -177,13 +175,11 @@ case $option in
 
     0.1.8) echo "Submit Condor jobs for event selection on signal..."
            cd ./run/llh2zz/condor
-		   rm -rf log/events
 	   mkdir -p log/events
 	   ./condor_submit_eventsel.sh
            ;;
 
     0.1.9) echo  "Merge event root files..."
-			rm -rf ./run/llh2zz/hist
            mkdir -p   ./run/llh2zz/hist
            ./python/mrg_rootfiles.py  ./run/llh2zz/events/ana  ./run/llh2zz/hist 
            ;; 
@@ -241,8 +237,6 @@ case $option in
 	   for dir in *
 	   do
 	       cd $dir
-	       rm -rf log/marlin
-	       rm -rf script/marlin
 	       mkdir -p log/marlin
 	       mkdir -p script/marlin
 	       cd ../
@@ -285,12 +279,10 @@ case $option in
            ;;
 
     0.2.8) echo "Generate Condor job scripts for event selection..."
-		rm -rf ./run/zh/events/ana
 	   mkdir -p   ./run/zh/events/ana
 	   cd ./run/zh/ana
 	   for dir in *
 	   do
-	   	   rm -rf ../events/ana/$dir
 	       mkdir -p ../events/ana/$dir
 	   done
 
@@ -298,8 +290,6 @@ case $option in
 	   for dir in *
 	   do
 	       cd $dir
-	       rm -rf log/events
-	       rm -rf script/eventsel
 	       mkdir -p log/events
 	       mkdir -p script/eventsel
 	       cd ../
@@ -321,12 +311,10 @@ case $option in
            ;;
 
     0.2.10) echo  "Merge event root files..."
-			rm -rf ./run/zh/hist
            mkdir -p   ./run/zh/hist
 	   cd ./run/zh/events/ana
 	   for dir in *
 	   do
-	       rm -rf ../../hist/$dir
 	       mkdir -p ../../hist/$dir
 	       cd ../../../../
 
@@ -393,8 +381,6 @@ case $option in
 	   for dir in *
 	   do
 	       cd $dir
-	       rm -rf log/marlin
-	       rm -rf script/marlin
 	       mkdir -p log/marlin
 	       mkdir -p script/marlin
 	       cd ../
@@ -435,12 +421,10 @@ case $option in
            ;;
 
     0.3.8) echo "Generate Condor job scripts for event selection..."
-		rm -rf ./run/bg/events/ana
 	   mkdir -p   ./run/bg/events/ana
 	   cd ./run/bg/ana
 	   for dir in *
 	   do
-	       rm -rf ../events/ana/$dir
 	       mkdir -p ../events/ana/$dir
 	   done
 
@@ -448,8 +432,6 @@ case $option in
 	   for dir in *
 	   do
 	       cd $dir
-	       rm -rf log/events
-	       rm -rf script/eventsel
 	       mkdir -p log/events
 	       mkdir -p script/eventsel
 	       cd ../
@@ -471,12 +453,10 @@ case $option in
            ;;
 
     0.3.10) echo  "Merge event root files..."
-		   rm -rf ./run/bg/hist
            mkdir -p   ./run/bg/hist
 	   cd ./run/bg/events/ana
 	   for dir in *
 	   do
-	       rm -rf ../../hist/$dir
 	       mkdir -p ../../hist/$dir
 	       cd ../../../../
 
