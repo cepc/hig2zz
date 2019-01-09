@@ -10,6 +10,19 @@ usage() {
 	printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
 	printf "\nOPTIONS\n" 
 	printf "\n\t%-9s  %-40s"  "0.1"      "[run signal sample]" 
+    printf "\n\t%-9s  %-40s"  "0.2"      "[run Z(->ff)H(->inclusive) sample]"  
+    printf "\n\t%-9s  %-40s"  "0.3"      "[run background sample]" 
+    printf "\n\t%-9s  %-40s"  "0.4"      "[run nnHiggs sample]" 
+    printf "\n\t%-9s  %-40s"  "0.5"      "[run mmHWW sample]"
+	printf "\n\t%-9s  %-40s"  "0.6"      "[run mmHZZ sample]"
+	printf "\n\t%-9s  %-40s"  "0.7"      "[run mmHe3e3 sample]"
+    printf "\n\n" 
+	printf "\nDATE\n"
+	printf "\n\t%-5s\n" "JUNE 2018" 
+}
+
+usage_0_1() { 
+	printf "\n\t%-9s  %-40s"  "0.1"      "[run signal sample]" 
 	printf "\n\t%-9s  %-40s"  "0.1.1"    "Split signal sample with each group 0.5G" 
 	printf "\n\t%-9s  %-40s"  "0.1.2"    "Generate XML input files for Marlin job" 
 	printf "\n\t%-9s  %-40s"  "0.1.3"    "Run with a few events" 
@@ -19,7 +32,10 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.1.7"    "Generate Condor job scripts for event selection" 	
 	printf "\n\t%-9s  %-40s"  "0.1.8"    "Submit Condor jobs for event selection on signal" 
 	printf "\n\t%-9s  %-40s"  "0.1.9"    "Merge event root files" 
+	printf "\n\t%-9s  %-40s"  "0.1.10"   "Plot histograms" 
+}
 
+usage_0_2() { 
 	printf "\n" 
 	printf "\n\t%-9s  %-40s"  "0.2"      "[run Z(->ff)H(->inclusive) sample]" 
 	printf "\n\t%-9s  %-40s"  "0.2.1"    "Split ZH sample with each group 1G" 
@@ -33,8 +49,9 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.2.9"    "Submit Condor jobs for event selection on ZH sample" 
 	printf "\n\t%-9s  %-40s"  "0.2.10"   "Merge event root files" 
 	printf "\n\t%-9s  %-40s"  "0.2.11"    "Plot signal-zh histograms..."
+}
 
-
+usage_0_3() { 
 	printf "\n" 
 	printf "\n\t%-9s  %-40s"  "0.3"      "[run background sample]" 
 	printf "\n\t%-9s  %-40s"  "0.3.1"    "Split background sample with each group 20G" 
@@ -47,9 +64,11 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.3.8"    "Generate Condor job scripts for event selection" 	
 	printf "\n\t%-9s  %-40s"  "0.3.9"    "Submit Condor jobs for event selection on Bg sample" 
 	printf "\n\t%-9s  %-40s"  "0.3.10"    "Merge event root files" 
-	printf "\n\t%-9s  %-40s"  "0.3.11"    "Plot signal-bg histograms..."
+	printf "\n\t%-9s  %-40s"  "0.3.11"    "Merge background and signal root files..." 
+	printf "\n\t%-9s  %-40s"  "0.3.12"    "Plot signal-bg histograms..."
+}
 
-
+usage_0_4() { 
 	printf "\n" 
 	printf "\n\t%-9s  %-40s"  "0.4"      "[run nnHiggs sample]" 
 	printf "\n\t%-9s  %-40s"  "0.4.1"    "Split nnHiggs sample with each group 1G" 
@@ -61,8 +80,9 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.4.7"    "Generate Condor job scripts for event selection" 	
 	printf "\n\t%-9s  %-40s"  "0.4.8"    "Submit Condor jobs for event selection on nnHiggs sample" 
 	printf "\n\t%-9s  %-40s"  "0.4.9"    "Merge event root files" 
+}
 
-
+usage_0_5() { 
 	printf "\n" 
 	printf "\n\t%-9s  %-40s"  "0.5"      "[run mmHWW sample]" 
 	printf "\n\t%-9s  %-40s"  "0.5.1"    "Split mmHWW sample with each group 1G" 
@@ -74,7 +94,9 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.5.7"    "Generate Condor job scripts for event selection" 	
 	printf "\n\t%-9s  %-40s"  "0.5.8"    "Submit Condor jobs for event selection on mmHWW sample" 
 	printf "\n\t%-9s  %-40s"  "0.5.9"    "Merge event root files" 
+}
 
+usage_0_6() { 
 	printf "\n" 
 	printf "\n\t%-9s  %-40s"  "0.6"      "[run mmHZZ sample]" 
 	printf "\n\t%-9s  %-40s"  "0.6.1"    "Split mmHZZ sample with each group 1G" 
@@ -86,7 +108,9 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.6.7"    "Generate Condor job scripts for event selection" 	
 	printf "\n\t%-9s  %-40s"  "0.6.8"    "Submit Condor jobs for event selection on mmHZZ sample" 
 	printf "\n\t%-9s  %-40s"  "0.6.9"    "Merge event root files" 
+}
 
+usage_0_7() { 
 	printf "\n" 
 	printf "\n\t%-9s  %-40s"  "0.7"      "[run mmHe3e3 sample]" 
 	printf "\n\t%-9s  %-40s"  "0.7.1"    "Split mmHtautau sample with each group 1G" 
@@ -98,11 +122,8 @@ usage() {
 	printf "\n\t%-9s  %-40s"  "0.7.7"    "Generate Condor job scripts for event selection" 	
 	printf "\n\t%-9s  %-40s"  "0.7.8"    "Submit Condor jobs for event selection on mmHtautau sample" 
 	printf "\n\t%-9s  %-40s"  "0.7.9"    "Merge event root files" 
-
-
-	printf "\nDATE\n"
-	printf "\n\t%-5s\n" "JUNE 2018"     
 }
+    
 
 
 if [[ $# -eq 0 ]]; then
@@ -124,11 +145,14 @@ mmh2ww_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/
 mmh2zz_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_zz/
 mmh2tt_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_e3e3/
 
-case $option in 
+
 
     # --------------------------------------------------------------------------
     #  0.1 Signal   
     # --------------------------------------------------------------------------
+
+sub_0_1(){
+case $option in 
 
     0.1) echo "Running on signal sample..."
          ;;
@@ -184,11 +208,20 @@ case $option in
            ./python/mrg_rootfiles.py  ./run/llh2zz/events/ana  ./run/llh2zz/hist 
            ;; 
 
+   0.1.10) echo  "Plot histograms..."
+           mkdir -p   ./doc/fig
+          ./python/plt_summary.py  ./run/llh2zz/hist/ana_File_merged_1.root
+          ;; 
+
+    esac
+}
 
     # --------------------------------------------------------------------------
     #  0.2 ZH Inclusive Sample   
     # --------------------------------------------------------------------------
 
+sub_0_2(){
+case $option in 
 
     0.2) echo "Running on ZH inclusive sample..."
          ;;
@@ -237,6 +270,8 @@ case $option in
 	   for dir in *
 	   do
 	       cd $dir
+	       rm -rf log/marlin
+	       rm -rf script/marlin
 	       mkdir -p log/marlin
 	       mkdir -p script/marlin
 	       cd ../
@@ -290,6 +325,8 @@ case $option in
 	   for dir in *
 	   do
 	       cd $dir
+	       rm -rf log/events
+	       rm -rf script/eventsel
 	       mkdir -p log/events
 	       mkdir -p script/eventsel
 	       cd ../
@@ -325,16 +362,19 @@ case $option in
 
     0.2.11) echo  "Plot signal-zh histograms..."
            	mkdir -p   ./doc/fig
-           ./python/plt_bg.py  ./table/zh_sample_list.txt  zh
+           ./python/plt_bg.py  zh ./table/bg_zh.txt  ./table/bg_2f.txt  ./table/bg_4f.txt
            ;; 
 
-
+    esac
+}
 
     # --------------------------------------------------------------------------
     #  0.3 Background Sample   
     # --------------------------------------------------------------------------
 
-    
+sub_0_3(){
+case $option in 
+
     0.3) echo "Running on background sample..."
          ;;
 
@@ -381,6 +421,8 @@ case $option in
 	   for dir in *
 	   do
 	       cd $dir
+	       rm -rf log/marlin
+	       rm -rf script/marlin
 	       mkdir -p log/marlin
 	       mkdir -p script/marlin
 	       cd ../
@@ -432,6 +474,8 @@ case $option in
 	   for dir in *
 	   do
 	       cd $dir
+	       rm -rf log/events
+	       rm -rf script/eventsel
 	       mkdir -p log/events
 	       mkdir -p script/eventsel
 	       cd ../
@@ -465,16 +509,26 @@ case $option in
 	   done
            ;; 
 
+	0.3.11) echo "Merge background and signal root files..."
+			mkdir -p	./merge
+			./python/mrg_rootfiles.py	./run/bg/hist	./merge
+			mv ./merge/ana_File_merged_1.root_merged_1.root	./merge/ana_File_merged_1.root
+			;;
 
-    0.3.11) echo  "Plot signal-bg histograms..."
+    0.3.12) echo  "Plot signal-bg histograms..."
            	mkdir -p   ./doc/fig
-           ./python/plt_bg.py  ./table/bg_sample_list.txt  bg
+           ./python/plt_bg.py  bg ./table/bg_zh.txt ./table/bg_2f.txt  ./table/bg_4f.txt
            ;; 
+
+    esac
+}
 
     # --------------------------------------------------------------------------
     #  0.4 nnHiggs Sample   
     # --------------------------------------------------------------------------
 
+sub_0_4(){
+case $option in 
     0.4) echo "Running on signal sample..."
          ;;
 
@@ -528,11 +582,15 @@ case $option in
            mkdir -p   ./run/nnh2zz/hist
            ./python/mrg_rootfiles.py  ./run/nnh2zz/events/ana  ./run/nnh2zz/hist 
            ;; 
-
+    esac
+}
 
     # --------------------------------------------------------------------------
     #  0.5 mmHWW Sample   
     # --------------------------------------------------------------------------
+
+sub_0_5(){
+case $option in 
 
     0.5) echo "Running on mmHWW sample..."
          ;;
@@ -588,10 +646,15 @@ case $option in
            ./python/mrg_rootfiles.py  ./run/mmh2ww/events/ana  ./run/mmh2ww/hist 
            ;; 
 
+    esac
+}
 
     # --------------------------------------------------------------------------
     #  0.6 mmHZZ Sample   
     # --------------------------------------------------------------------------
+
+sub_0_6(){
+case $option in 
 
     0.6) echo "Running on mmHZZ sample..."
          ;;
@@ -647,10 +710,15 @@ case $option in
            ./python/mrg_rootfiles.py  ./run/mmh2zz/events/ana  ./run/mmh2zz/hist 
            ;; 
 
+    esac
+}
 
     # --------------------------------------------------------------------------
     #  0.7 mmHtautau Sample   
     # --------------------------------------------------------------------------
+
+sub_0_7(){
+case $option in 
 
     0.7) echo "Running on mmHtautau sample..."
          ;;
@@ -707,5 +775,86 @@ case $option in
            ;; 
 
 
-esac
+    esac
+}
 
+case $option in 
+# sample: 0.1 is print detail information about each step and then you can run the step you want.
+#         0.1.* is directly running the step. 
+    # --------------------------------------------------------------------------
+    #  Data  
+    # --------------------------------------------------------------------------
+    0.1) echo "run signal sample"
+        usage_0_1
+        echo "Please enter your option: " 
+        read option 
+        sub_0_1 option 
+        ;;
+    0.1.*) echo "run signal sample"
+        sub_0_1 option
+        ;;
+        
+    0.2) echo "run Z(->ff)H(->inclusive) sample"
+        usage_0_2
+        echo "Please enter your option: " 
+        read option  
+        sub_0_2 option 
+        ;;
+    0.2.*) echo "run Z(->ff)H(->inclusive) sample"
+        sub_0_2 option 
+        ;;
+
+    0.3) echo "run background sample." 
+        usage_0_3
+        echo "Please enter your option: " 
+        read option 
+        sub_0_3 option 
+        ;;
+    0.3.*) echo "run background sample"
+        sub_0_3 option 
+        ;;
+
+    0.4) echo "run nnHiggs sample"
+        usage_0_4
+        echo "Please enter your option: " 
+        read option
+        sub_0_4 option 
+        ;;
+        
+    0.4.*) echo "run nnHiggs sample"
+        sub_0_4 option 
+        ;; 	
+
+    0.5) echo "run mmHWW sample"
+        usage_0_5
+        echo "Please enter your option: " 
+        read option
+        sub_0_5 option 
+        ;;
+        
+    0.5.*) echo "run mmHWW sample"
+        sub_0_5 option 
+        ;; 	
+
+    0.6) echo "run mmHZZ sample"
+        usage_0_6
+        echo "Please enter your option: " 
+        read option
+        sub_0_6 option 
+        ;;
+        
+    0.6.*) echo "run mmHZZ sample"
+        sub_0_6 option 
+        ;; 	
+
+    0.7) echo "run mmHe3e3 sample"
+        usage_0_7
+        echo "Please enter your option: " 
+        read option
+        sub_0_7 option 
+        ;;
+        
+    0.7.*) echo "run mmHe3e3 sample"
+        sub_0_7 option 
+        ;; 			
+esac
