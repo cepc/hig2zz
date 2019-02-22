@@ -24,7 +24,7 @@ def draw_fit(pic, x1, x2):
     leg = ROOT.TLegend(0.7, 0.71, 0.9, 0.91)
     c = ROOT.TCanvas('c', 'c', 1600, 1600)
 
-    figfile = './doc/fig/fit_%s.pdf'%pic
+    figfile = './fig/fit_%s.pdf'%pic
     check_outfile_path(figfile)
 
     signal_sample =  ROOT.TFile('./run/llh2zz/hist/ana_File_merged_1.root')
@@ -53,27 +53,29 @@ def draw_fit(pic, x1, x2):
 
                 if event_ana != 0:
                     scb = (event_exp / event_ana)
-                    tem=sample.Get(pic)
-                    a=copy.copy(tem)
-                    a.Scale(scb)
-                    b.Add(a)
+
+                    if scb < 2:
+                        tem=sample.Get(pic)
+                        a=copy.copy(tem)
+                        a.Scale(scb)
+                        b.Add(a)
 
 
 
     s.SetLineColor(ROOT.kRed)
     b.SetLineColor(ROOT.kBlue)
-    b.SetMarkerStyle(3)
+    # b.SetMarkerStyle(3)
 
-    s.Fit("gaus")
-    b.Fit("gaus")
+    # s.Fit("gaus")
+    # b.Fit("gaus")
 
-    b.Draw('P')
+    b.Draw()
     s.Draw('same')
     
-    # leg.AddEntry(s, "signal")
-    # leg.Draw()
-    # leg.AddEntry(b, "background")
-    # leg.Draw()
+    leg.AddEntry(s, "signal")
+    leg.Draw()
+    leg.AddEntry(b, "background")
+    leg.Draw()
 
     c.SaveAs(figfile)
 

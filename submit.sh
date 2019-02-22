@@ -8,7 +8,7 @@ usage() {
 	printf "NAME\n\tsubmit.sh - Main driver to submit jobs\n"
 	printf "\nSYNOPSIS\n"
 	printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
-	printf "\n\start event_sel in 0.1.6 0.2.7 0.3.7\n" 
+	printf "\n\start event_sel in 0.1.6 0.2.7 0.3.7 0.5.6 0.7.6\n" 
 	printf "\nOPTIONS\n" 
 	printf "\n\t%-9s  %-40s"  "0.1"      "[run signal sample]" 
     printf "\n\t%-9s  %-40s"  "0.2"      "[run Z(->ff)H(->inclusive) sample]"  
@@ -63,9 +63,7 @@ usage_0_3() {
 	printf "\n\t%-9s  %-40s"  "0.3.8"    "Generate Condor job scripts for event selection" 	
 	printf "\n\t%-9s  %-40s"  "0.3.9"    "Submit Condor jobs for event selection on Bg sample" 
 	printf "\n\t%-9s  %-40s"  "0.3.10"    "Merge event root files" 
-	printf "\n\t%-9s  %-40s"  "0.3.11"    "Plot signal-bg histograms..."
-	printf "\n\t%-9s  %-40s"  "0.3.12"    "Plot information..."
-	printf "\n\t%-9s  %-40s"  "0.3.13"    "Fit signal and background..."
+
 }
 
 usage_0_4() { 
@@ -124,7 +122,13 @@ usage_0_7() {
 	printf "\n\t%-9s  %-40s"  "0.7.9"    "Merge event root files" 
 }
     
-
+usage_0_8() { 
+	printf "\n" 
+	printf "\n\t%-9s  %-40s"  "0.8"      "[plot pictures and information]" 
+	printf "\n\t%-9s  %-40s"  "0.8.1"    "Plot signal-bg histograms..." 
+	printf "\n\t%-9s  %-40s"  "0.8.2"    "Plot information..." 
+	printf "\n\t%-9s  %-40s"  "0.8.3"    "Fit signal and background..." 
+}
 
 if [[ $# -eq 0 ]]; then
     usage
@@ -511,20 +515,6 @@ case $option in
 		cp -r run/zh/hist/. run/bg/hist/	   
            ;; 
 
-
-    0.3.11) echo  "Plot signal-bg histograms..."
-           	mkdir -p   ./doc/fig
-           ./python/plt_bg.py  ./table/bg_4f.txt ./table/bg_zh.txt ./table/bg_2f.txt  
-           ;; 
-
-    0.3.12) echo  "Plot information..."
-           python ./python/plt_info.py  ./table/bg_zh.txt ./table/bg_2f.txt  ./table/bg_4f.txt
-           ;; 
-
-	0.3.13) echo  "Fit signal and background..."
-			python ./python/plt_fit.py  ./table/bg_zh.txt ./table/bg_2f.txt  ./table/bg_4f.txt
-			;;
-
     esac
 }
 
@@ -567,25 +557,32 @@ case $option in
            ;;
 
     0.4.6) echo "Select events on signal (with a small sample)..."
+			rm -rf ./run/nnh2zz/events
 	   mkdir -p   ./run/nnh2zz/events/ana
            ./python/sel_events.py  ./run/nnh2zz/ana/ana_File-1.root  ./run/nnh2zz/events/ana/ana_File-1_event.root  ${sel_all}
            ;;
 
     0.4.7) echo "Generate Condor job scripts for event selection..."
 	   mkdir -p   ./run/nnh2zz/events/ana
+		rm -rf ./run/nnh2zz/condor/script/eventsel
            mkdir -p   ./run/nnh2zz/condor/script/eventsel
 	   ./python/gen_condorscripts.py  2  ./run/nnh2zz/ana ./run/nnh2zz/condor  ${sel_all}
            ;;
 
     0.4.8) echo "Submit Condor jobs for event selection on signal..."
            cd ./run/nnh2zz/condor
+		rm -rf log/events
 	   mkdir -p log/events
 	   ./condor_submit_eventsel.sh
            ;;
 
     0.4.9) echo  "Merge event root files..."
+			rm -rf ./run/nnh2zz/hist
            mkdir -p   ./run/nnh2zz/hist
            ./python/mrg_rootfiles.py  ./run/nnh2zz/events/ana  ./run/nnh2zz/hist 
+
+			mkdir -p ./run/bg/hist/nnh_zz
+			cp  ./run/nnh2zz/hist/ana_File_merged_1.root ./run/bg/hist/nnh_zz
            ;; 
     esac
 }
@@ -630,25 +627,33 @@ case $option in
            ;;
 
     0.5.6) echo "Select events on mmHWW sample (with a small sample)..."
+		rm -rf   ./run/mmh2ww/events
 	   mkdir -p   ./run/mmh2ww/events/ana
            ./python/sel_events.py  ./run/mmh2ww/ana/ana_File-1.root  ./run/mmh2ww/events/ana/ana_File-1_event.root  ${sel_all}
            ;;
 
     0.5.7) echo "Generate Condor job scripts for event selection..."
 	   mkdir -p   ./run/mmh2ww/events/ana
+	   rm -rf ./run/mmh2ww/condor/script/eventsel
            mkdir -p   ./run/mmh2ww/condor/script/eventsel
 	   ./python/gen_condorscripts.py  2  ./run/mmh2ww/ana ./run/mmh2ww/condor  ${sel_all}
            ;;
 
     0.5.8) echo "Submit Condor jobs for event selection on mmHWW sample..."
            cd ./run/mmh2ww/condor
+		rm -rf log/events
 	   mkdir -p log/events
 	   ./condor_submit_eventsel.sh
            ;;
 
     0.5.9) echo  "Merge event root files..."
+			rm -rf ./run/mmh2ww/hist
            mkdir -p   ./run/mmh2ww/hist
            ./python/mrg_rootfiles.py  ./run/mmh2ww/events/ana  ./run/mmh2ww/hist 
+
+			mkdir -p ./run/bg/hist/mmh_ww
+			cp  ./run/mmh2tt/hist/ana_File_merged_1.root ./run/bg/hist/mmh_ww
+
            ;; 
 
     esac
@@ -694,25 +699,33 @@ case $option in
            ;;
 
     0.6.6) echo "Select events on mmHZZ sample (with a small sample)..."
+		rm -rf ./run/mmh2zz/events
 	   mkdir -p   ./run/mmh2zz/events/ana
-           ./python/sel_events.py  ./run/mmh2zz/ana/ana_File-1.root  ./run/mmh2zz/events/ana/ana_File-1_event.root  ${sel_all}
+           ./python/sel_events.py  ./run/mmh2zz/ana/ana_File-1.root  ./run/mmh2zz/events/ana/ana_File-1_event.root  ${sel_bg}
            ;;
 
     0.6.7) echo "Generate Condor job scripts for event selection..."
 	   mkdir -p   ./run/mmh2zz/events/ana
+		rm -rf ./run/mmh2zz/condor/script/eventsel
            mkdir -p   ./run/mmh2zz/condor/script/eventsel
-	   ./python/gen_condorscripts.py  2  ./run/mmh2zz/ana ./run/mmh2zz/condor  ${sel_all}
+	   ./python/gen_condorscripts.py  2  ./run/mmh2zz/ana ./run/mmh2zz/condor  ${sel_bg}
            ;;
 
     0.6.8) echo "Submit Condor jobs for event selection on mmHZZ sample..."
            cd ./run/mmh2zz/condor
+		rm -rf log/events
 	   mkdir -p log/events
 	   ./condor_submit_eventsel.sh
            ;;
 
     0.6.9) echo  "Merge event root files..."
+		rm -rf ./run/mmh2zz/hist
            mkdir -p   ./run/mmh2zz/hist
            ./python/mrg_rootfiles.py  ./run/mmh2zz/events/ana  ./run/mmh2zz/hist 
+
+			mkdir -p ./run/bg/hist/mmh_zz
+			cp  ./run/mmh2zz/hist/ana_File_merged_1.root ./run/bg/hist/mmh_zz
+
            ;; 
 
     esac
@@ -758,27 +771,61 @@ case $option in
            ;;
 
     0.7.6) echo "Select events on mmHtautau (with a small sample)..."
+		rm -rf ./run/mmh2tt/events
 	   mkdir -p   ./run/mmh2tt/events/ana
            ./python/sel_events.py  ./run/mmh2tt/ana/ana_File-1.root  ./run/mmh2tt/events/ana/ana_File-1_event.root  ${sel_all}
            ;;
 
     0.7.7) echo "Generate Condor job scripts for event selection..."
 	   mkdir -p   ./run/mmh2tt/events/ana
+	   rm -rf ./run/mmh2tt/condor/script/eventsel
            mkdir -p   ./run/mmh2tt/condor/script/eventsel
 	   ./python/gen_condorscripts.py  2  ./run/mmh2tt/ana ./run/mmh2tt/condor  ${sel_all}
            ;;
 
     0.7.8) echo "Submit Condor jobs for event selection on mmHtautau sample..."
            cd ./run/mmh2tt/condor
+		rm -rf log/events
 	   mkdir -p log/events
 	   ./condor_submit_eventsel.sh
            ;;
 
     0.7.9) echo  "Merge event root files..."
+			rm -rf ./run/mmh2tt/hist
            mkdir -p   ./run/mmh2tt/hist
            ./python/mrg_rootfiles.py  ./run/mmh2tt/events/ana  ./run/mmh2tt/hist 
+
+			mkdir -p ./run/bg/hist/mmh_tt
+			cp  ./run/mmh2tt/hist/ana_File_merged_1.root ./run/bg/hist/mmh_tt
            ;; 
 
+
+    esac
+}
+
+    # --------------------------------------------------------------------------
+    #  0.8 plot pictures and information   
+    # --------------------------------------------------------------------------
+
+sub_0_8(){
+case $option in 
+
+    0.8) echo "plot pictures and information..."
+         ;;
+
+    0.8.1) echo  "Plot signal-bg histograms..."
+           	mkdir -p   ./fig
+           python ./python/plt_bg.py  ./table/bg_2f.txt  ./table/bg_4f.txt
+           ;; 
+
+    0.8.2) echo  "Plot information..."
+           python ./python/plt_info.py  ./table/bg_zhbg.txt  ./table/bg_2f.txt  ./table/bg_4f.txt
+           ;; 
+
+	0.8.3) echo  "Fit signal and background..."
+			python ./python/plt_fit.py   ./table/bg_zhbg.txt ./table/bg_2f.txt  ./table/bg_4f.txt
+			
+			;;
 
     esac
 }
@@ -861,5 +908,17 @@ case $option in
         
     0.7.*) echo "run mmHe3e3 sample"
         sub_0_7 option 
-        ;; 			
+        ;; 		
+
+    0.8) echo "plot pictures and information"
+        usage_0_8
+        echo "Please enter your option: " 
+        read option
+        sub_0_8 option 
+        ;;
+        
+    0.8.*) echo "plot pictures and information"
+        sub_0_8 option 
+        ;; 
+
 esac

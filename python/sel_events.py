@@ -89,6 +89,8 @@ h_y34 = ROOT.TH1D('h_y34', 'y34', 4000, -2, 2)
 h_mc_init_plist = ROOT.TH1D('h_mc_init_plist', 'mc_init_plist', 80, -40, 40)
 h_mc_higgs_dlist = ROOT.TH1D('h_mc_higgs_dlist', 'mc_higgs_dlist', 80, -40, 40)
 
+h_m_mc_zz_flag = ROOT.TH1D('h_m_mc_zz_flag', 'mc_zz_flag', 80, -40, 40)
+
 
 def usage():
     sys.stdout.write('''
@@ -174,6 +176,8 @@ def main():
                 h_y23.Fill( t_in.y23 )
                 h_y34.Fill( t_in.y34 )
 
+                h_m_mc_zz_flag.Fill( t_in.mc_zz_flag )
+
                 save_pid( t_in )
 		
             
@@ -204,12 +208,8 @@ def is_signal(t):
     if ( t.mc_lepton_plus_id == -13 ):
         MuonPlus = 1
     # if ( t.mc_zz_flag > 0 ): #ZZ
-    if ( ZZ_Selection == 1 ):
-        if ( t.mc_zz_flag == 12 ): #vvjj
-            hig = 1
-    if ( ZZ_Selection == 2 ): 
-        if ( t.mc_zz_flag == 21 ): #jjvv
-            hig = 1
+    if ( t.mc_zz_flag == 12 or t.mc_zz_flag == 21 ): #vvjj & jjvv
+        hig = 1
 
     flag = MuonMinus * MuonPlus * hig
 
@@ -257,7 +257,7 @@ def fill_histograms(t):
     Cut_Pt_visible     = ( t.vis_all_pt > 10 )
     Cut_Min_angle      = ( t.lj_minangle > 17.2 )
     Cut_InvMass_dimuon = ( t.dimuon_m[index] > 80.0 and t.dimuon_m[index] < 100.0 )
-    Cut_RecMass_dimuon = ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 135.0 )
+    Cut_RecMass_dimuon = ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 150.0 )
 
 
 
@@ -355,6 +355,8 @@ def write_histograms():
     h_mc_init_plist.Write()
     h_mc_higgs_dlist.Write()
 
+    h_m_mc_zz_flag.Write()
+
 
 def select_higgs_to_zz(t):
     
@@ -377,7 +379,7 @@ def select_higgs_to_zz(t):
     h_evtflw.Fill(3)
     
     # Recoil mass of muon pairs : 120.0 GeV/c^2 < M_rec(dimuon) < 135.0 GeV/c^2
-    if not ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 135.0 ):
+    if not ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 150.0 ):
         return False
     h_evtflw.Fill(4)
     
