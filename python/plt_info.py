@@ -14,7 +14,7 @@ import ROOT
 def main():
  
     draw_info(0) #plt scale and cut detail
-    # draw_info(1) #plt cut flow table
+    draw_info(1) #plt cut flow table
 
 def draw_info(opt):
 
@@ -29,7 +29,6 @@ def draw_info(opt):
     tep = signal_sample.Get('hevtflw_sel')
     for i in range(9):
         exec ("s%s = tep.GetBinContent(%s) * scs"%(i+1,i+3))
-
 
     for i in range(9):
         exec ("z%s = 0"%(i+1))
@@ -55,35 +54,39 @@ def draw_info(opt):
                 tep = sample.Get('hevtflw_sel')
 
                 if opt == 0:   #cut i = bincontent (i + 2)
-                    evt1 = tep.GetBinContent(10) * scb
-                    evt2 = tep.GetBinContent(11) * scb
-                    print("%-25s%-25s%-25s%-25s"%(dname,scb,evt1,evt2))
+                    # scb = 1
+                    evt = tep.GetBinContent(11) * scb
+                    if evt != 0:
+                        print("%-25s%-25s%-25s"%(dname,scb,evt))
 
                 if opt == 1:
+                    # if scb < 2:
+                        for i in range(9):
+                            exec ("cut%s = tep.GetBinContent(%s) * scb"%(i+1,i+3))
 
-                    for i in range(9):
-                        exec ("cut%s = tep.GetBinContent(%s) * scb"%(i+1,i+3))
+                            if tabs.index(t) == 0:
+                                exec ("z%s += cut%s"%(i+1,i+1))
 
-                        if tabs.index(t) == 0:
-                            exec ("z%s += cut%s"%(i+1,i+1))
+                            if tabs.index(t) == 1:
+                                exec ("f%s += cut%s"%(i+1,i+1))
 
-                        if tabs.index(t) == 1:
-                            exec ("f%s += cut%s"%(i+1,i+1))
+                            if tabs.index(t) == 2:
+                                exec ("ff%s += cut%s"%(i+1,i+1))
 
-                        if tabs.index(t) == 2:
-                            exec ("ff%s += cut%s"%(i+1,i+1))
+    if opt == 0 :
+        print("%-25s%-25s%-25s"%('name','scale','final'))
 
-        if opt == 1 :
-            print("%-25s%-25s%-25s%-25s%-25s"%('cut','signal','zh','2f','4f'))
-            print("%-25s%-25s%-25s%-25s%-25s"%('start cut',s1,z1,f1,ff1))
-            print("%-25s%-25s%-25s%-25s%-25s"%('M(dimuon) ',s2,z2,f2,ff2))
-            print("%-25s%-25s%-25s%-25s%-25s"%('RecM(dimuon) ',s3,z3,f3,ff3))
-            print("%-25s%-25s%-25s%-25s%-25s"%('N(pfo) ',s4,z4,f4,ff4))
-            print("%-25s%-25s%-25s%-25s%-25s"%('Pt(total visible) ',s5,z5,f5,ff5))
-            print("%-25s%-25s%-25s%-25s%-25s"%('Min angle ',s6,z6,f6,ff6))
-            print("%-25s%-25s%-25s%-25s%-25s"%('Missing Mass & M(dijets)',s7,z7,f7,ff7))
-            print("%-25s%-25s%-25s%-25s%-25s"%('Pt(jets)',s8,z8,f8,ff8))
-            print("%-25s%-25s%-25s%-25s%-25s"%('N(lepton)',s9,z9,f9,ff9))
+    if opt == 1 :
+        print("%-25s%-25s%-25s%-25s%-25s"%('cut','signal','zh','2f','4f'))
+        print("%-25s%-25s%-25s%-25s%-25s"%('start cut',s1,z1,f1,ff1))
+        print("%-25s%-25s%-25s%-25s%-25s"%('M(dimuon) ',s2,z2,f2,ff2))
+        print("%-25s%-25s%-25s%-25s%-25s"%('RecM(dimuon) ',s3,z3,f3,ff3))
+        print("%-25s%-25s%-25s%-25s%-25s"%('N(pfo) ',s4,z4,f4,ff4))
+        print("%-25s%-25s%-25s%-25s%-25s"%('Pt(total visible) ',s5,z5,f5,ff5))
+        print("%-25s%-25s%-25s%-25s%-25s"%('Min angle ',s6,z6,f6,ff6))
+        print("%-25s%-25s%-25s%-25s%-25s"%('Missing Mass & M(dijets)',s7,z7,f7,ff7))
+        print("%-25s%-25s%-25s%-25s%-25s"%('Pt(jets)',s8,z8,f8,ff8))
+        print("%-25s%-25s%-25s%-25s%-25s"%('N(lepton)',s9,z9,f9,ff9))
 
 if __name__ == '__main__':
     main()
