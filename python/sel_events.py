@@ -197,16 +197,21 @@ def is_signal(t):
     # mu + mu + Higgs(->ZZ)
     MuonMinus = 0
     MuonPlus = 0
-    HZZ = 0
+    hig = 0
 
     if ( t.mc_lepton_minus_id == 13 ):
         MuonMinus = 1
     if ( t.mc_lepton_plus_id == -13 ):
         MuonPlus = 1
-    if ( t.mc_zz_flag > 0 ):
-        HZZ = 1
+    # if ( t.mc_zz_flag > 0 ): #ZZ
+    if ( ZZ_Selection == 1 ):
+        if ( t.mc_zz_flag == 12 ): #vvjj
+            hig = 1
+    if ( ZZ_Selection == 2 ): 
+        if ( t.mc_zz_flag == 21 ): #jjvv
+            hig = 1
 
-    flag = MuonMinus * MuonPlus * HZZ
+    flag = MuonMinus * MuonPlus * hig
 
     return flag
     
@@ -240,17 +245,21 @@ def fill_histograms(t):
     if ( ZZ_Selection == 1 ):
         Cut_InvMass_miss   = ( t.vis_all_rec_m > t.dijet_m[0] )
         Cut_InvMass_dijet  = ( t.vis_all_rec_m > 80 and t.dijet_m[0] < 35 )
+        Cut_npfo           = ( t.n_col_reco > 15 )
+        Cut_Pt_jet         = ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 3.0  and t.jet_e[1] > 3.0 )
+
     if ( ZZ_Selection == 2 ):
         Cut_InvMass_miss   = ( t.vis_all_rec_m < t.dijet_m[0] )           
-        Cut_InvMass_dijet  = ( t.vis_all_rec_m > 0 and t.dijet_m[0] < 110 ) 
+        Cut_InvMass_dijet  = ( t.vis_all_rec_m < 40 and t.vis_all_rec_m > 10 and t.dijet_m[0] < 100 and t.dijet_m[0] >80 ) 
+        Cut_npfo           = ( t.n_col_reco > 30 )
+        Cut_Pt_jet         = ( t.jet_pt[0] > 10 and t.jet_pt[0] < 60 and t.jet_pt[1] > 10 and t.jet_pt[1] < 60 and t.jet_e[0] > 25 and t.jet_e[0] <70 and t.jet_e[1] > 25 and t.jet_e[1] < 70 )
 
-    Cut_InvMass_dimuon = ( t.dimuon_m[index] > 80.0 and t.dimuon_m[index] < 100.0 )
-    Cut_RecMass_dimuon = ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 135.0 )
-    Cut_npfo           = ( t.n_col_reco > 15 )
     Cut_Pt_visible     = ( t.vis_all_pt > 10 )
     Cut_Min_angle      = ( t.lj_minangle > 17.2 )
-    
-    Cut_Pt_jet = ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 )
+    Cut_InvMass_dimuon = ( t.dimuon_m[index] > 80.0 and t.dimuon_m[index] < 100.0 )
+    Cut_RecMass_dimuon = ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 135.0 )
+
+
 
     if( Cut_InvMass_miss ):
         h_m_dimuon.Fill( t.dimuon_m[index] )
@@ -372,9 +381,13 @@ def select_higgs_to_zz(t):
         return False
     h_evtflw.Fill(4)
     
-    # Number of Particle flow objects > 15 
-    if not ( t.n_col_reco > 15 ):
-        return False
+    # Number of Particle flow objects 
+    if ( ZZ_Selection == 1 ):
+        if not ( t.n_col_reco > 15 ):
+            return False
+    if ( ZZ_Selection == 2 ):
+        if not ( t.n_col_reco > 30 ):
+            return False
     h_evtflw.Fill(5)
     
     # Total(visible) Pt > 10 GeV/c
@@ -383,8 +396,9 @@ def select_higgs_to_zz(t):
     h_evtflw.Fill(6)
     
     # Minimum angle between a muon and a jet > 0.3 rad ( == 0.3*180.0/3.141592 = 17.2 degree ) 
-    if not ( t.lj_minangle > 17.2 ):
+    if not ( t.lj_minangle > 17.2  ):
         return False
+
     h_evtflw.Fill(7)
     
     # Tight selection on ZZ*->nunu,jj : Mass(missing) > 80 GeV/c^2,  Mass(dijet) < 35 GeV/c^2
@@ -392,13 +406,17 @@ def select_higgs_to_zz(t):
         if not ( t.vis_all_rec_m > 80 and t.dijet_m[0] < 35 ):
             return False
     if ( ZZ_Selection == 2 ):
-        if not ( t.vis_all_rec_m > 0 and t.dijet_m[0] < 110 ):
+        if not ( t.vis_all_rec_m < 40 and t.vis_all_rec_m > 10 and t.dijet_m[0] < 100 and t.dijet_m[0] >80 ):  #t.vis_all_rec_m < 50 and t.dijet_m[0] < 100 and (0.875 * t.vis_all_rec_m + t.dijet_m[0]) > 105
             return False
     h_evtflw.Fill(8)
     
-    # Jet Pt > 3 GeV/c
-    if not ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 ):
-        return False
+    # Jet Pt 
+    if ( ZZ_Selection == 1 ):
+        if not ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 3.0  and t.jet_e[1] > 3.0 ):
+            return False
+    if ( ZZ_Selection == 2 ):
+        if not ( t.jet_pt[0] > 10 and t.jet_pt[0] < 60 and t.jet_pt[1] > 10 and t.jet_pt[1] < 60 and t.jet_e[0] > 25 and t.jet_e[0] <70 and t.jet_e[1] > 25 and t.jet_e[1] < 70 ):
+            return False
     h_evtflw.Fill(9)
 
     # N(lepton) < 3 ( == 2) 
