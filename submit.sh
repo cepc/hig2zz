@@ -66,68 +66,14 @@ usage_0_3() {
 
 }
 
+    
 usage_0_4() { 
 	printf "\n" 
-	printf "\n\t%-9s  %-40s"  "0.4"      "[run nnHiggs sample]" 
-	printf "\n\t%-9s  %-40s"  "0.4.1"    "Split nnHiggs sample with each group 1G" 
-	printf "\n\t%-9s  %-40s"  "0.4.2"    "Generate XML input files for Marlin job" 
-	printf "\n\t%-9s  %-40s"  "0.4.3"    "Run with a few events" 
-	printf "\n\t%-9s  %-40s"  "0.4.4"    "Generate Condor job scripts for pre-selection" 
-	printf "\n\t%-9s  %-40s"  "0.4.5"    "Submit Condor jobs for pre-selection on nnHiggs sample" 
-	printf "\n\t%-9s  %-40s"  "0.4.6"    "Select events on nnHiggs sample (with a small sample)" 
-	printf "\n\t%-9s  %-40s"  "0.4.7"    "Generate Condor job scripts for event selection" 	
-	printf "\n\t%-9s  %-40s"  "0.4.8"    "Submit Condor jobs for event selection on nnHiggs sample" 
-	printf "\n\t%-9s  %-40s"  "0.4.9"    "Merge event root files" 
-}
-
-usage_0_5() { 
-	printf "\n" 
-	printf "\n\t%-9s  %-40s"  "0.5"      "[run mmHWW sample]" 
-	printf "\n\t%-9s  %-40s"  "0.5.1"    "Split mmHWW sample with each group 1G" 
-	printf "\n\t%-9s  %-40s"  "0.5.2"    "Generate XML input files for Marlin job" 
-	printf "\n\t%-9s  %-40s"  "0.5.3"    "Run with a few events" 
-	printf "\n\t%-9s  %-40s"  "0.5.4"    "Generate Condor job scripts for pre-selection" 
-	printf "\n\t%-9s  %-40s"  "0.5.5"    "Submit Condor jobs for pre-selection on mmHWW sample" 
-	printf "\n\t%-9s  %-40s"  "0.5.6"    "Select events on mmHWW sample (with a small sample)" 
-	printf "\n\t%-9s  %-40s"  "0.5.7"    "Generate Condor job scripts for event selection" 	
-	printf "\n\t%-9s  %-40s"  "0.5.8"    "Submit Condor jobs for event selection on mmHWW sample" 
-	printf "\n\t%-9s  %-40s"  "0.5.9"    "Merge event root files" 
-}
-
-usage_0_6() { 
-	printf "\n" 
-	printf "\n\t%-9s  %-40s"  "0.6"      "[run mmHZZ sample]" 
-	printf "\n\t%-9s  %-40s"  "0.6.1"    "Split mmHZZ sample with each group 1G" 
-	printf "\n\t%-9s  %-40s"  "0.6.2"    "Generate XML input files for Marlin job" 
-	printf "\n\t%-9s  %-40s"  "0.6.3"    "Run with a few events" 
-	printf "\n\t%-9s  %-40s"  "0.6.4"    "Generate Condor job scripts for pre-selection" 
-	printf "\n\t%-9s  %-40s"  "0.6.5"    "Submit Condor jobs for pre-selection on mmHZZ sample" 
-	printf "\n\t%-9s  %-40s"  "0.6.6"    "Select events on mmHZZ sample (with a small sample)" 
-	printf "\n\t%-9s  %-40s"  "0.6.7"    "Generate Condor job scripts for event selection" 	
-	printf "\n\t%-9s  %-40s"  "0.6.8"    "Submit Condor jobs for event selection on mmHZZ sample" 
-	printf "\n\t%-9s  %-40s"  "0.6.9"    "Merge event root files" 
-}
-
-usage_0_7() { 
-	printf "\n" 
-	printf "\n\t%-9s  %-40s"  "0.7"      "[run mmHe3e3 sample]" 
-	printf "\n\t%-9s  %-40s"  "0.7.1"    "Split mmHtautau sample with each group 1G" 
-	printf "\n\t%-9s  %-40s"  "0.7.2"    "Generate XML input files for Marlin job" 
-	printf "\n\t%-9s  %-40s"  "0.7.3"    "Run with a few events" 
-	printf "\n\t%-9s  %-40s"  "0.7.4"    "Generate Condor job scripts for pre-selection" 
-	printf "\n\t%-9s  %-40s"  "0.7.5"    "Submit Condor jobs for pre-selection on mmHtautau sample" 
-	printf "\n\t%-9s  %-40s"  "0.7.6"    "Select events on mmHtautau sample (with a small sample)" 
-	printf "\n\t%-9s  %-40s"  "0.7.7"    "Generate Condor job scripts for event selection" 	
-	printf "\n\t%-9s  %-40s"  "0.7.8"    "Submit Condor jobs for event selection on mmHtautau sample" 
-	printf "\n\t%-9s  %-40s"  "0.7.9"    "Merge event root files" 
-}
-    
-usage_0_8() { 
-	printf "\n" 
-	printf "\n\t%-9s  %-40s"  "0.8"      "[plot pictures and information]" 
-	printf "\n\t%-9s  %-40s"  "0.8.1"    "Plot signal-bg histograms..." 
-	printf "\n\t%-9s  %-40s"  "0.8.2"    "Plot information..." 
-	printf "\n\t%-9s  %-40s"  "0.8.3"    "Fit signal and background..." 
+	printf "\n\t%-9s  %-40s"  "0.4"      "[plot pictures and information]" 
+	printf "\n\t%-9s  %-40s"  "0.4.1"    "Plot signal-bg histograms..." 
+	printf "\n\t%-9s  %-40s"  "0.4.2"    "Plot information..." 
+	printf "\n\t%-9s  %-40s"  "0.4.3"    "Fit signal and background..." 
+	printf "\n\t%-9s  %-40s"  "0.4.4"    "Save histograms as root files..." 
 }
 
 if [[ $# -eq 0 ]]; then
@@ -138,16 +84,17 @@ else
     option=$1    
 fi
 
-signal_slcio_dir=/besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/E240.Pllh_zz.e0.p0.whizard195/
-nnhzz_slcio_dir=/besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/E240.Pnnh_zz.e0.p0.whizard195/
+# signal_slcio_dir=/besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/E240.Pllh_zz.e0.p0.whizard195/
+signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pllh_zz.e0.p0.whizard195
 
 sel_all=0
 sel_signal=1
 sel_bg=2
 
-mmh2ww_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_ww/
-mmh2zz_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_zz/
-mmh2tt_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_e3e3/
+# nnhzz_slcio_dir=/besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/E240.Pnnh_zz.e0.p0.whizard195/
+# mmh2ww_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_ww/
+# mmh2zz_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_zz/
+# mmh2tt_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_e3e3/
 
 
 
@@ -287,10 +234,10 @@ case $option in
 
     0.2.6) echo "Submit Condor jobs for pre-selection on background sample..."
 	   echo " ---- "
-	   echo "Please enter the number of jobs for each ZH sample (default: 60)" 
+	   echo "Please enter the number of jobs for each ZH sample (default: 120)" 
 	   read njob
 	   if [ -z $njob ]; then
-	       njob=60
+	       njob=120
 	   fi
 	   
            cd ./run/zh/condor
@@ -436,10 +383,10 @@ case $option in
 
     0.3.6) echo "Submit Condor jobs for pre-selection on background sample..."
 	   echo " ---- "
-	   echo "Please enter the number of jobs for each backgrond (default: 20)" 
+	   echo "Please enter the number of jobs for each backgrond (default: 120)" 
 	   read njob
 	   if [ -z $njob ]; then
-	       njob=20
+	       njob=120
 	   fi
 	   
            cd ./run/bg/condor
@@ -519,312 +466,32 @@ case $option in
 }
 
     # --------------------------------------------------------------------------
-    #  0.4 nnHiggs Sample   
+    #  0.4 plot pictures and information   
     # --------------------------------------------------------------------------
 
 sub_0_4(){
 case $option in 
-    0.4) echo "Running on signal sample..."
+
+    0.4) echo "plot pictures and information..."
          ;;
 
-    0.4.1) echo "Split signal sample with each group 1G..."
-	   mkdir -p   ./run/nnh2zz/samples
-           ./python/get_samples.py  ${nnhzz_slcio_dir} ./run/nnh2zz/samples/E240_Pnnh_zz.txt 1G
-           ;;
-
-    0.4.2) echo "Generate XML input files for Marlin job..."
-	   mkdir -p   ./run/nnh2zz/steers 
-	   mkdir -p   ./run/nnh2zz/steers/test 
-	   mkdir -p   ./run/nnh2zz/ana
-           ./python/gen_steerfiles.py ./table/template_jobfile.xml ./run/nnh2zz/samples ./run/nnh2zz/steers ./run/nnh2zz/ana/ana_File.root
-           ;;
-
-    0.4.3) echo "Run with a few events ..."
-	   source setup.sh
-	   ./build.sh
-	   Marlin ./run/nnh2zz/steers/test/sample-1.xml
-           ;;
-    
-    0.4.4) echo "Generate Condor job scripts..."
-	   mkdir -p   ./run/nnh2zz/condor/script/marlin
-           ./python/gen_condorscripts.py  1  ./run/nnh2zz/steers ./run/nnh2zz/condor  ${sel_signal}
-           ;;
-
-    0.4.5) echo "Submit Condor jobs for pre-selection on signal..."
-           cd ./run/nnh2zz/condor
-	   mkdir -p log
-	   ./condor_submit.sh
-           ;;
-
-    0.4.6) echo "Select events on signal (with a small sample)..."
-			rm -rf ./run/nnh2zz/events
-	   mkdir -p   ./run/nnh2zz/events/ana
-           ./python/sel_events.py  ./run/nnh2zz/ana/ana_File-1.root  ./run/nnh2zz/events/ana/ana_File-1_event.root  ${sel_all}
-           ;;
-
-    0.4.7) echo "Generate Condor job scripts for event selection..."
-	   mkdir -p   ./run/nnh2zz/events/ana
-		rm -rf ./run/nnh2zz/condor/script/eventsel
-           mkdir -p   ./run/nnh2zz/condor/script/eventsel
-	   ./python/gen_condorscripts.py  2  ./run/nnh2zz/ana ./run/nnh2zz/condor  ${sel_all}
-           ;;
-
-    0.4.8) echo "Submit Condor jobs for event selection on signal..."
-           cd ./run/nnh2zz/condor
-		rm -rf log/events
-	   mkdir -p log/events
-	   ./condor_submit_eventsel.sh
-           ;;
-
-    0.4.9) echo  "Merge event root files..."
-			rm -rf ./run/nnh2zz/hist
-           mkdir -p   ./run/nnh2zz/hist
-           ./python/mrg_rootfiles.py  ./run/nnh2zz/events/ana  ./run/nnh2zz/hist 
-
-			mkdir -p ./run/bg/hist/nnh_zz
-			cp  ./run/nnh2zz/hist/ana_File_merged_1.root ./run/bg/hist/nnh_zz
-           ;; 
-    esac
-}
-
-    # --------------------------------------------------------------------------
-    #  0.5 mmHWW Sample   
-    # --------------------------------------------------------------------------
-
-sub_0_5(){
-case $option in 
-
-    0.5) echo "Running on mmHWW sample..."
-         ;;
-
-    0.5.1) echo "Split mmHWW sample with each group 1G..."
-	   mkdir -p   ./run/mmh2ww/samples
-           ./python/get_samples.py  ${mmh2ww_slcio_dir} ./run/mmh2ww/samples/E240_Pnnh_zz.txt 1G
-           ;;
-
-    0.5.2) echo "Generate XML input files for Marlin job..."
-	   mkdir -p   ./run/mmh2ww/steers 
-	   mkdir -p   ./run/mmh2ww/steers/test 
-	   mkdir -p   ./run/mmh2ww/ana
-           ./python/gen_steerfiles.py ./table/template_jobfile.xml ./run/mmh2ww/samples ./run/mmh2ww/steers ./run/mmh2ww/ana/ana_File.root
-           ;;
-
-    0.5.3) echo "Run with a few events ..."
-	   source setup.sh
-	   ./build.sh
-	   Marlin ./run/mmh2ww/steers/test/sample-1.xml
-           ;;
-    
-    0.5.4) echo "Generate Condor job scripts..."
-	   mkdir -p   ./run/mmh2ww/condor/script/marlin
-           ./python/gen_condorscripts.py  1  ./run/mmh2ww/steers ./run/mmh2ww/condor  ${sel_signal}
-           ;;
-
-    0.5.5) echo "Submit Condor jobs for pre-selection on mmHWW sample..."
-           cd ./run/mmh2ww/condor
-	   mkdir -p log
-	   ./condor_submit.sh
-           ;;
-
-    0.5.6) echo "Select events on mmHWW sample (with a small sample)..."
-		rm -rf   ./run/mmh2ww/events
-	   mkdir -p   ./run/mmh2ww/events/ana
-           ./python/sel_events.py  ./run/mmh2ww/ana/ana_File-1.root  ./run/mmh2ww/events/ana/ana_File-1_event.root  ${sel_all}
-           ;;
-
-    0.5.7) echo "Generate Condor job scripts for event selection..."
-	   mkdir -p   ./run/mmh2ww/events/ana
-	   rm -rf ./run/mmh2ww/condor/script/eventsel
-           mkdir -p   ./run/mmh2ww/condor/script/eventsel
-	   ./python/gen_condorscripts.py  2  ./run/mmh2ww/ana ./run/mmh2ww/condor  ${sel_all}
-           ;;
-
-    0.5.8) echo "Submit Condor jobs for event selection on mmHWW sample..."
-           cd ./run/mmh2ww/condor
-		rm -rf log/events
-	   mkdir -p log/events
-	   ./condor_submit_eventsel.sh
-           ;;
-
-    0.5.9) echo  "Merge event root files..."
-			rm -rf ./run/mmh2ww/hist
-           mkdir -p   ./run/mmh2ww/hist
-           ./python/mrg_rootfiles.py  ./run/mmh2ww/events/ana  ./run/mmh2ww/hist 
-
-			mkdir -p ./run/bg/hist/mmh_ww
-			cp  ./run/mmh2tt/hist/ana_File_merged_1.root ./run/bg/hist/mmh_ww
-
-           ;; 
-
-    esac
-}
-
-    # --------------------------------------------------------------------------
-    #  0.6 mmHZZ Sample   
-    # --------------------------------------------------------------------------
-
-sub_0_6(){
-case $option in 
-
-    0.6) echo "Running on mmHZZ sample..."
-         ;;
-
-    0.6.1) echo "Split mmHZZ sample with each group 1G..."
-	   mkdir -p   ./run/mmh2zz/samples
-           ./python/get_samples.py  ${mmh2zz_slcio_dir} ./run/mmh2zz/samples/E240_Pnnh_zz.txt 1G
-           ;;
-
-    0.6.2) echo "Generate XML input files for Marlin job..."
-	   mkdir -p   ./run/mmh2zz/steers 
-	   mkdir -p   ./run/mmh2zz/steers/test 
-	   mkdir -p   ./run/mmh2zz/ana
-           ./python/gen_steerfiles.py ./table/template_jobfile.xml ./run/mmh2zz/samples ./run/mmh2zz/steers ./run/mmh2zz/ana/ana_File.root
-           ;;
-
-    0.6.3) echo "Run with a few events ..."
-	   source setup.sh
-	   ./build.sh
-	   Marlin ./run/mmh2zz/steers/test/sample-1.xml
-           ;;
-    
-    0.6.4) echo "Generate Condor job scripts..."
-	   mkdir -p   ./run/mmh2zz/condor/script/marlin
-           ./python/gen_condorscripts.py  1  ./run/mmh2zz/steers ./run/mmh2zz/condor  ${sel_signal}
-           ;;
-
-    0.6.5) echo "Submit Condor jobs for pre-selection on signal..."
-           cd ./run/mmh2zz/condor
-	   mkdir -p log
-	   ./condor_submit.sh
-           ;;
-
-    0.6.6) echo "Select events on mmHZZ sample (with a small sample)..."
-		rm -rf ./run/mmh2zz/events
-	   mkdir -p   ./run/mmh2zz/events/ana
-           ./python/sel_events.py  ./run/mmh2zz/ana/ana_File-1.root  ./run/mmh2zz/events/ana/ana_File-1_event.root  ${sel_bg}
-           ;;
-
-    0.6.7) echo "Generate Condor job scripts for event selection..."
-	   mkdir -p   ./run/mmh2zz/events/ana
-		rm -rf ./run/mmh2zz/condor/script/eventsel
-           mkdir -p   ./run/mmh2zz/condor/script/eventsel
-	   ./python/gen_condorscripts.py  2  ./run/mmh2zz/ana ./run/mmh2zz/condor  ${sel_bg}
-           ;;
-
-    0.6.8) echo "Submit Condor jobs for event selection on mmHZZ sample..."
-           cd ./run/mmh2zz/condor
-		rm -rf log/events
-	   mkdir -p log/events
-	   ./condor_submit_eventsel.sh
-           ;;
-
-    0.6.9) echo  "Merge event root files..."
-		rm -rf ./run/mmh2zz/hist
-           mkdir -p   ./run/mmh2zz/hist
-           ./python/mrg_rootfiles.py  ./run/mmh2zz/events/ana  ./run/mmh2zz/hist 
-
-			mkdir -p ./run/bg/hist/mmh_zz
-			cp  ./run/mmh2zz/hist/ana_File_merged_1.root ./run/bg/hist/mmh_zz
-
-           ;; 
-
-    esac
-}
-
-    # --------------------------------------------------------------------------
-    #  0.7 mmHtautau Sample   
-    # --------------------------------------------------------------------------
-
-sub_0_7(){
-case $option in 
-
-    0.7) echo "Running on mmHtautau sample..."
-         ;;
-
-    0.7.1) echo "Split signal sample with each group 1G..."
-	   mkdir -p   ./run/mmh2tt/samples
-           ./python/get_samples.py  ${mmh2tt_slcio_dir} ./run/mmh2tt/samples/E240_Pnnh_zz.txt 1G
-           ;;
-
-    0.7.2) echo "Generate XML input files for Marlin job..."
-	   mkdir -p   ./run/mmh2tt/steers 
-	   mkdir -p   ./run/mmh2tt/steers/test 
-	   mkdir -p   ./run/mmh2tt/ana
-           ./python/gen_steerfiles.py ./table/template_jobfile.xml ./run/mmh2tt/samples ./run/mmh2tt/steers ./run/mmh2tt/ana/ana_File.root
-           ;;
-
-    0.7.3) echo "Run with a few events ..."
-	   source setup.sh
-	   ./build.sh
-	   Marlin ./run/mmh2tt/steers/test/sample-1.xml
-           ;;
-    
-    0.7.4) echo "Generate Condor job scripts..."
-	   mkdir -p   ./run/mmh2tt/condor/script/marlin
-           ./python/gen_condorscripts.py  1  ./run/mmh2tt/steers ./run/mmh2tt/condor  ${sel_signal}
-           ;;
-
-    0.7.5) echo "Submit Condor jobs for pre-selection on mmHtautau sample..."
-           cd ./run/mmh2tt/condor
-	   mkdir -p log
-	   ./condor_submit.sh
-           ;;
-
-    0.7.6) echo "Select events on mmHtautau (with a small sample)..."
-		rm -rf ./run/mmh2tt/events
-	   mkdir -p   ./run/mmh2tt/events/ana
-           ./python/sel_events.py  ./run/mmh2tt/ana/ana_File-1.root  ./run/mmh2tt/events/ana/ana_File-1_event.root  ${sel_all}
-           ;;
-
-    0.7.7) echo "Generate Condor job scripts for event selection..."
-	   mkdir -p   ./run/mmh2tt/events/ana
-	   rm -rf ./run/mmh2tt/condor/script/eventsel
-           mkdir -p   ./run/mmh2tt/condor/script/eventsel
-	   ./python/gen_condorscripts.py  2  ./run/mmh2tt/ana ./run/mmh2tt/condor  ${sel_all}
-           ;;
-
-    0.7.8) echo "Submit Condor jobs for event selection on mmHtautau sample..."
-           cd ./run/mmh2tt/condor
-		rm -rf log/events
-	   mkdir -p log/events
-	   ./condor_submit_eventsel.sh
-           ;;
-
-    0.7.9) echo  "Merge event root files..."
-			rm -rf ./run/mmh2tt/hist
-           mkdir -p   ./run/mmh2tt/hist
-           ./python/mrg_rootfiles.py  ./run/mmh2tt/events/ana  ./run/mmh2tt/hist 
-
-			mkdir -p ./run/bg/hist/mmh_tt
-			cp  ./run/mmh2tt/hist/ana_File_merged_1.root ./run/bg/hist/mmh_tt
-           ;; 
-
-
-    esac
-}
-
-    # --------------------------------------------------------------------------
-    #  0.8 plot pictures and information   
-    # --------------------------------------------------------------------------
-
-sub_0_8(){
-case $option in 
-
-    0.8) echo "plot pictures and information..."
-         ;;
-
-    0.8.1) echo  "Plot signal-bg histograms..."
+    0.4.1) echo  "Plot signal-bg histograms..."
            	mkdir -p   ./fig
            python ./python/plt_bg.py  ./table/bg_2f.txt  ./table/bg_4f.txt
            ;; 
 
-    0.8.2) echo  "Plot information..."
-           python ./python/plt_info.py  ./table/bg_zhbg.txt  ./table/bg_2f.txt  ./table/bg_4f.txt
+    0.4.2) echo  "Plot information..."
+           python ./python/plt_info.py  ./table/bg_zh.txt  ./table/bg_2f.txt  ./table/bg_4f.txt
            ;; 
 
-	0.8.3) echo  "Fit signal and background..."
-			python ./python/plt_fit.py   ./table/bg_zhbg.txt ./table/bg_2f.txt  ./table/bg_4f.txt
+	0.4.3) echo  "Fit signal and background..."
+			python ./python/plt_fit.py   ./table/bg_zh.txt ./table/bg_2f.txt  ./table/bg_4f.txt
+			;; 
 			
+	0.4.4) echo  "Save histograms as root files..."
+			rm -rf ./root
+			mkdir -p   ./root
+			python ./python/save_root.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/bg_zh.txt
 			;;
 
     esac
@@ -866,59 +533,15 @@ case $option in
         sub_0_3 option 
         ;;
 
-    0.4) echo "run nnHiggs sample"
+    0.4) echo "plot pictures and information"
         usage_0_4
         echo "Please enter your option: " 
         read option
         sub_0_4 option 
         ;;
         
-    0.4.*) echo "run nnHiggs sample"
+    0.4.*) echo "plot pictures and information"
         sub_0_4 option 
-        ;; 	
-
-    0.5) echo "run mmHWW sample"
-        usage_0_5
-        echo "Please enter your option: " 
-        read option
-        sub_0_5 option 
-        ;;
-        
-    0.5.*) echo "run mmHWW sample"
-        sub_0_5 option 
-        ;; 	
-
-    0.6) echo "run mmHZZ sample"
-        usage_0_6
-        echo "Please enter your option: " 
-        read option
-        sub_0_6 option 
-        ;;
-        
-    0.6.*) echo "run mmHZZ sample"
-        sub_0_6 option 
-        ;; 	
-
-    0.7) echo "run mmHe3e3 sample"
-        usage_0_7
-        echo "Please enter your option: " 
-        read option
-        sub_0_7 option 
-        ;;
-        
-    0.7.*) echo "run mmHe3e3 sample"
-        sub_0_7 option 
-        ;; 		
-
-    0.8) echo "plot pictures and information"
-        usage_0_8
-        echo "Please enter your option: " 
-        read option
-        sub_0_8 option 
-        ;;
-        
-    0.8.*) echo "plot pictures and information"
-        sub_0_8 option 
         ;; 
 
 esac

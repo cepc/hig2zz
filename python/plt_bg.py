@@ -14,28 +14,31 @@ from tools import check_outfile_path, set_root_style
 
 def main():
  
-    # #hjjvv
     draw_signal_bg('h_m_dimuon',0 , 210, 1)
     draw_signal_bg('h_mrec_dimuon',50 ,160, 1)
     draw_signal_bg('h_npfo', 0, 100, 1)
     draw_signal_bg('h_vis_all_pt', 0, 30, 1)
     draw_signal_bg('h_min_angle',0,120, 1)
     draw_signal_bg('h_m_dijet', 0, 160, 1)
-    # # draw_signal_bg('h_single_jet1_pt',0,100,1)
-    # # draw_signal_bg('h_single_jet2_pt',0,100,1)
-    # # draw_signal_bg('h_single_jet1_e',0,100,1)
-    # # draw_signal_bg('h_single_jet2_e',0,120,1)
-    # # draw_signal_bg('h_single_jet_theta',0,180,1)
     draw_signal_bg('h_n_lepton', 0, 10,0)
     draw_signal_bg('h_mrec_dimuon_final',110,150,0) 
+    draw_signal_bg('h_m_dijet_final',0,150,0) 
+    draw_signal_bg('h_mrec_dijet_final',0,150,0) 
     draw_2d('h_2D_visible_missing')  
 
-    # #hvvjj
+    #hvvjj
     draw_signal_bg('h_single_jet1_pt',0,40,1)
     draw_signal_bg('h_single_jet2_pt',0,40,1)
     draw_signal_bg('h_single_jet1_e',0,50,1)
     draw_signal_bg('h_single_jet2_e',0,40,1)
     draw_signal_bg('h_single_jet_theta',0,180,1)  
+
+    #hjjvv
+    # draw_signal_bg('h_single_jet1_pt',0,100,1)
+    # draw_signal_bg('h_single_jet2_pt',0,100,1)
+    # draw_signal_bg('h_single_jet1_e',0,100,1)
+    # draw_signal_bg('h_single_jet2_e',0,120,1)
+    # draw_signal_bg('h_single_jet_theta',0,180,1)
 
 def draw_signal_bg(pic, x1, x2, log):
 
@@ -51,7 +54,7 @@ def draw_signal_bg(pic, x1, x2, log):
 
     evah = signal_sample.Get('hevtflw_pre')
     eva = evah.GetBinContent(1)
-    scs = 5050 * 6.77 * 0.0266 / (eva * (6.77 / (7.04 + 6.77 + 6.75)))
+    scs = 5050 * (7.04 + 6.77 + 6.75) * 0.0264 / eva
     s = signal_sample.Get(pic)
     s.Scale(scs)
 

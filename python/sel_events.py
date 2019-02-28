@@ -79,6 +79,11 @@ h_n_lepton = ROOT.TH1D('h_n_lepton', 'n_lepton', 180, 0, 180)
 ## After All of Cuts
 h_m_dimuon_final = ROOT.TH1D('h_m_dimuon_final', 'm_dimuon_final', 260, 0, 260)
 h_mrec_dimuon_final = ROOT.TH1D('h_mrec_dimuon_final', 'mrec_dimuon_final', 260, 0, 260)
+h_m_dijet_final =  ROOT.TH1D('h_m_dijet_final', 'm_dijet_final', 260, 0, 260)
+h_mrec_dijet_final =  ROOT.TH1D('h_mrec_dijet_final', 'mrec_dijet_final', 260, 0, 260)
+h_m_visible_final =  ROOT.TH1D('h_m_visible_final', 'm_visible_final', 260, 0, 260)
+h_m_missing_final =  ROOT.TH1D('h_m_missing_final', 'm_missing_final', 260, 0, 260)
+h_vis_all_pt_final =  ROOT.TH1D('h_vis_all_pt_final', 'vis_all_pt_final', 100, 0, 100)
 
 h_m_lljj = ROOT.TH1D('h_m_lljj', 'm_lljj', 260, 0, 260)
 
@@ -128,12 +133,29 @@ def main():
     entries = t_in.GetEntriesFast()
 
     if entries > 0 :
-        pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval=entries).start()
+       pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval=entries).start()
 
     time_start = time()
 
     # output file & TTree definition
     fout = ROOT.TFile(outfile, "RECREATE")
+    t = ROOT.TTree( 'Higgs Tree', 'Higgs Tree' )
+
+    dimuon_m = array( 'd', [0] )
+    dimuon_rec_m = array( 'd', [0] )
+    dijet_m = array( 'd', [0] )
+    dijet_rec_m = array( 'd', [0] )
+    vis_ex_dimuon_m = array( 'd', [0] )
+    vis_all_rec_m = array( 'd', [0] )
+    vis_all_pt = array( 'd', [0] )
+
+    t.Branch( 'dimuon_m', dimuon_m, 'dimuon_m/D')
+    t.Branch( 'dimuon_rec_m', dimuon_rec_m, 'dimuon_rec_m/D')
+    t.Branch( 'dijet_m', dijet_m, 'dijet_m/D')
+    t.Branch( 'dijet_rec_m', dijet_rec_m, 'dijet_rec_m/D')
+    t.Branch( 'vis_ex_dimuon_m', vis_ex_dimuon_m, 'vis_ex_dimuon_m/D')
+    t.Branch( 'vis_all_rec_m', vis_all_rec_m, 'vis_all_rec_m/D')
+    t.Branch( 'vis_all_pt', vis_all_pt, 'vis_all_pt/D')
 
     for jentry in xrange(entries):
         pbar.update(jentry+1)
@@ -166,9 +188,16 @@ def main():
             fill_histograms(t_in)
 
             if select_higgs_to_zz(t_in): 
+
                 index = select_zpole_muon(t_in)
                 h_m_dimuon_final.Fill( t_in.dimuon_m[index] )
                 h_mrec_dimuon_final.Fill( t_in.dimuon_rec_m[index] )
+                h_m_dijet_final.Fill( t_in.dijet_m[0] )
+                h_mrec_dijet_final.Fill( t_in.dijet_rec_m[0] )
+                h_m_visible_final.Fill( t_in.vis_ex_dimuon_m )
+                h_m_missing_final.Fill( t_in.vis_all_rec_m )
+                h_vis_all_pt_final.Fill( t_in.vis_all_pt )
+
 
                 # h_m_lljj.Fill( t_in.lljj_m )
 
@@ -179,19 +208,30 @@ def main():
                 h_m_mc_zz_flag.Fill( t_in.mc_zz_flag )
 
                 save_pid( t_in )
-		
+
+                dimuon_m[0] = t_in.dimuon_m[index]
+                dimuon_rec_m[0] = t_in.dimuon_rec_m[index]
+                dijet_m[0] = t_in.dijet_m[0]
+                dijet_rec_m[0] = t_in.dijet_rec_m[0]
+                vis_ex_dimuon_m[0] = t_in.vis_ex_dimuon_m
+                vis_all_rec_m[0] = t_in.vis_all_rec_m
+                vis_all_pt[0] = t_in.vis_all_pt
+
+                t.Fill()
+
+    fout.Write()
             
     # Get event flow histogram @ Higgs2zz.cc
     copy_histo(fin, 'hevtflw', h_evtflw_pre) 
  
     # Writ histograms & Close file
     write_histograms()
+
     fout.Close()
 
     if entries > 0 :
         pbar.finish()
 	
-    # dur = time()-time_start
     dur = duration(time()-time_start)
     sys.stdout.write(' \nDone in %s. \n' % dur)
 
@@ -345,6 +385,11 @@ def write_histograms():
 # After All of Cuts
     h_m_dimuon_final.Write()
     h_mrec_dimuon_final.Write()
+    h_m_dijet_final.Write()
+    h_mrec_dijet_final.Write()
+    h_m_visible_final.Write()
+    h_m_missing_final.Write()
+    h_vis_all_pt_final.Write()
 
     h_m_lljj.Write()
 
