@@ -22,8 +22,6 @@ def main():
     draw_signal_bg('h_m_dijet', 0, 160, 1)
     draw_signal_bg('h_n_lepton', 0, 10,0)
     draw_signal_bg('h_mrec_dimuon_final',110,150,0) 
-    draw_signal_bg('h_m_dijet_final',0,150,0) 
-    draw_signal_bg('h_mrec_dijet_final',0,150,0) 
     draw_2d('h_2D_visible_missing')  
 
     #hvvjj
@@ -52,9 +50,9 @@ def draw_signal_bg(pic, x1, x2, log):
 
     signal_sample =  ROOT.TFile('./run/llh2zz/hist/ana_File_merged_1.root')
 
-    evah = signal_sample.Get('hevtflw_pre')
-    eva = evah.GetBinContent(1)
-    scs = 5050 * (7.04 + 6.77 + 6.75) * 0.0264 / eva
+    evah = signal_sample.Get('hevtflw_sel')
+    eva = evah.GetBinContent(3)  #number of e2e2hvvjj
+    scs = 5600 * 6.77 * 0.0264 * 0.2 * 0.69 / eva
     s = signal_sample.Get(pic)
     s.Scale(scs)
 
@@ -70,7 +68,7 @@ def draw_signal_bg(pic, x1, x2, log):
             if not s_line.startswith('#'):
                 l = [x.strip() for x in s_line.split(',')]
                 dname = l[0]
-                event_exp = float(l[3])
+                event_exp = 1.11 * float(l[3])
                 sample = ROOT.TFile('./run/bg/hist/' + dname + '/ana_File_merged_1.root')
                 h=sample.Get('hevtflw_pre')
                 event_ana = h.GetBinContent(1)
@@ -89,6 +87,8 @@ def draw_signal_bg(pic, x1, x2, log):
             if pic == 'h_n_lepton' or pic == 'h_mrec_dimuon_final':
                 b0.SetMaximum(30)
             b0.GetXaxis().SetRangeUser(x1, x2)
+            b0.SetXTitle('%s'%pic)
+            b0.SetYTitle('Number of events') 
             b0.SetLineColor(40)
             b0.Draw()
             leg.AddEntry(b0, name)
@@ -111,7 +111,7 @@ def draw_signal_bg(pic, x1, x2, log):
         if not s_line.startswith('#'):
             l = [x.strip() for x in s_line.split(',')]
             dname = l[0]
-            event_exp = float(l[3])
+            event_exp = 1.11 * float(l[3])
             sample = ROOT.TFile('./run/bg/hist/' + dname + '/ana_File_merged_1.root')
             h=sample.Get('hevtflw_pre')
             event_ana = h.GetBinContent(1)
@@ -146,6 +146,9 @@ def draw_2d(pic):
     # sample =  ROOT.TFile('run/bg/hist/zz_sl0mu_down/ana_File_merged_1.root')
 
     s = sample.Get(pic)
+
+    s.SetXTitle('dijet mass')
+    s.SetYTitle('missing mass') 
 
     s.SetContour(99)
     s.Draw("colz")

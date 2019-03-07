@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Save histograms as root files
+Save results as root files
 """
 
 __author__ = "Kong Lingteng <konglingteng15@mails.ucas.ac.cn>"
@@ -12,7 +12,7 @@ import os
 import math
 import ROOT
 from array import array
-from tools import duration, check_outfile_path
+from tools import check_outfile_path
 
 def main():
 
@@ -21,9 +21,9 @@ def main():
     s_out = './root/sig_e2e2hvvjj.root'
 
     signal_sample =  ROOT.TFile(s_in)
-    evah = signal_sample.Get('hevtflw_pre')
-    eva = evah.GetBinContent(1)
-    s = 5050 * (7.04 + 6.77 + 6.75) * 0.0264 / eva
+    evah = signal_sample.Get('hevtflw_sel')
+    eva = evah.GetBinContent(3)  #number of e2e2hvvjj
+    s = 5600 * 6.77 * 0.0264 * 0.2 * 0.69 / eva
 
     save_root(s_in, s_out, s)
 
@@ -39,7 +39,7 @@ def main():
             if not s_line.startswith('#'):
                 l = [x.strip() for x in s_line.split(',')]
                 dname = l[0]
-                event_exp = float(l[3])
+                event_exp = 1.11 * float(l[3])
                 b_in = './run/bg/hist/' + dname + '/ana_File_merged_1.root'
                 sample = ROOT.TFile(b_in)
                 h=sample.Get('hevtflw_pre')

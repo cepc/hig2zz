@@ -73,7 +73,7 @@ usage_0_4() {
 	printf "\n\t%-9s  %-40s"  "0.4.1"    "Plot signal-bg histograms..." 
 	printf "\n\t%-9s  %-40s"  "0.4.2"    "Plot information..." 
 	printf "\n\t%-9s  %-40s"  "0.4.3"    "Fit signal and background..." 
-	printf "\n\t%-9s  %-40s"  "0.4.4"    "Save histograms as root files..." 
+	printf "\n\t%-9s  %-40s"  "0.4.4"    "Save results as root files..." 
 }
 
 if [[ $# -eq 0 ]]; then
@@ -459,7 +459,7 @@ case $option in
 	       cd ./run/bg/events/ana	       
 	   done
 
-		cp -r run/zh/hist/. run/bg/hist/	   
+		# cp -r run/zh/hist/. run/bg/hist/	   
            ;; 
 
     esac
@@ -488,7 +488,7 @@ case $option in
 			python ./python/plt_fit.py   ./table/bg_zh.txt ./table/bg_2f.txt  ./table/bg_4f.txt
 			;; 
 			
-	0.4.4) echo  "Save histograms as root files..."
+	0.4.4) echo  "Save results as root files..."
 			rm -rf ./root
 			mkdir -p   ./root
 			python ./python/save_root.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/bg_zh.txt
