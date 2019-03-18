@@ -477,22 +477,22 @@ case $option in
 
     0.4.1) echo  "Plot signal-bg histograms..."
            	mkdir -p   ./fig
-           python ./python/plt_bg.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/bg_zh.txt
+           python ./python/plt_bg.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
            ;; 
 
     0.4.2) echo  "Plot information..."  # Meantime, it will generate table for LaTeX
-           python ./python/plt_info.py  ./table/bg_zh.txt  ./table/bg_2f.txt  ./table/bg_4f.txt
+           python ./python/plt_info.py  ./table/zh_sample_list.txt  ./table/bg_2f.txt  ./table/bg_4f.txt
            ;; 
 
 	0.4.3) echo  "Generate tables and LaTex tables..."
-			python ./python/gen_tex.py   ./table/bg_zh.txt ./table/bg_2f.txt  ./table/bg_4f.txt
+			python ./python/gen_tex.py   ./table/zh_sample_list.txt ./table/bg_2f.txt  ./table/bg_4f.txt
 			# python ./python/gen_table.py
 			;; 
 			
 	0.4.4) echo  "Save results as root files..."
 			rm -rf ./root
 			mkdir -p   ./root
-			python ./python/save_root.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/bg_zh.txt
+			python ./python/save_root.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
 			;;
 
     esac
