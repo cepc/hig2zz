@@ -72,7 +72,7 @@ usage_0_4() {
 	printf "\n\t%-9s  %-40s"  "0.4"      "[plot pictures and information]" 
 	printf "\n\t%-9s  %-40s"  "0.4.1"    "Plot signal-bg histograms..." 
 	printf "\n\t%-9s  %-40s"  "0.4.2"    "Plot information..." 
-	printf "\n\t%-9s  %-40s"  "0.4.3"    "Fit signal and background..." 
+	printf "\n\t%-9s  %-40s"  "0.4.3"    "Generate tables and LaTex tables..."
 	printf "\n\t%-9s  %-40s"  "0.4.4"    "Save results as root files..." 
 }
 
@@ -121,8 +121,8 @@ case $option in
            ;;
 
     0.1.3) echo "Run with a few events ..."
-	   source setup.sh
-	   ./build.sh
+	#    source setup.sh
+	#    ./build.sh
 	   Marlin ./run/llh2zz/steers/test/sample-1.xml
            ;;
     
@@ -194,8 +194,8 @@ case $option in
 	   ;;
 	   
     0.2.4) echo "Run with a few events ..."
-	   source setup.sh
-	   ./build.sh
+	#    source setup.sh
+	#    ./build.sh
 	   cd ./run/zh/steers/
 
 	   #array=("e1e1h_X" "e2e2h_X" "e3e3h_X" "nnh_X" "qqh_X")
@@ -477,15 +477,16 @@ case $option in
 
     0.4.1) echo  "Plot signal-bg histograms..."
            	mkdir -p   ./fig
-           python ./python/plt_bg.py  ./table/bg_2f.txt  ./table/bg_4f.txt
+           python ./python/plt_bg.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/bg_zh.txt
            ;; 
 
-    0.4.2) echo  "Plot information..."
+    0.4.2) echo  "Plot information..."  # Meantime, it will generate table for LaTeX
            python ./python/plt_info.py  ./table/bg_zh.txt  ./table/bg_2f.txt  ./table/bg_4f.txt
            ;; 
 
-	0.4.3) echo  "Fit signal and background..."
-			python ./python/plt_fit.py   ./table/bg_zh.txt ./table/bg_2f.txt  ./table/bg_4f.txt
+	0.4.3) echo  "Generate tables and LaTex tables..."
+			python ./python/gen_tex.py   ./table/bg_zh.txt ./table/bg_2f.txt  ./table/bg_4f.txt
+			# python ./python/gen_table.py
 			;; 
 			
 	0.4.4) echo  "Save results as root files..."

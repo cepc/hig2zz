@@ -14,22 +14,22 @@ from tools import check_outfile_path, set_root_style
 
 def main():
  
-    draw_signal_bg('h_m_dimuon',0 , 210, 1)
-    draw_signal_bg('h_mrec_dimuon',50 ,160, 1)
-    draw_signal_bg('h_npfo', 0, 100, 1)
-    draw_signal_bg('h_vis_all_pt', 0, 30, 1)
-    draw_signal_bg('h_min_angle',0,120, 1)
-    draw_signal_bg('h_m_dijet', 0, 160, 1)
-    draw_signal_bg('h_n_lepton', 0, 10,0)
-    draw_signal_bg('h_mrec_dimuon_final',110,150,0) 
-    draw_2d('h_2D_visible_missing')  
+    # draw_signal_bg('h_m_dimuon',0 , 210, 1)
+    # draw_signal_bg('h_mrec_dimuon',50 ,160, 1)
+    # draw_signal_bg('h_npfo', 0, 100, 1)
+    # draw_signal_bg('h_vis_all_pt', 0, 30, 1)
+    # draw_signal_bg('h_min_angle',0,120, 1)
+    # draw_signal_bg('h_m_dijet', 0, 160, 1)
+    # draw_signal_bg('h_n_lepton', 0, 10,0)
+    # draw_signal_bg('h_mrec_dimuon_final',110,150,0) 
+    draw_2d('h_2D_dijet_missing')  
 
     #hvvjj
-    draw_signal_bg('h_single_jet1_pt',0,40,1)
-    draw_signal_bg('h_single_jet2_pt',0,40,1)
-    draw_signal_bg('h_single_jet1_e',0,50,1)
-    draw_signal_bg('h_single_jet2_e',0,40,1)
-    draw_signal_bg('h_single_jet_theta',0,180,1)  
+    # draw_signal_bg('h_single_jet1_pt',0,40,1)
+    # draw_signal_bg('h_single_jet2_pt',0,40,1)
+    # draw_signal_bg('h_single_jet1_e',0,50,1)
+    # draw_signal_bg('h_single_jet2_e',0,40,1)
+    # draw_signal_bg('h_single_jet_theta',0,180,1)  
 
     #hjjvv
     # draw_signal_bg('h_single_jet1_pt',0,100,1)
@@ -89,7 +89,7 @@ def draw_signal_bg(pic, x1, x2, log):
             b0.GetXaxis().SetRangeUser(x1, x2)
             b0.SetXTitle('%s'%pic)
             b0.SetYTitle('Number of events') 
-            b0.SetLineColor(40)
+            b0.SetLineColor(6)
             b0.Draw()
             leg.AddEntry(b0, name)
             leg.Draw()
@@ -97,37 +97,19 @@ def draw_signal_bg(pic, x1, x2, log):
 
         if tabs.index(t) == 1:  
 
-            b1.SetLineColor(41)
+            b1.SetLineColor(5)
             b1.Draw('same')
             leg.AddEntry(b1, name)
             leg.Draw()
 
-    zh = './table/bg_zh.txt'
-    zhtab = open(zh , 'r' )
+        if tabs.index(t) == 2:  
 
-    i = 1
-    for s_line in zhtab :
+            b2.SetLineColor(4)
+            b2.Draw('same')
+            leg.AddEntry(b2, name)
+            leg.Draw()
 
-        if not s_line.startswith('#'):
-            l = [x.strip() for x in s_line.split(',')]
-            dname = l[0]
-            event_exp = 1.11 * float(l[3])
-            sample = ROOT.TFile('./run/bg/hist/' + dname + '/ana_File_merged_1.root')
-            h=sample.Get('hevtflw_pre')
-            event_ana = h.GetBinContent(1)
-
-            if event_ana != 0:
-                scb = (event_exp / event_ana)
-                tem=sample.Get(pic)
-                exec('zh%s = copy.copy(tem)'%i)
-                exec('zh%s.Scale(scb)'%i)
-                exec('zh%s.SetLineColor(%s)'%(i,i+2))
-                exec("zh%s.Draw('same')"%i)
-                exec('leg.AddEntry(zh%s, dname)'%i)
-                leg.Draw()
-                i = i + 1
-
-    s.SetLineColor(ROOT.kRed)
+    s.SetLineColor(2)
     s.Draw('same')
     leg.AddEntry(s, "signal")
     leg.Draw()
