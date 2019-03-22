@@ -1,9 +1,0 @@
-e1e1h_X    ,      e e     higgs  ,          7.04  ,       35552  ,          /cefs/higgs/kiuchi/Higgs2zz/TestFullSim/reconstruction/output/e1e1h_X/      ,  CEPC_V4  ,  e1e1h_X.e0.p0
-e2e2h_X    ,      mu mu   higgs  ,          6.77  ,       34189  ,          /cefs/higgs/kiuchi/Higgs2zz/TestFullSim/reconstruction/output/e2e2h_X/      ,  CEPC_V4  ,  e2e2h_X.e0.p0
-e3e3h_X    ,      tau tau higgs  ,          6.75  ,       34088  ,          /cefs/higgs/kiuchi/Higgs2zz/TestFullSim/reconstruction/output/e3e3h_X/      ,  CEPC_V4  ,  e3e3h_X.e0.p0
-nnh_X      ,      nu nu   higgs  ,         46.29  ,      233765  ,          /cefs/higgs/kiuchi/Higgs2zz/TestFullSim/reconstruction/output/nnh_X/        ,  CEPC_V4  ,  nnh_X.e0.p0
-qqh_X      ,      q q     higgs  ,        131.81  ,      665641  ,          /cefs/higgs/kiuchi/Higgs2zz/TestFullSim/reconstruction/output/qqh_X/        ,  CEPC_V4  ,  qqh_X.e0.p0       
-#mmh_ww     ,       mumu      ww  ,          1.46  ,         7373 ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_ww/    ,  CEPC_V4
-#mmh_tt     ,       mumu  tautau  ,          0.43  ,         2172 ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_e3e3/  ,  CEPC_V4
-#nnh_zz     ,        nn zz        ,          1.23  ,         6218 ,          /besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/E240.Pnnh_zz.e0.p0.whizard195/
-# mmh_zz     ,       mumu zz       ,          0.18  ,         909  ,          /afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_zz/

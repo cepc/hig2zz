@@ -22,7 +22,7 @@ from tools import duration, check_outfile_path
 TEST=False
 
 # Flag
-ZZ_Selection = 1      # 1: Z->nunu, Z*->jj,  2: Z->jj, Z*->nunu , 3: Both 
+ZZ_Selection = 2      # 1: Z->nunu, Z*->jj,  2: Z->jj, Z*->nunu , 3: Both 
 
 # Global constants 
 Z_MASS = 91.2
@@ -74,11 +74,21 @@ h_single_jet2_pt = ROOT.TH1D('h_single_jet2_pt', 'single_jet2_pt', 200, 0, 200)
 h_single_jet1_e = ROOT.TH1D('h_single_jet1_e', 'single_jet1_e', 200, 0, 200)
 h_single_jet2_e = ROOT.TH1D('h_single_jet2_e', 'single_jet2_e', 200, 0, 200)
 h_single_jet_theta = ROOT.TH1D('h_single_jet_theta', 'single_jet_theta', 180, 0, 180)
+h_single_jet1_pz = ROOT.TH1D('h_single_jet1_pz', 'single_jet1_pz', 200, 0, 200)
+h_single_jet2_pz = ROOT.TH1D('h_single_jet2_pz', 'single_jet2_pz', 200, 0, 200)
+h_single_jet1_m = ROOT.TH1D('h_single_jet1_m', 'single_jet1_m', 200, 0, 200)
+h_single_jet2_m = ROOT.TH1D('h_single_jet2_m', 'single_jet2_m', 200, 0, 200)
+
 h_n_lepton = ROOT.TH1D('h_n_lepton', 'n_lepton', 180, 0, 180)
 
 ## After All of Cuts
 h_m_dimuon_final = ROOT.TH1D('h_m_dimuon_final', 'm_dimuon_final', 260, 0, 260)
 h_mrec_dimuon_final = ROOT.TH1D('h_mrec_dimuon_final', 'mrec_dimuon_final', 260, 0, 260)
+h_m_dijet_final =  ROOT.TH1D('h_m_dijet_final', 'm_dijet_final', 260, 0, 260)
+h_mrec_dijet_final =  ROOT.TH1D('h_mrec_dijet_final', 'mrec_dijet_final', 260, 0, 260)
+h_m_visible_final =  ROOT.TH1D('h_m_visible_final', 'm_visible_final', 260, 0, 260)
+h_m_missing_final =  ROOT.TH1D('h_m_missing_final', 'm_missing_final', 260, 0, 260)
+h_vis_all_pt_final =  ROOT.TH1D('h_vis_all_pt_final', 'vis_all_pt_final', 100, 0, 100)
 
 h_m_lljj = ROOT.TH1D('h_m_lljj', 'm_lljj', 260, 0, 260)
 
@@ -88,9 +98,7 @@ h_y34 = ROOT.TH1D('h_y34', 'y34', 4000, -2, 2)
 
 h_mc_init_plist = ROOT.TH1D('h_mc_init_plist', 'mc_init_plist', 80, -40, 40)
 h_mc_higgs_dlist = ROOT.TH1D('h_mc_higgs_dlist', 'mc_higgs_dlist', 80, -40, 40)
-
 h_m_mc_zz_flag = ROOT.TH1D('h_m_mc_zz_flag', 'mc_zz_flag', 80, -40, 40)
-
 
 def usage():
     sys.stdout.write('''
@@ -128,12 +136,29 @@ def main():
     entries = t_in.GetEntriesFast()
 
     if entries > 0 :
-        pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval=entries).start()
+       pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval=entries).start()
 
     time_start = time()
 
     # output file & TTree definition
     fout = ROOT.TFile(outfile, "RECREATE")
+    t = ROOT.TTree( 'Higgs Tree', 'Higgs Tree' )
+
+    dimuon_m = array( 'd', [0] )
+    dimuon_rec_m = array( 'd', [0] )
+    dijet_m = array( 'd', [0] )
+    dijet_rec_m = array( 'd', [0] )
+    vis_ex_dimuon_m = array( 'd', [0] )
+    vis_all_rec_m = array( 'd', [0] )
+    vis_all_pt = array( 'd', [0] )
+
+    t.Branch( 'dimuon_m', dimuon_m, 'dimuon_m/D')
+    t.Branch( 'dimuon_rec_m', dimuon_rec_m, 'dimuon_rec_m/D')
+    t.Branch( 'dijet_m', dijet_m, 'dijet_m/D')
+    t.Branch( 'dijet_rec_m', dijet_rec_m, 'dijet_rec_m/D')
+    t.Branch( 'vis_ex_dimuon_m', vis_ex_dimuon_m, 'vis_ex_dimuon_m/D')
+    t.Branch( 'vis_all_rec_m', vis_all_rec_m, 'vis_all_rec_m/D')
+    t.Branch( 'vis_all_pt', vis_all_pt, 'vis_all_pt/D')
 
     for jentry in xrange(entries):
         pbar.update(jentry+1)
@@ -166,9 +191,16 @@ def main():
             fill_histograms(t_in)
 
             if select_higgs_to_zz(t_in): 
+
                 index = select_zpole_muon(t_in)
                 h_m_dimuon_final.Fill( t_in.dimuon_m[index] )
                 h_mrec_dimuon_final.Fill( t_in.dimuon_rec_m[index] )
+                h_m_dijet_final.Fill( t_in.dijet_m[0] )
+                h_mrec_dijet_final.Fill( t_in.dijet_rec_m[0] )
+                h_m_visible_final.Fill( t_in.vis_ex_dimuon_m )
+                h_m_missing_final.Fill( t_in.vis_all_rec_m )
+                h_vis_all_pt_final.Fill( t_in.vis_all_pt )
+
 
                 # h_m_lljj.Fill( t_in.lljj_m )
 
@@ -179,19 +211,30 @@ def main():
                 h_m_mc_zz_flag.Fill( t_in.mc_zz_flag )
 
                 save_pid( t_in )
-		
+
+                dimuon_m[0] = t_in.dimuon_m[index]
+                dimuon_rec_m[0] = t_in.dimuon_rec_m[index]
+                dijet_m[0] = t_in.dijet_m[0]
+                dijet_rec_m[0] = t_in.dijet_rec_m[0]
+                vis_ex_dimuon_m[0] = t_in.vis_ex_dimuon_m
+                vis_all_rec_m[0] = t_in.vis_all_rec_m
+                vis_all_pt[0] = t_in.vis_all_pt
+
+                t.Fill()
+
+    fout.Write()
             
     # Get event flow histogram @ Higgs2zz.cc
     copy_histo(fin, 'hevtflw', h_evtflw_pre) 
  
     # Writ histograms & Close file
     write_histograms()
+
     fout.Close()
 
     if entries > 0 :
         pbar.finish()
 	
-    # dur = time()-time_start
     dur = duration(time()-time_start)
     sys.stdout.write(' \nDone in %s. \n' % dur)
 
@@ -249,7 +292,8 @@ def fill_histograms(t):
         Cut_Pt_jet         = ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 3.0  and t.jet_e[1] > 3.0 )
 
     if ( ZZ_Selection == 2 ):
-        Cut_InvMass_miss   = ( t.vis_all_rec_m < t.dijet_m[0] )           
+        Cut_InvMass_miss   = ( t.vis_all_rec_m < t.dijet_m[0] )    
+                               #t.vis_all_rec_m > 8 and t.dijet_m[0] < 102 and t.vis_all_rec_m + 1.89 * t.dijet_m[0] > 177 and t.vis_all_rec_m + 0.78 * t.dijet_m[0] < 108.4
         Cut_InvMass_dijet  = ( t.vis_all_rec_m < 40 and t.vis_all_rec_m > 10 and t.dijet_m[0] < 100 and t.dijet_m[0] >80 ) 
         Cut_npfo           = ( t.n_col_reco > 30 )
         Cut_Pt_jet         = ( t.jet_pt[0] > 10 and t.jet_pt[0] < 60 and t.jet_pt[1] > 10 and t.jet_pt[1] < 60 and t.jet_e[0] > 25 and t.jet_e[0] <70 and t.jet_e[1] > 25 and t.jet_e[1] < 70 )
@@ -291,7 +335,12 @@ def fill_histograms(t):
         h_single_jet2_e.Fill( t.jet_e[1] );
         h_single_jet_theta.Fill( t.jet_theta[0] );
         h_single_jet_theta.Fill( t.jet_theta[1] );
-        
+        h_single_jet1_pz.Fill(t.jet_pz[0])
+        h_single_jet2_pz.Fill(t.jet_pz[1])
+        h_single_jet1_m.Fill(t.jet_m[0])
+        h_single_jet2_m.Fill(t.jet_m[1])
+
+
     if( Cut_InvMass_miss and Cut_InvMass_dimuon and Cut_RecMass_dimuon and Cut_npfo and 
         Cut_Pt_visible and Cut_Min_angle and Cut_InvMass_dijet and Cut_Pt_jet ):
         h_n_lepton.Fill( t.n_lepton )
@@ -340,11 +389,20 @@ def write_histograms():
     h_single_jet1_e.Write()
     h_single_jet2_e.Write()
     h_single_jet_theta.Write()
+    h_single_jet1_pz.Write()
+    h_single_jet2_pz.Write()
+    h_single_jet1_m.Write()
+    h_single_jet2_m.Write()
     h_n_lepton.Write()
 
 # After All of Cuts
     h_m_dimuon_final.Write()
     h_mrec_dimuon_final.Write()
+    h_m_dijet_final.Write()
+    h_mrec_dijet_final.Write()
+    h_m_visible_final.Write()
+    h_m_missing_final.Write()
+    h_vis_all_pt_final.Write()
 
     h_m_lljj.Write()
 
@@ -408,7 +466,8 @@ def select_higgs_to_zz(t):
         if not ( t.vis_all_rec_m > 80 and t.dijet_m[0] < 35 ):
             return False
     if ( ZZ_Selection == 2 ):
-        if not ( t.vis_all_rec_m < 40 and t.vis_all_rec_m > 10 and t.dijet_m[0] < 100 and t.dijet_m[0] >80 ):  #t.vis_all_rec_m < 50 and t.dijet_m[0] < 100 and (0.875 * t.vis_all_rec_m + t.dijet_m[0]) > 105
+                #t.vis_all_rec_m > 8 and t.dijet_m[0] < 102 and t.vis_all_rec_m + 1.89 * t.dijet_m[0] > 177 and t.vis_all_rec_m + 0.78 * t.dijet_m[0] < 108.4
+        if not ( t.vis_all_rec_m < 40 and t.vis_all_rec_m > 10 and t.dijet_m[0] < 100 and t.dijet_m[0] >80 ): 
             return False
     h_evtflw.Fill(8)
     

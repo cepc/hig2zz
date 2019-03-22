@@ -3,27 +3,30 @@ import os
 
 def main():
 
-    path = '/cefs/data/DstData/CEPC240/CEPC_v4/higgs/'
-
-    outname = './table/1zh_sample_list.txt'
+    inname = './table/zh.txt'
+    outname = './table/bg_zh.txt'
     
+    fin_script = open(inname,'r')
     fout_script = open(outname,'w')
-    fout_script.write('%-25s,%-25s,%-25s,%-25s,%-80s,%-25s,%-25s\n'%('# Process','Final state','Cross section [fb]','Events expected','Path','Configuration','Filename tag'))
+    fout_script.write('%-25s,%-25s,%-25s,%-25s,%-80s,%-25s,%-25s\n'%('# Process','Final state','Cross section','Events expected','Path','Configuration','Filename tag'))
 
-    for root, dirs, files in os.walk(path):
-        for d in dirs:
-            if root.split('/')[-1] != 'smart_final_states':
-                if len(d.split('.')) > 1:
-                    s = d.split('.')[1]
-                    dname = s.lstrip('P')
-                    final = dname
-                    cs = 1
-                    exp = 5050 * cs
-                    Pat = root + d
-                    Config = 'CEPC_V4'
-                    tag = '%s.%s.%s'%(dname,'e0','p0')
-                    fout_script.write('%-25s,%-25s,%-25s,%-25s,%-80s,%-25s,%-25s\n'%(dname,final,cs,exp,Pat,Config,tag))
+    for s_line in fin_script :
+        l = [x.strip() for x in s_line.split()]
 
+        dname = l[0]
+        cs = float(l[1])
+        exp = 5050 * cs
+        path = '/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.P%s.e0.p0.whizard195'%dname
+        conf = 'CEPC_V4'
+        tag = '%s.%s.%s'%(dname,'e0','p0')
+
+        if dname.split('_')[1] == 'X' :
+            fout_script.write('#%-25s,%-25s,%-25s,%-25s,%-80s,%-25s,%-25s\n'%(dname,dname,cs,exp,path,conf,tag))
+            continue
+        
+        fout_script.write('%-25s,%-25s,%-25s,%-25s,%-80s,%-25s,%-25s\n'%(dname,dname,cs,exp,path,conf,tag))
+
+    fin_script.close()
     fout_script.close()
     
 
