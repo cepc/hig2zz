@@ -21,6 +21,7 @@ def main():
     evah = signal_sample.Get('hevtflw_sel')
     eva = evah.GetBinContent(3)  #number of e2e2hvvjj
     scs = 5600 * 6.77 * 0.0264 * 0.2 * 0.69 / eva
+    print('scale for signal is %s'%scs)
 
     sh = signal_sample.Get('hevtflw_pre')
     s_raw = sh.GetBinContent(1) * scs
@@ -49,6 +50,8 @@ def main():
     for t in tabs: 
 
         tab = open(t , 'r' )
+        name = t.split('/')[-1]
+        path = name.split('_')[0]
         
         for s_line in tab :
             if not s_line.startswith('#'):
@@ -56,7 +59,7 @@ def main():
                 dname = l[0]
                 event_exp = 1.11 * float(l[3])
 
-                sample = ROOT.TFile('./run/bg/hist/' + dname + '/ana_File_merged_1.root')
+                sample = ROOT.TFile('./run/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
                 h=sample.Get('hevtflw_pre')
                 event_ana = h.GetBinContent(1)
 

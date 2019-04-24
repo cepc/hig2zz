@@ -435,7 +435,7 @@ bool Higgs2zz::buildHiggsToZZ() {
 
   // Select Lepton pairs
   selectLeptons( Col_Leps );
-  if( m_n_muon_plus==0 || m_n_muon_minus==0 ) return false;
+  if( m_n_muon_plus==0 || m_n_muon_minus==0 || m_n_lepton!=2 ) return false;
 
   h_evtflw->Fill(2); // N_{MuonP} > 0 && N_{MuonM} > 0
 

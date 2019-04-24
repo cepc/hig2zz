@@ -13,34 +13,43 @@ from tools import check_outfile_path, set_root_style
 
 
 def main():
- 
-    # draw_signal_bg('h_m_dimuon',0 , 210, 1)
-    # draw_signal_bg('h_mrec_dimuon',50 ,160, 1)
-    # draw_signal_bg('h_npfo', 0, 100, 1)
-    # draw_signal_bg('h_vis_all_pt', 0, 30, 1)
-    # draw_signal_bg('h_min_angle',0,120, 1)
-    # draw_signal_bg('h_m_dijet', 0, 160, 1)
-    # draw_signal_bg('h_n_lepton', 0, 10,0)
-    # draw_signal_bg('h_mrec_dimuon_final',110,150,0) 
+
+    opt = int(sys.argv[1])
+
+    draw_signal_bg('h_m_dimuon',0 , 210, 1)
+    draw_signal_bg('h_mrec_dimuon',50 ,160, 1)
+    draw_signal_bg('h_vis_all_pt', 0, 100, 1)
+    draw_signal_bg('h_min_angle',0, 120, 1)
     draw_2d('h_2D_dijet_missing')  
 
-    #hvvjj
-    # draw_signal_bg('h_single_jet1_pt',0,40,1)
-    # draw_signal_bg('h_single_jet2_pt',0,40,1)
-    # draw_signal_bg('h_single_jet1_e',0,50,1)
-    # draw_signal_bg('h_single_jet2_e',0,40,1)
-    # draw_signal_bg('h_single_jet_theta',0,180,1)  
 
-    #hjjvv
-    # draw_signal_bg('h_single_jet1_pt',0,100,1)
-    # draw_signal_bg('h_single_jet2_pt',0,100,1)
-    # draw_signal_bg('h_single_jet1_e',0,100,1)
-    # draw_signal_bg('h_single_jet2_e',0,120,1)
-    # draw_signal_bg('h_single_jet_theta',0,180,1)
+    if opt == 1: 
+
+        print('plotting hvvjj channel...')
+        draw_signal_bg('h_m_dijet', 0, 80, 1)
+        draw_signal_bg('h_npfo', 0, 100, 1)
+        draw_signal_bg('h_single_jet1_pt',0,40, 1)
+        draw_signal_bg('h_single_jet2_pt',0,40, 1)
+        draw_signal_bg('h_single_jet1_e',0,50, 1)
+        draw_signal_bg('h_single_jet2_e',0,40, 1)
+        draw_signal_bg('h_single_jet_theta',0,180, 1)  
+        draw_signal_bg('h_mrec_dimuon_final',110,150, 0) 
+
+    else:
+
+        print('plotting hjjvv channel...')
+        draw_signal_bg('h_m_dijet', 0, 180, 1)
+        draw_signal_bg('h_npfo', 0, 180, 1)
+        draw_signal_bg('h_single_jet1_pt',0,100, 1)
+        draw_signal_bg('h_single_jet2_pt',0,100, 1)
+        draw_signal_bg('h_single_jet1_e',0,100, 1)
+        draw_signal_bg('h_single_jet2_e',0,120, 1)
+        draw_signal_bg('h_single_jet_theta',0,180, 1)
+        draw_signal_bg('h_mrec_dimuon_final',110,150, 1) 
 
 def draw_signal_bg(pic, x1, x2, log):
 
-    tabs = sys.argv[1:]
+    tabs = sys.argv[2:]
 
     leg = ROOT.TLegend(0.7, 0.71, 0.9, 0.91)
     c = ROOT.TCanvas('c', 'c', 1600, 1600)
@@ -60,6 +69,7 @@ def draw_signal_bg(pic, x1, x2, log):
 
         tab = open(t , 'r' )
         name = t.split('/')[-1]
+        path = name.split('_')[0]
         exec('b%s = copy.copy(s)'%tabs.index(t))
         exec('b%s.Scale(0)'%tabs.index(t))
         
@@ -69,7 +79,7 @@ def draw_signal_bg(pic, x1, x2, log):
                 l = [x.strip() for x in s_line.split(',')]
                 dname = l[0]
                 event_exp = 1.11 * float(l[3])
-                sample = ROOT.TFile('./run/bg/hist/' + dname + '/ana_File_merged_1.root')
+                sample = ROOT.TFile('./run/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
                 h=sample.Get('hevtflw_pre')
                 event_ana = h.GetBinContent(1)
 
@@ -80,34 +90,43 @@ def draw_signal_bg(pic, x1, x2, log):
                     a.Scale(scb)
                     exec('b%s.Add(a)'%tabs.index(t))
 
-        if tabs.index(t) == 0:  
+    max0=0
+    max1=0
+    max2=0    
 
-            ROOT.gPad.SetLogy(log)
-            b0.SetMinimum(0.1)
-            if pic == 'h_n_lepton' or pic == 'h_mrec_dimuon_final':
-                b0.SetMaximum(30)
-            b0.GetXaxis().SetRangeUser(x1, x2)
-            b0.SetXTitle('%s'%pic)
-            b0.SetYTitle('Number of events') 
-            b0.SetLineColor(6)
-            b0.Draw()
-            leg.AddEntry(b0, name)
-            leg.Draw()
+    for i in range(3):
+        exec('max%s = b%s.GetMaximum()'%(i,i))
+
+    max = max0
+    if max1 > max:
+        max = max2
+    
+    if max2 > max:
+        max = max3
 
 
-        if tabs.index(t) == 1:  
+    ROOT.gPad.SetLogy(log)
+    b0.SetMinimum(0.1)
+    b0.SetMaximum(max)
+    b0.GetXaxis().SetRangeUser(x1, x2)
+    b0.SetXTitle('%s'%pic)
+    b0.SetYTitle('Number of events') 
+    b0.SetLineColor(6)
+    b0.Draw()
+    leg.AddEntry(b0, '2fermion background')
+    leg.Draw()
 
-            b1.SetLineColor(5)
-            b1.Draw('same')
-            leg.AddEntry(b1, name)
-            leg.Draw()
 
-        if tabs.index(t) == 2:  
+    b1.SetLineColor(5)
+    b1.Draw('same')
+    leg.AddEntry(b1, '4fermion background')
+    leg.Draw()
 
-            b2.SetLineColor(4)
-            b2.Draw('same')
-            leg.AddEntry(b2, name)
-            leg.Draw()
+
+    b2.SetLineColor(4)
+    b2.Draw('same')
+    leg.AddEntry(b2, 'ZH background')
+    leg.Draw()
 
     s.SetLineColor(2)
     s.Draw('same')
