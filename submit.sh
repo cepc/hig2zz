@@ -90,7 +90,7 @@ signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pe2e2h_zz.e0.p0.w
 sel_all=0
 sel_signal=1
 sel_bg=2
-channel_opt=2  #1 for hvvjj, 2 for hjjvv
+channel_opt=1  #1 for hvvjj, 2 for hjjvv
 
     # --------------------------------------------------------------------------
     #  0.1 Signal   
@@ -494,8 +494,8 @@ case $option in
 				cp sig.root ./merge/mzvj_sig.root
 				hadd ./merge/mzvj_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
 				hadd ./merge/mzvj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-				hadd ./merge/mzvj_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root bkg_qqh_e3e3.root
-				hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root bkg_qqh_az.root
+				hadd ./merge/mzvj_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
+				hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
 				hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root bkg_e2e2.root
 
 				cd ..

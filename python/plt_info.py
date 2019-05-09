@@ -70,10 +70,10 @@ def main():
 
                     evt = tep.GetBinContent(11) * scb
 
-                    if evt != 0:
-                        print("%-25s%-25s%-25s"%(dname,scb,evt))
+                    if int(evt) > 10:
+                        print("%-25s%-25s%-25s"%(dname,scb,int(evt)))
                         tname = dname.replace('_',r'\_')
-                        fout_script.write("%-25s&%-25s&%-25s%-25s\n"%(tname,scb,evt,r'\\'))
+                        fout_script.write("%-25s&%-25s&%-25s%-25s\n"%(tname,scb,int(evt),r'\\'))
 
                     for i in range(11):
                         exec ("cut%s = tep.GetBinContent(%s) * scb"%(i+1,i+1))
@@ -91,34 +91,33 @@ def main():
                             ff_raw += event_exp
 
     print('\n')
-    print("%-25s%-25s%-25s%-25s%-25s"%('cut','llhzz','zh','2f','4f'))
-    print("%-25s%-25s%-25s%-25s%-25s"%('Raw events',s_raw,z_raw,f_raw,ff_raw))
-    print("%-25s%-25s%-25s%-25s%-25s"%('Pre-selection',s1,z1,f1,ff1))
-    print("%-25s%-25s%-25s%-25s%-25s"%('Signal or not',s2,z2,f2,ff2))
-    print("%-25s%-25s%-25s%-25s%-25s"%('missing mass > dijet',s3,z3,f3,ff3))
-    print("%-25s%-25s%-25s%-25s%-25s"%('M(dimuon) ',s4,z4,f4,ff4))
-    print("%-25s%-25s%-25s%-25s%-25s"%('RecM(dimuon) ',s5,z5,f5,ff5))
-    print("%-25s%-25s%-25s%-25s%-25s"%('N(pfo) ',s6,z6,f6,ff6))
-    print("%-25s%-25s%-25s%-25s%-25s"%('Pt(total visible) ',s7,z7,f7,ff7))
-    print("%-25s%-25s%-25s%-25s%-25s"%('Min angle ',s8,z8,f8,ff8))
-    print("%-25s%-25s%-25s%-25s%-25s"%('Missing Mass & M(dijets)',s9,z9,f9,ff9))
-    print("%-25s%-25s%-25s%-25s%-25s"%('Pt(jets)',s10,z10,f10,ff10))
-    print("%-25s%-25s%-25s%-25s%-25s"%('N(lepton)',s11,z11,f11,ff11))
+    print("%-25s%-15s%-15s%-15s%-15s"%('cut','llhzz','zh','2f','4f'))
+    print("%-25s%-15s%-15s%-15s%-15s"%('Raw events',int(s_raw),int(z_raw),int(f_raw),int(ff_raw)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('Pre-selection',int(s1),int(z1),int(f1),int(ff1)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('Signal or not',int(s2),int(z2),int(f2),int(ff2)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('missing mass > dijet',int(s3),int(z3),int(f3),int(ff3)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('M(dimuon) ',int(s4),int(z4),int(f4),int(ff4)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('RecM(dimuon) ',int(s5),int(z5),int(f5),int(ff5)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('N(pfo) ',int(s6),int(z6),int(f6),int(ff6)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('Pt(total visible) ',int(s7),int(z7),int(f7),int(ff7)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('Min angle ',int(s8),int(z8),int(f8),int(ff8)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('Missing Mass & M(dijets)',int(s9),int(z9),int(f9),int(ff9)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('Single jet',int(s10),int(z10),int(f10),int(ff10)))
+    print("%-25s%-15s%-15s%-15s%-15s"%('N(lepton)',int(s11),int(z11),int(f11),int(ff11)))
 
 
     fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('cut','signal','zh background','2f background','4f background',r'\\ \hline'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('Raw events',s_raw,z_raw,f_raw,ff_raw,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Pre-selection$',s1,z1,f1,ff1,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Signal or not$',s2,z2,f2,ff2,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Missing Mass>M_{dijets}$',s3,z3,f3,ff3,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$80GeV<M_{\mu^{+}\mu^{-}}<100GeV$',s4,z4,f4,ff4,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$120GeV<M_{Recoil}<150GeV$',s5,z5,f5,ff5,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$15GeV<N_{pfo}$',s6,z6,f6,ff6,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$10GeV<Pt_{total visible}$',s7,z7,f7,ff7,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Min angle>0.3$\degree ',s8,z8,f8,ff8,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Missing Mass>80,M_{dijets}<35$\degree ',s9,z9,f9,ff9,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Pt_{jet1,2}>3,E_{jet1,2}>3$',s10,z10,f10,ff10,r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$N_{lepton}<3$\degree',s11,z11,f11,ff11,r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('Raw events',int(s_raw),int(z_raw),int(f_raw),int(ff_raw),r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Pre-selection$',int(s1),int(z1),int(f1),int(ff1),r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Signal or not$',int(s2),int(z2),int(f2),int(ff2),r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Missing Mass>M_{dijets}$',int(s3),int(z3),int(f3),int(ff3),r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$80GeV<M_{\mu^{+}\mu^{-}}<100GeV$',int(s4),int(z4),int(f4),int(ff4),r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$120GeV<M_{Recoil}<150GeV$',int(s5),int(z5),int(f5),int(ff5),r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$15GeV<N_{pfo}$',int(s6),int(z6),int(f6),int(ff6),r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$10GeV<Pt_{total visible}$',int(s7),int(z7),int(f7),int(ff7),r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Min angle>0.3$\degree ',int(s8),int(z8),int(f8),int(ff8),r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Missing Mass>80,M_{dijets}<35$\degree ',int(s9),int(z9),int(f9),int(ff9),r'\\'))
+    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Pt_{jet1,2}>3,E_{jet1,2}>3$',int(s10),int(z10),int(f10),int(ff10),r'\\'))
 
     fout_script.close()
     
