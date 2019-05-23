@@ -289,7 +289,7 @@ def fill_histograms(t):
         Cut_InvMass_miss   = ( t.vis_all_rec_m > t.dijet_m[0] )
         Cut_InvMass_dijet  = ( t.vis_all_rec_m > 80 and t.dijet_m[0] < 35 )
         Cut_npfo           = ( t.n_col_reco > 15 and t.n_col_reco < 70)
-        Cut_Pt_jet         = ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 3.0  and t.jet_e[1] > 3.0 )
+        Cut_Pt_jet         = ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 5.0  and t.jet_e[1] > 5.0 )
         Cut_Pt_visible     = ( t.vis_all_pt > 10 )
         Cut_Min_angle      = ( t.lj_minangle > 17.2 )
 
@@ -482,7 +482,7 @@ def select_higgs_to_zz(t):
     
     # Jet Pt 
     if ( ZZ_Selection == 1 ):
-        if not ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 3.0  and t.jet_e[1] > 3.0 ):
+        if not ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 5.0  and t.jet_e[1] > 5.0 ):
             return False
     if ( ZZ_Selection == 2 ):
         if not ( t.jet_pt[0] > 10 and t.jet_pt[0] < 65 and t.jet_pt[1] > 10 and t.jet_pt[1] < 65 and t.jet_e[0] > 20 and t.jet_e[0] <80 and t.jet_e[1] > 20 and t.jet_e[1] < 80 and t.jet_theta[0] > 10 and  t.jet_theta[0] < 170 and t.jet_theta[1] >10 and  t.jet_theta[1] < 170 ):

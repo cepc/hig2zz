@@ -496,7 +496,7 @@ case $option in
 				hadd ./merge/mzvj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
 				hadd ./merge/mzvj_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
 				hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
-				hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root bkg_e2e2.root
+				hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
 
 				cd ..
 				cp -r root/merge/. calculate/workspace/data/new_zz/mzvj/
