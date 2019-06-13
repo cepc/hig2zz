@@ -18,7 +18,7 @@ def main():
 
     #signal
     s_in = './run/llh2zz/hist/ana_File_merged_1.root'
-    s_out = './root/sig_e2e2hvvjj.root'
+    s_out = './root/sig.root'
 
     signal_sample =  ROOT.TFile(s_in)
     evah = signal_sample.Get('hevtflw_sel')
@@ -33,6 +33,8 @@ def main():
     for t in tabs: 
 
         tab = open(t , 'r' )
+        name = t.split('/')[-1]
+        path = name.split('_')[0]
 
         for s_line in tab :
             
@@ -40,7 +42,7 @@ def main():
                 l = [x.strip() for x in s_line.split(',')]
                 dname = l[0]
                 event_exp = 1.11 * float(l[3])
-                b_in = './run/bg/hist/' + dname + '/ana_File_merged_1.root'
+                b_in = './run/' + path + '/hist/' + dname + '/ana_File_merged_1.root'
                 sample = ROOT.TFile(b_in)
                 h=sample.Get('hevtflw_pre')
                 event_ana = h.GetBinContent(1)

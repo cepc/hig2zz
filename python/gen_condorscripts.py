@@ -35,10 +35,11 @@ DATE
 
 
 def main():
-    args = sys.argv[1:]
+    args = sys.argv[2:]
     if len(args) < 4:
         return usage()
 
+    channel_opt = int(sys.argv[1])
     opt = int(args[0])
     src = args[1]
     dst = args[2]
@@ -157,7 +158,7 @@ def main():
                 fout_script.write('                                 \n') 
                 fout_script.write('source setup.sh                  \n')
                 fout_script.write('                                 \n') 
-                fout_script.write('./python/sel_events.py  %s %s %s \n' % ( root_in, root_out, flag ) ) 
+                fout_script.write('./python/sel_events.py  %s %s %s %s \n' % ( channel_opt, root_in, root_out, flag ) ) 
                 fout_script.write('                                 \n') 
                 fout_script.close()
                 sys.stdout.write('Creating condor submit script %s \n'  % outname)

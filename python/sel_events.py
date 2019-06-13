@@ -22,7 +22,7 @@ from tools import duration, check_outfile_path
 TEST=False
 
 # Flag
-ZZ_Selection = 2      # 1: Z->nunu, Z*->jj,  2: Z->jj, Z*->nunu , 3: Both 
+ZZ_Selection = int(sys.argv[1])     # 1: Z->nunu, Z*->jj,  2: Z->jj, Z*->nunu , 3: Both 
 
 # Global constants 
 Z_MASS = 91.2
@@ -63,7 +63,7 @@ h_2D_dijet_missing_raw =  ROOT.TH2D('h_2D_dijet_missing_raw', '2D_dijet_missing_
 h_2D_visible_missing =  ROOT.TH2D('h_2D_visible_missing', '2D_visible_missing', 240, -20, 220, 240, -40, 200)
 h_2D_dijet_missing =  ROOT.TH2D('h_2D_dijet_missing', '2D_dijet_missing', 240, -20, 220, 240, -40, 200)
 h_min_angle =  ROOT.TH1D('h_min_angle', 'min_angle', 40, 0, 200)
-h_npfo =  ROOT.TH1D('h_npfo', 'npfo', 100, 0, 100)
+h_npfo =  ROOT.TH1D('h_npfo', 'npfo', 200, 0, 200)
 h_vis_all_pt =  ROOT.TH1D('h_vis_all_pt', 'vis_all_pt', 150, 0, 150)
 h_mrec_dimuon = ROOT.TH1D('h_mrec_dimuon', 'mrec_dimuon', 260, 0, 260)
 h_m_dimuon = ROOT.TH1D('h_m_dimuon', 'm_dimuon', 260, 0, 260)
@@ -119,7 +119,7 @@ DATE
 
 def main():
 
-    args = sys.argv[1:]
+    args = sys.argv[2:]
     if len(args)<2:
         return usage()
 
@@ -288,18 +288,21 @@ def fill_histograms(t):
     if ( ZZ_Selection == 1 ):
         Cut_InvMass_miss   = ( t.vis_all_rec_m > t.dijet_m[0] )
         Cut_InvMass_dijet  = ( t.vis_all_rec_m > 80 and t.dijet_m[0] < 35 )
-        Cut_npfo           = ( t.n_col_reco > 15 )
-        Cut_Pt_jet         = ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 3.0  and t.jet_e[1] > 3.0 )
+        Cut_npfo           = ( t.n_col_reco > 15 and t.n_col_reco < 70)
+        Cut_Pt_jet         = ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 5.0  and t.jet_e[1] > 5.0 )
+        Cut_Pt_visible     = ( t.vis_all_pt > 10 )
+        Cut_Min_angle      = ( t.lj_minangle > 17.2 )
 
     if ( ZZ_Selection == 2 ):
         Cut_InvMass_miss   = ( t.vis_all_rec_m < t.dijet_m[0] )    
                                #t.vis_all_rec_m > 8 and t.dijet_m[0] < 102 and t.vis_all_rec_m + 1.89 * t.dijet_m[0] > 177 and t.vis_all_rec_m + 0.78 * t.dijet_m[0] < 108.4
-        Cut_InvMass_dijet  = ( t.vis_all_rec_m < 40 and t.vis_all_rec_m > 10 and t.dijet_m[0] < 100 and t.dijet_m[0] >80 ) 
-        Cut_npfo           = ( t.n_col_reco > 30 )
-        Cut_Pt_jet         = ( t.jet_pt[0] > 10 and t.jet_pt[0] < 60 and t.jet_pt[1] > 10 and t.jet_pt[1] < 60 and t.jet_e[0] > 25 and t.jet_e[0] <70 and t.jet_e[1] > 25 and t.jet_e[1] < 70 )
-
-    Cut_Pt_visible     = ( t.vis_all_pt > 10 )
-    Cut_Min_angle      = ( t.lj_minangle > 17.2 )
+                               #t.vis_all_rec_m > 0 and t.vis_all_rec_m < 50 and t.dijet_m[0] < 105 and t.dijet_m[0] > 70
+        Cut_InvMass_dijet  = ( t.vis_all_rec_m < 50 and t.dijet_m[0] < 101 and 12 * t.dijet_m[0] + 7 * t.vis_all_rec_m > 1160) 
+        Cut_npfo           = ( t.n_col_reco > 30 and t.n_col_reco < 100)
+        Cut_Pt_jet         = ( t.jet_pt[0] > 10 and t.jet_pt[0] < 65 and t.jet_pt[1] > 10 and t.jet_pt[1] < 65 and t.jet_e[0] > 20 and t.jet_e[0] <80 and t.jet_e[1] > 20 and t.jet_e[1] < 80 and t.jet_theta[0] > 10 and  t.jet_theta[0] < 170 and t.jet_theta[1] >10 and  t.jet_theta[1] < 170)
+        Cut_Pt_visible     = ( t.vis_all_pt > 10 and t.vis_all_pt < 50)
+        Cut_Min_angle      = ( t.lj_minangle > 17.2 and t.lj_minangle < 90)
+    
     Cut_InvMass_dimuon = ( t.dimuon_m[index] > 80.0 and t.dimuon_m[index] < 100.0 )
     Cut_RecMass_dimuon = ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 150.0 )
 
@@ -443,22 +446,29 @@ def select_higgs_to_zz(t):
     
     # Number of Particle flow objects 
     if ( ZZ_Selection == 1 ):
-        if not ( t.n_col_reco > 15 ):
+        if not ( t.n_col_reco > 15 and t.n_col_reco < 70 ):
             return False
     if ( ZZ_Selection == 2 ):
-        if not ( t.n_col_reco > 30 ):
+        if not ( t.n_col_reco > 30 and t.n_col_reco < 100 ):
             return False
     h_evtflw.Fill(5)
     
     # Total(visible) Pt > 10 GeV/c
-    if not ( t.vis_all_pt > 10 ):
-        return False
+    if ( ZZ_Selection == 1 ):
+        if not ( t.vis_all_pt > 10 ):
+            return False
+    if ( ZZ_Selection == 2 ):
+        if not ( t.vis_all_pt > 10 and t.vis_all_pt < 50 ):
+            return False
     h_evtflw.Fill(6)
     
     # Minimum angle between a muon and a jet > 0.3 rad ( == 0.3*180.0/3.141592 = 17.2 degree ) 
-    if not ( t.lj_minangle > 17.2  ):
-        return False
-
+    if ( ZZ_Selection == 1 ):
+        if not ( t.lj_minangle > 17.2  ):
+            return False
+    if ( ZZ_Selection == 2 ):
+        if not ( t.lj_minangle > 17.2 and t.lj_minangle < 90 ):
+            return False
     h_evtflw.Fill(7)
     
     # Tight selection on ZZ*->nunu,jj : Mass(missing) > 80 GeV/c^2,  Mass(dijet) < 35 GeV/c^2
@@ -466,17 +476,16 @@ def select_higgs_to_zz(t):
         if not ( t.vis_all_rec_m > 80 and t.dijet_m[0] < 35 ):
             return False
     if ( ZZ_Selection == 2 ):
-                #t.vis_all_rec_m > 8 and t.dijet_m[0] < 102 and t.vis_all_rec_m + 1.89 * t.dijet_m[0] > 177 and t.vis_all_rec_m + 0.78 * t.dijet_m[0] < 108.4
-        if not ( t.vis_all_rec_m < 40 and t.vis_all_rec_m > 10 and t.dijet_m[0] < 100 and t.dijet_m[0] >80 ): 
+        if not ( t.vis_all_rec_m < 50 and t.dijet_m[0] < 101 and 12 * t.dijet_m[0] + 7 * t.vis_all_rec_m > 1160 ): 
             return False
     h_evtflw.Fill(8)
     
     # Jet Pt 
     if ( ZZ_Selection == 1 ):
-        if not ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 3.0  and t.jet_e[1] > 3.0 ):
+        if not ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 5.0  and t.jet_e[1] > 5.0 ):
             return False
     if ( ZZ_Selection == 2 ):
-        if not ( t.jet_pt[0] > 10 and t.jet_pt[0] < 60 and t.jet_pt[1] > 10 and t.jet_pt[1] < 60 and t.jet_e[0] > 25 and t.jet_e[0] <70 and t.jet_e[1] > 25 and t.jet_e[1] < 70 ):
+        if not ( t.jet_pt[0] > 10 and t.jet_pt[0] < 65 and t.jet_pt[1] > 10 and t.jet_pt[1] < 65 and t.jet_e[0] > 20 and t.jet_e[0] <80 and t.jet_e[1] > 20 and t.jet_e[1] < 80 and t.jet_theta[0] > 10 and  t.jet_theta[0] < 170 and t.jet_theta[1] >10 and  t.jet_theta[1] < 170 ):
             return False
     h_evtflw.Fill(9)
 

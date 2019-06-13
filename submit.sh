@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Main driver to submit jobs 
-# Author Ryuta Kiuchi <kiuchi@ihep.ac.cn>
+# Author Ryuta Kiuchi <kiuchi@ihep.ac.cn> and Konglingteng <konglingteng15@mails.ucas.ac.cn>
 # Created [2018-06-16 Sat 16:00] 
 
 usage() {
@@ -66,15 +66,16 @@ usage_0_3() {
 
 }
 
-    
 usage_0_4() { 
 	printf "\n" 
-	printf "\n\t%-9s  %-40s"  "0.4"      "[plot pictures and information]" 
+	printf "\n\t%-9s  %-40s"  "0.4"      "[plot pictures and save results]" 
 	printf "\n\t%-9s  %-40s"  "0.4.1"    "Plot signal-bg histograms..." 
 	printf "\n\t%-9s  %-40s"  "0.4.2"    "Plot information..." 
 	printf "\n\t%-9s  %-40s"  "0.4.3"    "Generate tables and LaTex tables..."
-	printf "\n\t%-9s  %-40s"  "0.4.4"    "Save results as root files..." 
+	printf "\n\t%-9s  %-40s"  "0.4.4"    "Save results..." 
+	printf "\n\t%-9s  %-40s"  "0.4.5"    "fit results..."
 }
+
 
 if [[ $# -eq 0 ]]; then
     usage
@@ -84,19 +85,12 @@ else
     option=$1    
 fi
 
-# signal_slcio_dir=/besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/E240.Pllh_zz.e0.p0.whizard195/
-signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pllh_zz.e0.p0.whizard195
+signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pe2e2h_zz.e0.p0.whizard195
 
 sel_all=0
 sel_signal=1
 sel_bg=2
-
-# nnhzz_slcio_dir=/besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/E240.Pnnh_zz.e0.p0.whizard195/
-# mmh2ww_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_ww/
-# mmh2zz_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_zz/
-# mmh2tt_slcio_dir=/afs/ihep.ac.cn/users/k/kiuchi/h2zz/TestFullSim/reconstruction/output/e2e2h_e3e3/
-
-
+channel_opt=1  #1 for hvvjj, 2 for hjjvv
 
     # --------------------------------------------------------------------------
     #  0.1 Signal   
@@ -121,14 +115,14 @@ case $option in
            ;;
 
     0.1.3) echo "Run with a few events ..."
-	#    source setup.sh
-	#    ./build.sh
+	   source setup.sh
+	   ./build.sh
 	   Marlin ./run/llh2zz/steers/test/sample-1.xml
            ;;
     
     0.1.4) echo "Generate Condor job scripts..."
 	   mkdir -p   ./run/llh2zz/condor/script/marlin
-           ./python/gen_condorscripts.py  1  ./run/llh2zz/steers ./run/llh2zz/condor  ${sel_signal}
+           ./python/gen_condorscripts.py ${channel_opt} 1  ./run/llh2zz/steers ./run/llh2zz/condor  ${sel_signal}
            ;;
 
     0.1.5) echo "Submit Condor jobs for pre-selection on signal..."
@@ -140,14 +134,14 @@ case $option in
     0.1.6) echo "Select events on signal (with a small sample)..."
 	   rm -rf ./run/llh2zz/events
 	   mkdir -p   ./run/llh2zz/events/ana
-           ./python/sel_events.py  ./run/llh2zz/ana/ana_File-1.root  ./run/llh2zz/events/ana/ana_File-1_event.root ${sel_signal}
+           ./python/sel_events.py  ${channel_opt} ./run/llh2zz/ana/ana_File-1.root  ./run/llh2zz/events/ana/ana_File-1_event.root ${sel_signal}
            ;;
 
     0.1.7) echo "Generate Condor job scripts for event selection..."
 	   mkdir -p   ./run/llh2zz/events/ana
 	   rm -rf ./run/llh2zz/condor/script/eventsel
            mkdir -p   ./run/llh2zz/condor/script/eventsel
-	   ./python/gen_condorscripts.py  2  ./run/llh2zz/ana ./run/llh2zz/condor  ${sel_signal}
+	   ./python/gen_condorscripts.py ${channel_opt} 2  ./run/llh2zz/ana ./run/llh2zz/condor  ${sel_signal}
            ;;
 
     0.1.8) echo "Submit Condor jobs for event selection on signal..."
@@ -194,11 +188,10 @@ case $option in
 	   ;;
 	   
     0.2.4) echo "Run with a few events ..."
-	#    source setup.sh
-	#    ./build.sh
+	   source setup.sh
+	   ./build.sh
 	   cd ./run/zh/steers/
 
-	   #array=("e1e1h_X" "e2e2h_X" "e3e3h_X" "nnh_X" "qqh_X")
 	   array=("nnh_X" "qqh_X")
 	   for dir in "${array[@]}"
 	   do
@@ -229,7 +222,7 @@ case $option in
 	   done
 
 	   cd ../../../
-           ./python/gen_bg_condorscripts.py  1  ./run/zh/steers ./run/zh/condor  ${sel_signal}
+           ./python/gen_bg_condorscripts.py ${channel_opt} 1  ./run/zh/steers ./run/zh/condor  ${sel_signal}
            ;;
 
     0.2.6) echo "Submit Condor jobs for pre-selection on background sample..."
@@ -262,7 +255,7 @@ case $option in
 	   done
 	   cd ../../../
 
-           ./python/sel_events.py  ./run/zh/ana/e2e2h_X/ana_File-1.root  ./run/zh/events/ana/e2e2h_X/ana_File-1_event.root ${sel_bg}
+           ./python/sel_events.py  ${channel_opt} ./run/zh/ana/e2e2h_X/ana_File-1.root  ./run/zh/events/ana/e2e2h_X/ana_File-1_event.root ${sel_bg}
            ;;
 
     0.2.8) echo "Generate Condor job scripts for event selection..."
@@ -285,7 +278,7 @@ case $option in
 	   done
 	   
 	   cd ../../../
-	   ./python/gen_bg_condorscripts.py  2  ./run/zh/ana ./run/zh/condor  ${sel_bg}
+	   ./python/gen_bg_condorscripts.py ${channel_opt}  2  ./run/zh/ana ./run/zh/condor  ${sel_bg}
            ;;
 
     0.2.9) echo "Submit Condor jobs for pre-selection on ZH sample..."
@@ -344,8 +337,8 @@ case $option in
 	   ;;
 	   
     0.3.4) echo "Run with a few events ..."
-	#    source setup.sh
-	#    ./build.sh
+	   source setup.sh
+	   ./build.sh
 	   cd ./run/bg/steers/
 
 	   array=("e3e3" "qq" "sznu_sl0nu_down" "sze_sl0uu" "ww_sl0muq" "zz_sl0mu_down")
@@ -378,7 +371,7 @@ case $option in
 	   done
 
 	   cd ../../../
-           ./python/gen_bg_condorscripts.py  1  ./run/bg/steers ./run/bg/condor  ${sel_signal} #1
+           ./python/gen_bg_condorscripts.py ${channel_opt} 1  ./run/bg/steers ./run/bg/condor  ${sel_signal} 
            ;;
 
     0.3.6) echo "Submit Condor jobs for pre-selection on background sample..."
@@ -409,7 +402,7 @@ case $option in
 	   done
 	   cd ../../../
 
-           ./python/sel_events.py  ./run/bg/ana/zz_sl0mu_up/ana_File-1.root  ./run/bg/events/ana/zz_sl0mu_up/ana_File-1_event.root  ${sel_all}  #0
+           ./python/sel_events.py  ${channel_opt} ./run/bg/ana/zz_sl0mu_up/ana_File-1.root  ./run/bg/events/ana/zz_sl0mu_up/ana_File-1_event.root  ${sel_all}  #0
            ;;
 
     0.3.8) echo "Generate Condor job scripts for event selection..."
@@ -432,7 +425,7 @@ case $option in
 	   done
 	   
 	   cd ../../../
-	   ./python/gen_bg_condorscripts.py  2  ./run/bg/ana ./run/bg/condor  ${sel_all}
+	   ./python/gen_bg_condorscripts.py ${channel_opt} 2  ./run/bg/ana ./run/bg/condor  ${sel_all}
            ;;
 
     0.3.9) echo "Submit Condor jobs for pre-selection on background sample..."
@@ -459,6 +452,7 @@ case $option in
 	       cd ./run/bg/events/ana	       
 	   done
 
+		# cd ../../../../
 		# cp -r run/zh/hist/. run/bg/hist/	   
            ;; 
 
@@ -466,18 +460,18 @@ case $option in
 }
 
     # --------------------------------------------------------------------------
-    #  0.4 plot pictures and information   
+    #  0.4 plot pictures and save results  
     # --------------------------------------------------------------------------
 
 sub_0_4(){
 case $option in 
 
-    0.4) echo "plot pictures and information..."
+    0.4) echo "plot pictures and save results..."
          ;;
 
     0.4.1) echo  "Plot signal-bg histograms..."
            	mkdir -p   ./fig
-           python ./python/plt_bg.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
+           python ./python/plt_bg.py  ${channel_opt} ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
            ;; 
 
     0.4.2) echo  "Plot information..."  # Meantime, it will generate table for LaTeX
@@ -489,14 +483,61 @@ case $option in
 			# python ./python/gen_table.py
 			;; 
 			
-	0.4.4) echo  "Save results as root files..."
+	0.4.4) echo  "Save results..."
 			rm -rf ./root
-			mkdir -p   ./root
+			mkdir -p   ./root/merge
 			python ./python/save_root.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
+
+			cd ./root/
+
+			if [ ${channel_opt} = 1 ]; then
+				cp sig.root ./merge/mzvj_sig.root
+				hadd ./merge/mzvj_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
+				hadd ./merge/mzvj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+				hadd ./merge/mzvj_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
+				hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
+				hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
+
+				cd ..
+				cp -r root/merge/. calculate/workspace/data/new_zz/mzvj/
+				cd calculate/workspace/data/new_zz/mzvj/
+				root -l mzvj.cxx
+			else
+				cp sig.root ./merge/mzjv_sig.root
+				hadd ./merge/mzjv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
+				hadd ./merge/mzjv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+				hadd ./merge/mzjv_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
+				hadd ./merge/mzjv_az.root bkg_e2e2h_az.root bkg_qqh_az.root
+				hadd ./merge/mzjv_bb.root bkg_e2e2h_bb.root
+				hadd ./merge/mzjv_cc.root bkg_e2e2h_cc.root
+				hadd ./merge/mzjv_gg.root bkg_e2e2h_gg.root
+				hadd ./merge/mzjv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
+				
+				cd ..
+				cp -r root/merge/. calculate/workspace/data/new_zz/mzjv/
+				cd calculate/workspace/data/new_zz/mzjv/
+				root -l mzjv.cxx
+			fi
+			.q
+			;;
+
+	0.4.5) echo  "fit results..." #source setupATLAS.sh first
+
+			cd ./calculate/workspace/
+			./job/run.sh
+			./job/plot.sh
 			;;
 
     esac
 }
+
+	# 0.5.3) echo "calculate BR upper limit "	
+	#         cd calculate/cepcFit/
+	# 		./jobs/invi.sh
+	# ;;
+	# 0.5.4) echo "The result of BR upper limit"
+    #        python python/combine.py
+
 
 case $option in 
 # sample: 0.1 is print detail information about each step and then you can run the step you want.
@@ -534,14 +575,14 @@ case $option in
         sub_0_3 option 
         ;;
 
-    0.4) echo "plot pictures and information"
+    0.4) echo "plot pictures and save results"
         usage_0_4
         echo "Please enter your option: " 
         read option
         sub_0_4 option 
         ;;
         
-    0.4.*) echo "plot pictures and information"
+    0.4.*) echo "plot pictures and save results"
         sub_0_4 option 
         ;; 
 
