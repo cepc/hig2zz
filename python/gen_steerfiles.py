@@ -42,13 +42,14 @@ DATE
 
 def main():
     args = sys.argv[1:]
-    if len(args) < 4:
+    if len(args) < 5:
         return usage()
 
     tpl = args[0]
     src = args[1]
     dst = args[2]
     rootfname = args[3]
+    small_sample_option = args[4]
 
     if src.startswith('.'):                    
         src = src[2:]
@@ -108,7 +109,7 @@ def main():
             
             # For run small samples 
             if nfile < 3 :        
-                root_name = 'out_' + str(nfile) + '.root'
+                root_name = 'out_' + small_sample_option + '.root'
                 t = Template(xml_in)
                 lines = []
                 lines.append( t.substitute( slcio_in_list=data1, max_event_num=100, gear_xml=GEAR_CEPC_V4, 

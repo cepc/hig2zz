@@ -173,7 +173,7 @@ case $option in
 	   mkdir -p   ./run/channel_ll/llh2zz/steers 
 	   mkdir -p   ./run/channel_ll/llh2zz/steers/test 
 	   mkdir -p   ./run/channel_ll/llh2zz/ana
-           ./python/gen_steerfiles.py ./table/channel_ll/template_jobfile.xml ./run/channel_ll/llh2zz/samples ./run/channel_ll/llh2zz/steers ./run/channel_ll/llh2zz/ana/ana_File.root
+           ./python/gen_steerfiles.py ./table/channel_ll/template_jobfile.xml ./run/channel_ll/llh2zz/samples ./run/channel_ll/llh2zz/steers ./run/channel_ll/llh2zz/ana/ana_File.root 1
            ;;
 
     1.1.3) echo "Run with a few events ..."
@@ -605,6 +605,7 @@ case $option in
 
     2.1) echo "Running on signal sample..."
          ;;
+
     2.1.1) echo "Split signal sample with each group 0.5G..."
            mkdir -p   ./run/channel_nn/nnh2zz/samples
            ./python/get_samples.py  ${signal_slcio_dir_nn} ./run/channel_nn/nnh2zz/samples/E240_Pnnh_zz.txt 0.5G
@@ -614,8 +615,18 @@ case $option in
            mkdir -p   ./run/channel_nn/nnh2zz/steers
            mkdir -p   ./run/channel_nn/nnh2zz/steers/test
            mkdir -p   ./run/channel_nn/nnh2zz/ana
-           ./python/gen_steerfiles.py ./table/channel_nn/template_jobfile.xml ./run/channel_nn/nnh2zz/samples ./run/channel_nn/nnh2zz/steers ./run/channel_nn/nnh2zz/ana/ana_File.root
+           ./python/gen_steerfiles.py ./table/channel_nn/template_jobfile.xml ./run/channel_nn/nnh2zz/samples ./run/channel_nn/nnh2zz/steers ./run/channel_nn/nnh2zz/ana/ana_File.root 2
            ;;
+
+    2.1.3) echo "Run with a few events ..."
+           source setup.sh
+           ./build.sh
+           Marlin ./run/channel_nn/nnh2zz/steers/test/sample-1.xml
+           ;;
+
+    2.1.4) echo "Generate Condor job scripts..."
+           mkdir -p ./run/channel_nn/nnh2zz/condor/script/marlin
+           ./python/gen_condorscripts.py ${channel_opt} 1 ./run/channel_nn/nnh2zz/steers ./run/channel_nn/nnh2zz/condor ${sel_signal}
 
   esac
 }
