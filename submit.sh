@@ -145,9 +145,9 @@ else
     option=$1    
 fi
 
-signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pe2e2h_zz.e0.p0.whizard195
+signal_slcio_dir_ll=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pe2e2h_zz.e0.p0.whizard195
 
-signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pnnh_zz.e0.p0.whizard195
+signal_slcio_dir_nn=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pnnh_zz.e0.p0.whizard195
 
 sel_all=0
 sel_signal=1
@@ -165,58 +165,58 @@ case $option in
          ;;
 
     1.1.1) echo "Split signal sample with each group 0.5G..."
-	   mkdir -p   ./run/llh2zz/samples
-           ./python/get_samples.py  ${signal_slcio_dir} ./run/llh2zz/samples/E240_Pllh_zz.txt 0.5G
+	   mkdir -p   ./run/channel_ll/llh2zz/samples
+           ./python/get_samples.py  ${signal_slcio_dir_ll} ./run/channel_ll/llh2zz/samples/E240_Pllh_zz.txt 0.5G
            ;;
 
     1.1.2) echo "Generate XML input files for Marlin job..."
-	   mkdir -p   ./run/llh2zz/steers 
-	   mkdir -p   ./run/llh2zz/steers/test 
-	   mkdir -p   ./run/llh2zz/ana
-           ./python/gen_steerfiles.py ./table/template_jobfile.xml ./run/llh2zz/samples ./run/llh2zz/steers ./run/llh2zz/ana/ana_File.root
+	   mkdir -p   ./run/channel_ll/llh2zz/steers 
+	   mkdir -p   ./run/channel_ll/llh2zz/steers/test 
+	   mkdir -p   ./run/channel_ll/llh2zz/ana
+           ./python/gen_steerfiles.py ./table/channel_ll/template_jobfile.xml ./run/channel_ll/llh2zz/samples ./run/channel_ll/llh2zz/steers ./run/channel_ll/llh2zz/ana/ana_File.root
            ;;
 
     1.1.3) echo "Run with a few events ..."
 	   source setup.sh
 	   ./build.sh
-	   Marlin ./run/llh2zz/steers/test/sample-1.xml
+	   Marlin ./run/channel_ll/llh2zz/steers/test/sample-1.xml
            ;;
     
     1.1.4) echo "Generate Condor job scripts..."
-	   mkdir -p   ./run/llh2zz/condor/script/marlin
-           ./python/gen_condorscripts.py ${channel_opt} 1  ./run/llh2zz/steers ./run/llh2zz/condor  ${sel_signal}
+	   mkdir -p   ./run/channel_ll/llh2zz/condor/script/marlin
+           ./python/gen_condorscripts.py ${channel_opt} 1  ./run/channel_ll/llh2zz/steers ./run/channel_ll/llh2zz/condor  ${sel_signal}
            ;;
 
     1.1.5) echo "Submit Condor jobs for pre-selection on signal..."
-           cd ./run/llh2zz/condor
+           cd ./run/channel_ll/llh2zz/condor
 	   mkdir -p log
 	   ./condor_submit.sh
            ;;
 
     1.1.6) echo "Select events on signal (with a small sample)..."
-	   rm -rf ./run/llh2zz/events
-	   mkdir -p   ./run/llh2zz/events/ana
-           ./python/sel_events.py  ${channel_opt} ./run/llh2zz/ana/ana_File-1.root  ./run/llh2zz/events/ana/ana_File-1_event.root ${sel_signal}
+	   rm -rf ./run/channel_ll/llh2zz/events
+	   mkdir -p   ./run/channel_ll/llh2zz/events/ana
+           ./python/sel_events.py  ${channel_opt} ./run/channel_ll/llh2zz/ana/ana_File-1.root  ./run/channel_ll/llh2zz/events/ana/ana_File-1_event.root ${sel_signal}
            ;;
 
     1.1.7) echo "Generate Condor job scripts for event selection..."
-	   mkdir -p   ./run/llh2zz/events/ana
-	   rm -rf ./run/llh2zz/condor/script/eventsel
-           mkdir -p   ./run/llh2zz/condor/script/eventsel
-	   ./python/gen_condorscripts.py ${channel_opt} 2  ./run/llh2zz/ana ./run/llh2zz/condor  ${sel_signal}
+	   mkdir -p   ./run/channel_ll/llh2zz/events/ana
+	   rm -rf ./run/channel_ll/llh2zz/condor/script/eventsel
+           mkdir -p   ./run/channel_ll/llh2zz/condor/script/eventsel
+	   ./python/gen_condorscripts.py ${channel_opt} 2  ./run/channel_ll/llh2zz/ana ./run/channel_ll/llh2zz/condor  ${sel_signal}
            ;;
 
     1.1.8) echo "Submit Condor jobs for event selection on signal..."
-           cd ./run/llh2zz/condor
+           cd ./run/channel_ll/llh2zz/condor
 	   rm -rf log/events
 	   mkdir -p log/events
 	   ./condor_submit_eventsel.sh
            ;;
 
     1.1.9) echo  "Merge event root files..."
-	       rm -rf ./run/llh2zz/hist
-           mkdir -p   ./run/llh2zz/hist
-           ./python/mrg_rootfiles.py  ./run/llh2zz/events/ana  ./run/llh2zz/hist 
+	       rm -rf ./run/channel_ll/llh2zz/hist
+           mkdir -p   ./run/channel_ll/llh2zz/hist
+           ./python/mrg_rootfiles.py  ./run/channel_ll/llh2zz/events/ana  ./run/channel_ll/llh2zz/hist 
            ;; 
 
 
@@ -234,25 +234,25 @@ case $option in
          ;;
 
     1.2.1) echo "Split background sample with each group 1G..."
-	   mkdir -p   ./run/zh/samples
-	   ./python/get_bg_samples.py ./table/zh_sample_list.txt ./run/zh/samples 1G
+	   mkdir -p   ./run/channel_ll/zh/samples
+	   ./python/get_bg_samples.py ./table/zh_sample_list.txt ./run/channel_ll/zh/samples 1G
            ;;
 
     1.2.2) echo "Generate XML input files for Marlin job..."
-	   mkdir -p   ./run/zh/steers 
-	   mkdir -p   ./run/zh/ana
+	   mkdir -p   ./run/channel_ll/zh/steers 
+	   mkdir -p   ./run/channel_ll/zh/ana
 
-           ./python/gen_bg_steerfiles.py ./table/zh_sample_list.txt ./table/template_jobfile.xml  ./run/zh/samples  ./run/zh/steers  ./run/zh/ana
+           ./python/gen_bg_steerfiles.py ./table/zh_sample_list.txt ./table/channel_ll/template_jobfile.xml  ./run/channel_ll/zh/samples  ./run/channel_ll/zh/steers  ./run/channel_ll/zh/ana
            ;;
 
     1.2.3) echo "Check statistics : print the number of files..."
-	   ./python/check_stat.py  ./table/zh_sample_list.txt ./run/zh/samples 
+	   ./python/check_stat.py  ./table/zh_sample_list.txt ./run/channel_ll/zh/samples 
 	   ;;
 	   
     1.2.4) echo "Run with a few events ..."
 	   source setup.sh
 	   ./build.sh
-	   cd ./run/zh/steers/
+	   cd ./run/channel_ll/zh/steers/
 
 	   array=("nnh_X" "qqh_X")
 	   for dir in "${array[@]}"
@@ -264,9 +264,9 @@ case $option in
            ;;
 
     1.2.5) echo "Generate Condor job scripts..."
-	   mkdir -p   ./run/zh/condor
+	   mkdir -p   ./run/channel_ll/zh/condor
 
-	   cd ./run/zh/ana/
+	   cd ./run/channel_ll/zh/ana/
 	   for dir in *
 	   do
 	       mkdir -p ../condor/$dir
@@ -284,7 +284,7 @@ case $option in
 	   done
 
 	   cd ../../../
-           ./python/gen_bg_condorscripts.py ${channel_opt} 1  ./run/zh/steers ./run/zh/condor  ${sel_signal}
+           ./python/gen_bg_condorscripts.py ${channel_opt} 1  ./run/channel_ll/zh/steers ./run/channel_ll/zh/condor  ${sel_signal}
            ;;
 
     1.2.6) echo "Submit Condor jobs for pre-selection on background sample..."
@@ -295,7 +295,7 @@ case $option in
 	       njob=120
 	   fi
 	   
-           cd ./run/zh/condor
+           cd ./run/channel_ll/zh/condor
 	   for dir in *
 	   do
 	       cd $dir
@@ -308,21 +308,21 @@ case $option in
            ;;
 
     1.2.7) echo "Select events on background (with a small sample)..."
-	   rm -rf ./run/zh/events
-	   mkdir -p   ./run/zh/events/ana
-	   cd ./run/zh/ana
+	   rm -rf ./run/channel_ll/zh/events
+	   mkdir -p   ./run/channel_ll/zh/events/ana
+	   cd ./run/channel_ll/zh/ana
 	   for dir in *
 	   do
 	       mkdir -p ../events/ana/$dir
 	   done
 	   cd ../../../
 
-           ./python/sel_events.py  ${channel_opt} ./run/zh/ana/e2e2h_X/ana_File-1.root  ./run/zh/events/ana/e2e2h_X/ana_File-1_event.root ${sel_bg}
+           ./python/sel_events.py  ${channel_opt} ./run/channel_ll/zh/ana/e2e2h_X/ana_File-1.root  ./run/channel_ll/zh/events/ana/e2e2h_X/ana_File-1_event.root ${sel_bg}
            ;;
 
     1.2.8) echo "Generate Condor job scripts for event selection..."
-	   mkdir -p   ./run/zh/events/ana
-	   cd ./run/zh/ana
+	   mkdir -p   ./run/channel_ll/zh/events/ana
+	   cd ./run/channel_ll/zh/ana
 	   for dir in *
 	   do
 	       mkdir -p ../events/ana/$dir
@@ -340,11 +340,11 @@ case $option in
 	   done
 	   
 	   cd ../../../
-	   ./python/gen_bg_condorscripts.py ${channel_opt}  2  ./run/zh/ana ./run/zh/condor  ${sel_bg}
+	   ./python/gen_bg_condorscripts.py ${channel_opt}  2  ./run/channel_ll/zh/ana ./run/channel_ll/zh/condor  ${sel_bg}
            ;;
 
     1.2.9) echo "Submit Condor jobs for pre-selection on ZH sample..."
-           cd ./run/zh/condor
+           cd ./run/channel_ll/zh/condor
 	   for dir in *
 	   do
 	       cd $dir
@@ -355,16 +355,16 @@ case $option in
            ;;
 
     1.2.10) echo  "Merge event root files..."
-		   rm -rf ./run/zh/hist
-           mkdir -p   ./run/zh/hist
-	   cd ./run/zh/events/ana
+		   rm -rf ./run/channel_ll/zh/hist
+           mkdir -p   ./run/channel_ll/zh/hist
+	   cd ./run/channel_ll/zh/events/ana
 	   for dir in *
 	   do
 	       mkdir -p ../../hist/$dir
 	       cd ../../../../
 
-	       ./python/mrg_rootfiles.py  ./run/zh/events/ana/$dir  ./run/zh/hist/$dir
-	       cd ./run/zh/events/ana	       
+	       ./python/mrg_rootfiles.py  ./run/channel_ll/zh/events/ana/$dir  ./run/channel_ll/zh/hist/$dir
+	       cd ./run/channel_ll/zh/events/ana	       
 	   done
            ;; 
 
@@ -382,25 +382,25 @@ case $option in
          ;;
 
     1.3.1) echo "Split background sample with each group 20G..."
-	   mkdir -p   ./run/bg/samples
-	   ./python/get_bg_samples.py ./table/bg_sample_list.txt ./run/bg/samples 20G
+	   mkdir -p   ./run/channel_ll/bg/samples
+	   ./python/get_bg_samples.py ./table/bg_sample_list.txt ./run/channel_ll/bg/samples 20G
            ;;
 
     1.3.2) echo "Generate XML input files for Marlin job..."
-	   mkdir -p   ./run/bg/steers 
-	   mkdir -p   ./run/bg/ana
+	   mkdir -p   ./run/channel_ll/bg/steers 
+	   mkdir -p   ./run/channel_ll/bg/ana
 
-           ./python/gen_bg_steerfiles.py ./table/bg_sample_list.txt ./table/template_jobfile.xml  ./run/bg/samples  ./run/bg/steers  ./run/bg/ana
+           ./python/gen_bg_steerfiles.py ./table/bg_sample_list.txt ./table/channel_ll/template_jobfile.xml  ./run/channel_ll/bg/samples  ./run/channel_ll/bg/steers  ./run/channel_ll/bg/ana
            ;;
 
     1.3.3) echo "Check statistics : print the number of files..."
-	   ./python/check_stat.py  ./table/bg_sample_list.txt ./run/bg/samples 
+	   ./python/check_stat.py  ./table/bg_sample_list.txt ./run/channel_ll/bg/samples 
 	   ;;
 	   
     1.3.4) echo "Run with a few events ..."
 	   source setup.sh
 	   ./build.sh
-	   cd ./run/bg/steers/
+	   cd ./run/channel_ll/bg/steers/
 
 	   array=("e3e3" "qq" "sznu_sl0nu_down" "sze_sl0uu" "ww_sl0muq" "zz_sl0mu_down")
 	   for dir in "${array[@]}"
@@ -412,9 +412,9 @@ case $option in
            ;;
 
     1.3.5) echo "Generate Condor job scripts..."
-	   mkdir -p   ./run/bg/condor
+	   mkdir -p   ./run/channel_ll/bg/condor
 
-	   cd ./run/bg/ana/
+	   cd ./run/channel_ll/bg/ana/
 	   for dir in *
 	   do
 	       mkdir -p ../condor/$dir
@@ -432,7 +432,7 @@ case $option in
 	   done
 
 	   cd ../../../
-           ./python/gen_bg_condorscripts.py ${channel_opt} 1  ./run/bg/steers ./run/bg/condor  ${sel_signal} 
+           ./python/gen_bg_condorscripts.py ${channel_opt} 1  ./run/channel_ll/bg/steers ./run/channel_ll/bg/condor  ${sel_signal} 
            ;;
 
     1.3.6) echo "Submit Condor jobs for pre-selection on background sample..."
@@ -443,7 +443,7 @@ case $option in
 	       njob=120
 	   fi
 	   
-           cd ./run/bg/condor
+           cd ./run/channel_ll/bg/condor
 	   for dir in *
 	   do
 	       cd $dir
@@ -454,21 +454,21 @@ case $option in
            ;;
 
     1.3.7) echo "Select events on background (with a small sample)..."  
-	   rm -rf ./run/bg/events
-	   mkdir -p   ./run/bg/events/ana
-	   cd ./run/bg/ana
+	   rm -rf ./run/channel_ll/bg/events
+	   mkdir -p   ./run/channel_ll/bg/events/ana
+	   cd ./run/channel_ll/bg/ana
 	   for dir in *
 	   do
 	       mkdir -p ../events/ana/$dir
 	   done
 	   cd ../../../
 
-           ./python/sel_events.py  ${channel_opt} ./run/bg/ana/zz_sl0mu_up/ana_File-1.root  ./run/bg/events/ana/zz_sl0mu_up/ana_File-1_event.root  ${sel_all}  #0
+           ./python/sel_events.py  ${channel_opt} ./run/channel_ll/bg/ana/zz_sl0mu_up/ana_File-1.root  ./run/channel_ll/bg/events/ana/zz_sl0mu_up/ana_File-1_event.root  ${sel_all}  #0
            ;;
 
     1.3.8) echo "Generate Condor job scripts for event selection..."
-	   mkdir -p   ./run/bg/events/ana
-	   cd ./run/bg/ana
+	   mkdir -p   ./run/channel_ll/bg/events/ana
+	   cd ./run/channel_ll/bg/ana
 	   for dir in *
 	   do
 	       mkdir -p ../events/ana/$dir
@@ -486,11 +486,11 @@ case $option in
 	   done
 	   
 	   cd ../../../
-	   ./python/gen_bg_condorscripts.py ${channel_opt} 2  ./run/bg/ana ./run/bg/condor  ${sel_all}
+	   ./python/gen_bg_condorscripts.py ${channel_opt} 2  ./run/channel_ll/bg/ana ./run/channel_ll/bg/condor  ${sel_all}
            ;;
 
     1.3.9) echo "Submit Condor jobs for pre-selection on background sample..."
-           cd ./run/bg/condor
+           cd ./run/channle_ll/bg/condor
 	   for dir in *
 	   do
 	       cd $dir
@@ -501,16 +501,16 @@ case $option in
            ;;
 
     1.3.10) echo  "Merge event root files..."
-	       rm -rf ./run/bg/hist
-           mkdir -p   ./run/bg/hist
-	   cd ./run/bg/events/ana
+	       rm -rf ./run/channel_ll/bg/hist
+           mkdir -p   ./run/channel_ll/bg/hist
+	   cd ./run/channel_ll/bg/events/ana
 	   for dir in *
 	   do
 	       mkdir -p ../../hist/$dir
 	       cd ../../../../
 
-	       ./python/mrg_rootfiles.py  ./run/bg/events/ana/$dir  ./run/bg/hist/$dir
-	       cd ./run/bg/events/ana	       
+	       ./python/mrg_rootfiles.py  ./run/channel_ll/bg/events/ana/$dir  ./run/channel_ll/bg/hist/$dir
+	       cd ./run/channel_ll/bg/events/ana	       
 	   done
 
 		# cd ../../../../
@@ -531,7 +531,8 @@ case $option in
          ;;
 
     1.4.1) echo  "Plot signal-bg histograms..."
-           	mkdir -p   ./fig
+           mkdir -p ./fig
+	   mkdir -p ./fig/channel_ll
            python ./python/plt_bg.py  ${channel_opt} ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
            ;; 
 
@@ -604,6 +605,18 @@ case $option in
 
     2.1) echo "Running on signal sample..."
          ;;
+    2.1.1) echo "Split signal sample with each group 0.5G..."
+           mkdir -p   ./run/channel_nn/nnh2zz/samples
+           ./python/get_samples.py  ${signal_slcio_dir_nn} ./run/channel_nn/nnh2zz/samples/E240_Pnnh_zz.txt 0.5G
+           ;;
+
+    2.1.2) echo "Generate XML input files for Marlin job..."
+           mkdir -p   ./run/channel_nn/nnh2zz/steers
+           mkdir -p   ./run/channel_nn/nnh2zz/steers/test
+           mkdir -p   ./run/channel_nn/nnh2zz/ana
+           ./python/gen_steerfiles.py ./table/channel_nn/template_jobfile.xml ./run/channel_nn/nnh2zz/samples ./run/channel_nn/nnh2zz/steers ./run/channel_nn/nnh2zz/ana/ana_File.root
+           ;;
+
   esac
 }
 
