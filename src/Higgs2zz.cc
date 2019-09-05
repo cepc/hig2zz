@@ -183,10 +183,10 @@ private:
   double m_y56;
   double m_y67;
 
-  double m_btag;
-  double m_ctag;
-  double m_bctag;
-  double m_category;
+  std::vector<double> m_btag;
+  std::vector<double> m_ctag;
+  std::vector<double> m_bctag;
+  std::vector<double> m_category;
 
   int nFastJet;
 
@@ -590,10 +590,10 @@ void Higgs2zz::book_tree() {
   m_tree->Branch("y56", &m_y56, "y56/D");
   m_tree->Branch("y67", &m_y67, "y67/D");
 
-  m_tree->Branch("btag", &m_btag, "btag/D");
-  m_tree->Branch("ctag", &m_ctag, "ctag/D");
-  m_tree->Branch("bctag", &m_bctag, "bctag/D");
-  m_tree->Branch("category", &m_category, "category/D");
+  m_tree->Branch("btag", &m_btag);
+  m_tree->Branch("ctag", &m_ctag);
+  m_tree->Branch("bctag", &m_bctag);
+  m_tree->Branch("category", &m_category);
   
   m_tree->Branch("n_fastjet",  &m_nfastjet,  "n_fastjet/I");	
   m_tree->Branch("fastjet_px", &m_fastjet_px);
@@ -800,6 +800,11 @@ void Higgs2zz::clearVariables() {
   m_fastjet_pz.clear();
   m_fastjet_e.clear();
  
+  // flavor tag info.
+  m_btag.clear();
+  m_ctag.clear();
+  m_bctag.clear();
+  m_category.clear();
 }
 
 void Higgs2zz::setECMS() {
@@ -1122,10 +1127,10 @@ void Higgs2zz::saveFlavorTag_and_Distance( LCCollection* col_Jets, std::string j
       m_y56 = col_Jets->parameters().getFloatVal( "y_{n+3,n+4}" );
       m_y67 = col_Jets->parameters().getFloatVal( "y_{n+4,n+5}" );
 
-      m_btag  = -1.0;    // no flavor information in fastjet
-      m_ctag  = -1.0;
-      m_bctag = -1.0;
-      m_category = 0.0;
+      m_btag.push_back(-1.0);    // no flavor information in fastjet
+      m_ctag.push_back(-1.0);
+      m_bctag.push_back(-1.0);
+      m_category.push_back(0.0);
     }
     else if ( jet_processor_name == "lcfiplus" ) {
       
@@ -1144,7 +1149,10 @@ void Higgs2zz::saveFlavorTag_and_Distance( LCCollection* col_Jets, std::string j
 
 
       // Flavor Tag
-      m_btag=-1, m_ctag=-1, m_bctag=-1, m_category=0;  
+      double tmp_btag  = -1.0;
+      double tmp_ctag  = -1.0;
+      double tmp_bctag = -1.0;
+      double tmp_category = 0.0;  
 
       int algo   = 0;
       int ibtag  =-1; 
@@ -1166,15 +1174,24 @@ void Higgs2zz::saveFlavorTag_and_Distance( LCCollection* col_Jets, std::string j
 
 	  if( ibtag>=0 && ictag>=0 ){
 	    const ParticleID &pid = pidh.getParticleID(pJet, algo);
-	    m_btag  = pid.getParameters()[ibtag ];
-	    m_ctag  = pid.getParameters()[ictag ];
-	    m_bctag = pid.getParameters()[ibctag];
-	    m_category   = pid.getParameters()[icat  ];
+	    tmp_btag  = pid.getParameters()[ibtag ];
+	    tmp_ctag  = pid.getParameters()[ictag ];
+	    tmp_bctag = pid.getParameters()[ibctag];
+	    tmp_category   = pid.getParameters()[icat  ];
 	  }
 	}
 	catch(...) {
-	  m_btag=-1, m_ctag=-1, m_bctag=-1, m_category=0;
+	  tmp_btag  = -1.0;
+	  tmp_ctag  = -1.0;
+	  tmp_bctag = -1.0;
+	  tmp_category = 0.0;
 	}
+	
+	// insert to the vector
+	m_btag.push_back( tmp_btag );
+	m_ctag.push_back( tmp_ctag );
+	m_bctag.push_back( tmp_bctag );
+	m_category.push_back( tmp_category );
       }
     }
     else {
@@ -1192,10 +1209,10 @@ void Higgs2zz::saveFlavorTag_and_Distance( LCCollection* col_Jets, std::string j
     m_y56 = -1.0;
     m_y67 = -1.0;
 
-    m_btag  = -1.0;
-    m_ctag  = -1.0;
-    m_bctag = -1.0;
-    m_category = 0.0;
+    m_btag.push_back(-1.0);
+    m_ctag.push_back(-1.0);
+    m_bctag.push_back(-1.0);
+    m_category.push_back(0.0);
   }
       
 }
