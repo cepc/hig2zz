@@ -68,6 +68,7 @@ private:
   // paramter setting
   int    OverWrite;       // tree overwrite option: 1(re-create)=default or 0(update) 
   int    EcmsOption;
+  int    JetAlgorithm;
   double Ecms;
   double LeptonEMax;
   double LeptonEMin;
@@ -181,6 +182,11 @@ private:
   double m_y45;
   double m_y56;
   double m_y67;
+
+  double m_btag;
+  double m_ctag;
+  double m_bctag;
+  double m_category;
 
   int nFastJet;
 
@@ -319,7 +325,7 @@ private:
   void selectJets( LCCollection* col_Jets );
   void saveJetInfo( std::vector<TLorentzVector> p4_jet );
   void saveFastJet( LCCollection* col_Jets , LCCollection* col_rec1 , LCCollection* col_rec2 );
-
+  void saveFlavorTag_and_Distance( LCCollection* col_Jets, std::string jet_processor_name );
   void saveVariables();
 
   void checkGenMCInfo( LCCollection* col_MC );
@@ -369,6 +375,8 @@ Higgs2zz::Higgs2zz() : Processor("Higgs2zz") {
 
   registerProcessorParameter( "LeptonPtMin" , "Minimum Pt of leptons in GeV" , LeptonPtMin , 0.0);
 
+  registerProcessorParameter( "JetAlgorithm" , "Jet Processor Flag. LCFIplus is ON (1) or not (0)" , JetAlgorithm , 0);
+
 }
 
 void Higgs2zz::init() {
@@ -392,14 +400,16 @@ void Higgs2zz::processEvent( LCEvent * evt ) {
       // Read MC info. 
       Col_MC      = evt->getCollection( "MCParticle"     );
       checkGenMCInfo( Col_MC );
+      
+      if( JetAlgorithm == 1 )  // if LCFIplus processor is turned on. 
+	Col_Jets   = evt->getCollection( "RefinedJets"    );   
 
-      //Col_Jets   = evt->getCollection( "RefinedJets"    );  // LCFIplus 
-      Col_FastJet = evt->getCollection( "FastJets"       );   // FastJet
-      Col_FJPList1 = evt->getCollection( "FJPList1" );        // FastJet, List of rec. particle list for jet1
-      Col_FJPList2 = evt->getCollection( "FJPList2" );        // FastJet, List of rec. particle list for jet2
-      Col_Leps    = evt->getCollection( "IsoLeps"        );    
-      Col_WoLeps  = evt->getCollection( "WithoutIsoLeps" ); 
-      Col_Reco    = evt->getCollection( "ArborPFOs"      );
+      Col_FastJet  = evt->getCollection( "FastJets"       );   // FastJet
+      Col_FJPList1 = evt->getCollection( "FJPList1"       );   // FastJet, List of rec. particle list for jet1
+      Col_FJPList2 = evt->getCollection( "FJPList2"       );   // FastJet, List of rec. particle list for jet2
+      Col_Leps     = evt->getCollection( "IsoLeps"        );    
+      Col_WoLeps   = evt->getCollection( "WithoutIsoLeps" ); 
+      Col_Reco     = evt->getCollection( "ArborPFOs"      );
 
       h_evtflw->Fill(1); // Does collection exist or not                         
 
@@ -417,6 +427,11 @@ void Higgs2zz::processEvent( LCEvent * evt ) {
 	saveVariables();
 
 	saveFastJet( Col_FastJet , Col_FJPList1, Col_FJPList2 ); // save FastJet info.
+
+	if( JetAlgorithm == 0 )  // Info from Fastjet
+	  saveFlavorTag_and_Distance( Col_FastJet, "fastjet" );
+	else                     // Inro from LCFIplus
+	  saveFlavorTag_and_Distance( Col_Jets, "lcfiplus" );
 
 	// Save MC Truth info.
 	saveMCTruthInfo( Col_MC ); 
@@ -440,7 +455,7 @@ bool Higgs2zz::buildHiggsToZZ() {
   h_evtflw->Fill(2); // N_{MuonP} > 0 && N_{MuonM} > 0
 
   // Select Jet pairs
-  selectJets( Col_FastJet ); 
+  selectJets( Col_FastJet );  
   if( m_n_jet!=2 ) return false;
 
   h_evtflw->Fill(3); // N_{Jet} == 2
@@ -459,7 +474,6 @@ void Higgs2zz::end() {
     h_mc_higgs_dlist->Write();
     delete tree_file;
   }
-
 }
 
 
@@ -575,6 +589,11 @@ void Higgs2zz::book_tree() {
   m_tree->Branch("y45", &m_y45, "y45/D");
   m_tree->Branch("y56", &m_y56, "y56/D");
   m_tree->Branch("y67", &m_y67, "y67/D");
+
+  m_tree->Branch("btag", &m_btag, "btag/D");
+  m_tree->Branch("ctag", &m_ctag, "ctag/D");
+  m_tree->Branch("bctag", &m_bctag, "bctag/D");
+  m_tree->Branch("category", &m_category, "category/D");
   
   m_tree->Branch("n_fastjet",  &m_nfastjet,  "n_fastjet/I");	
   m_tree->Branch("fastjet_px", &m_fastjet_px);
@@ -1086,27 +1105,31 @@ void Higgs2zz::saveFastJet( LCCollection* col_Jets , LCCollection* col_rec1 , LC
   }
 }
 
-void Higgs2zz::selectJets( LCCollection* col_Jets ) {
+void Higgs2zz::saveFlavorTag_and_Distance( LCCollection* col_Jets, std::string jet_processor_name ) {
 
   int ncol = col_Jets->getNumberOfElements();
   //std::cout << "njet = " << ncol << std::endl; 
+
   
-  m_fastjet_flag = 1;
-
-  // Save "y distance" 
   if( ncol > 0 ) {
-   
-    if( m_fastjet_flag == 1 ) {   // FastJet with exclusive 2 jets parameter setting
-
+    
+    if( jet_processor_name == "fastjet" ) {
+     
       m_y12 = col_Jets->parameters().getFloatVal( "y_{n-1,n}" );
       m_y23 = col_Jets->parameters().getFloatVal( "y_{n,n+1}" );
       m_y34 = col_Jets->parameters().getFloatVal( "y_{n+1,n+2}" );
       m_y45 = col_Jets->parameters().getFloatVal( "y_{n+2,n+3}" );
       m_y56 = col_Jets->parameters().getFloatVal( "y_{n+3,n+4}" );
       m_y67 = col_Jets->parameters().getFloatVal( "y_{n+4,n+5}" );
-    }
-    else {                   // LCFIplus jets
 
+      m_btag  = -1.0;    // no flavor information in fastjet
+      m_ctag  = -1.0;
+      m_bctag = -1.0;
+      m_category = 0.0;
+    }
+    else if ( jet_processor_name == "lcfiplus" ) {
+      
+      // Y Distance
       ReconstructedParticle *Jet0 = dynamic_cast<ReconstructedParticle *>(col_Jets->getElementAt(0));
       PIDHandler pidh(col_Jets);
       Int_t algo_y = pidh.getAlgorithmID("yth");
@@ -1118,16 +1141,70 @@ void Higgs2zz::selectJets( LCCollection* col_Jets ) {
       m_y45 = params_y[pidh.getParameterIndex(algo_y, "y45")];
       m_y56 = params_y[pidh.getParameterIndex(algo_y, "y56")];
       m_y67 = params_y[pidh.getParameterIndex(algo_y, "y67")];
+
+
+      // Flavor Tag
+      m_btag=-1, m_ctag=-1, m_bctag=-1, m_category=0;  
+
+      int algo   = 0;
+      int ibtag  =-1; 
+      int ictag  =-1; 
+      int ibctag =-1;
+      int icat   =-1;
+
+      algo = pidh.getAlgorithmID( "lcfiplus" );
+      //algo = pidh.getAlgorithmID( "LCFIFlavourTag" );
+      ibtag     = pidh.getParameterIndex (algo,  "BTag");	
+      ictag     = pidh.getParameterIndex (algo,  "CTag");	
+      ibctag    = pidh.getParameterIndex (algo, "BCTag");
+      icat      = pidh.getParameterIndex (algo, "Category");
+
+      for (int j=0 ; j < ncol ; j++ ) {
+
+	ReconstructedParticle *pJet = dynamic_cast<ReconstructedParticle *>(col_Jets->getElementAt(j));
+	try {
+
+	  if( ibtag>=0 && ictag>=0 ){
+	    const ParticleID &pid = pidh.getParticleID(pJet, algo);
+	    m_btag  = pid.getParameters()[ibtag ];
+	    m_ctag  = pid.getParameters()[ictag ];
+	    m_bctag = pid.getParameters()[ibctag];
+	    m_category   = pid.getParameters()[icat  ];
+	  }
+	}
+	catch(...) {
+	  m_btag=-1, m_ctag=-1, m_bctag=-1, m_category=0;
+	}
+      }
+    }
+    else {
+      
+      std::cout << "Input Jet Processor name is wrong. Terminated. "  << std::endl;
+      exit(0);
     }
   }
-  else{
+  else {    // ncol == 0
+    
     m_y12 = -1.0;
     m_y23 = -1.0;
     m_y34 = -1.0;
     m_y45 = -1.0;
     m_y56 = -1.0;
     m_y67 = -1.0;
+
+    m_btag  = -1.0;
+    m_ctag  = -1.0;
+    m_bctag = -1.0;
+    m_category = 0.0;
   }
+      
+}
+
+
+void Higgs2zz::selectJets( LCCollection* col_Jets ) {
+
+  int ncol = col_Jets->getNumberOfElements();
+  //std::cout << "njet = " << ncol << std::endl; 
 
   for( int i = 0; i < ncol; i++) {
 
