@@ -173,7 +173,7 @@ case $option in
 	   mkdir -p   ./run/channel_ll/llh2zz/steers 
 	   mkdir -p   ./run/channel_ll/llh2zz/steers/test 
 	   mkdir -p   ./run/channel_ll/llh2zz/ana
-           ./python/gen_steerfiles.py ./table/channel_ll/template_jobfile.xml ./run/channel_ll/llh2zz/samples ./run/channel_ll/llh2zz/steers ./run/channel_ll/llh2zz/ana/ana_File.root 1
+           ./python/gen_steerfiles.py ./table/template_jobfile.xml ./run/channel_ll/llh2zz/samples ./run/channel_ll/llh2zz/steers ./run/channel_ll/llh2zz/ana/ana_File.root 1
            ;;
 
     1.1.3) echo "Run with a few events ..."
@@ -242,7 +242,7 @@ case $option in
 	   mkdir -p   ./run/channel_ll/zh/steers 
 	   mkdir -p   ./run/channel_ll/zh/ana
 
-           ./python/gen_bg_steerfiles.py ./table/zh_sample_list.txt ./table/channel_ll/template_jobfile.xml  ./run/channel_ll/zh/samples  ./run/channel_ll/zh/steers  ./run/channel_ll/zh/ana
+           ./python/gen_bg_steerfiles.py ./table/zh_sample_list.txt ./table/template_jobfile.xml  ./run/channel_ll/zh/samples  ./run/channel_ll/zh/steers  ./run/channel_ll/zh/ana
            ;;
 
     1.2.3) echo "Check statistics : print the number of files..."
@@ -254,7 +254,7 @@ case $option in
 	   ./build.sh
 	   cd ./run/channel_ll/zh/steers/
 
-	   array=("nnh_X" "qqh_X")
+	   array=("e2e2h_zz")
 	   for dir in "${array[@]}"
 	   do
 	       cd ${dir}/test
@@ -283,7 +283,7 @@ case $option in
 	       cd ../
 	   done
 
-	   cd ../../../
+	   cd ../../../../
            ./python/gen_bg_condorscripts.py ${channel_opt} 1  ./run/channel_ll/zh/steers ./run/channel_ll/zh/condor  ${sel_signal}
            ;;
 
@@ -390,7 +390,7 @@ case $option in
 	   mkdir -p   ./run/channel_ll/bg/steers 
 	   mkdir -p   ./run/channel_ll/bg/ana
 
-           ./python/gen_bg_steerfiles.py ./table/bg_sample_list.txt ./table/channel_ll/template_jobfile.xml  ./run/channel_ll/bg/samples  ./run/channel_ll/bg/steers  ./run/channel_ll/bg/ana
+           ./python/gen_bg_steerfiles.py ./table/bg_sample_list.txt ./table/template_jobfile.xml  ./run/channel_ll/bg/samples  ./run/channel_ll/bg/steers  ./run/channel_ll/bg/ana
            ;;
 
     1.3.3) echo "Check statistics : print the number of files..."
@@ -431,7 +431,7 @@ case $option in
 	       cd ../
 	   done
 
-	   cd ../../../
+	   cd ../../../../
            ./python/gen_bg_condorscripts.py ${channel_opt} 1  ./run/channel_ll/bg/steers ./run/channel_ll/bg/condor  ${sel_signal} 
            ;;
 
@@ -615,7 +615,7 @@ case $option in
            mkdir -p   ./run/channel_nn/nnh2zz/steers
            mkdir -p   ./run/channel_nn/nnh2zz/steers/test
            mkdir -p   ./run/channel_nn/nnh2zz/ana
-           ./python/gen_steerfiles.py ./table/channel_nn/template_jobfile.xml ./run/channel_nn/nnh2zz/samples ./run/channel_nn/nnh2zz/steers ./run/channel_nn/nnh2zz/ana/ana_File.root 2
+           ./python/gen_steerfiles.py ./table/template_jobfile.xml ./run/channel_nn/nnh2zz/samples ./run/channel_nn/nnh2zz/steers ./run/channel_nn/nnh2zz/ana/ana_File.root 2
            ;;
 
     2.1.3) echo "Run with a few events ..."
@@ -627,8 +627,148 @@ case $option in
     2.1.4) echo "Generate Condor job scripts..."
            mkdir -p ./run/channel_nn/nnh2zz/condor/script/marlin
            ./python/gen_condorscripts.py ${channel_opt} 1 ./run/channel_nn/nnh2zz/steers ./run/channel_nn/nnh2zz/condor ${sel_signal}
+           ;;
+
+    2.1.5) echo "Submit Condor jobs for pre-selection on signal..."
+           cd ./run/channel_nn/nnh2zz/condor
+           mkdir -p log
+           ./condor_submit.sh
+           ;;
 
   esac
+}
+
+sub_2_2(){
+case $option in
+
+    2.2) echo "Running on ZH inclusive sample..."
+         ;;
+
+    2.2.1) echo "Split background sample with each group 1G..."
+           mkdir -p   ./run/channel_nn/zh/samples
+           ./python/get_bg_samples.py ./table/zh_sample_list.txt ./run/channel_nn/zh/samples 1G
+           ;;
+
+    2.2.2) echo "Generate XML input files for Marlin job..."
+           mkdir -p   ./run/channel_nn/zh/steers
+           mkdir -p   ./run/channel_nn/zh/ana
+
+           ./python/gen_bg_steerfiles.py ./table/zh_sample_list.txt ./table/template_jobfile.xml  ./run/channel_nn/zh/samples  ./run/channel_nn/zh/steers  ./run/channel_nn/zh/ana
+           ;;
+
+    2.2.3) echo "Check statistics : print the number of files..."
+           ./python/check_stat.py  ./table/zh_sample_list.txt ./run/channel_nn/zh/samples
+           ;;
+
+    2.2.4) echo "Run with a few events ..."
+           source setup.sh
+           ./build.sh
+           cd ./run/channel_nn/zh/steers/
+
+           array=("e2e2h_zz")
+           for dir in "${array[@]}"
+           do
+               cd ${dir}/test
+               Marlin sample-1.xml
+               cd ../../
+           done
+           ;;
+
+    2.2.5) echo "Generate Condor job scripts..."
+           mkdir -p   ./run/channel_nn/zh/condor
+
+           cd ./run/channel_nn/zh/ana/
+           for dir in *
+           do
+               mkdir -p ../condor/$dir
+           done
+
+           cd ../condor/
+           for dir in *
+           do
+               cd $dir
+               rm -rf log/marlin
+               rm -rf script/marlin
+               mkdir -p log/marlin
+               mkdir -p script/marlin
+               cd ../
+           done
+
+           cd ../../../../
+           ./python/gen_bg_condorscripts.py ${channel_opt} 1  ./run/channel_nn/zh/steers ./run/channel_nn/zh/condor  ${sel_signal}
+           ;;
+
+    2.2.6) echo "Copy the same zh ntuple as mmHzz channel..."
+           cp -r run/channel_ll/zh/ana run/channel_nn/zh/ana
+           ;;
+    esac
+}
+
+sub_2_3(){
+case $option in
+
+    2.3) echo "Running on background sample..."
+         ;;
+
+    2.3.1) echo "Split background sample with each group 20G..."
+           mkdir -p   ./run/channel_nn/bg/samples
+           ./python/get_bg_samples.py ./table/bg_sample_list.txt ./run/channel_nn/bg/samples 20G
+           ;;
+
+    2.3.2) echo "Generate XML input files for Marlin job..."
+           mkdir -p   ./run/channel_nn/bg/steers
+           mkdir -p   ./run/channel_nn/bg/ana
+
+           ./python/gen_bg_steerfiles.py ./table/bg_sample_list.txt ./table/template_jobfile.xml  ./run/channel_nn/bg/samples  ./run/channel_nn/bg/steers  ./run/channel_nn/bg/ana
+           ;;
+
+    2.3.3) echo "Check statistics : print the number of files..."
+           ./python/check_stat.py  ./table/bg_sample_list.txt ./run/channel_nn/bg/samples
+           ;;
+
+    2.3.4) echo "Run with a few events ..."
+           source setup.sh
+           ./build.sh
+           cd ./run/channel_nn/bg/steers/
+
+           array=("e3e3" "qq" "sznu_sl0nu_down" "sze_sl0uu" "ww_sl0muq" "zz_sl0mu_down")
+           for dir in "${array[@]}"
+           do
+               cd ${dir}/test
+               Marlin sample-1.xml
+               cd ../../
+           done
+           ;;
+
+    2.3.5) echo "Generate Condor job scripts..."
+           mkdir -p   ./run/channel_nn/bg/condor
+
+           cd ./run/channel_nn/bg/ana/
+           for dir in *
+           do
+               mkdir -p ../condor/$dir
+           done
+
+           cd ../condor/
+           for dir in *
+           do
+               cd $dir
+               rm -rf log/marlin
+               rm -rf script/marlin
+               mkdir -p log/marlin
+               mkdir -p script/marlin
+               cd ../
+           done
+
+           cd ../../../../
+           ./python/gen_bg_condorscripts.py ${channel_opt} 1  ./run/channel_nn/bg/steers ./run/channel_nn/bg/condor  ${sel_signal}
+           ;;
+
+    2.3.6) echo "Copy the same zh ntuple as mmHzz channel..."
+           cp -r run/channel_ll/zh/ana run/channel_nn/zh/ana 
+           ;;
+
+    esac
 }
 
 sub_1(){

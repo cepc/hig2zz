@@ -1,0 +1,3 @@
+/cefs/higgs/guyx/merging_mmHzz_nnHzz/hig2zz/lib/libHiggs2zz.so.0.1.0
+/cefs/higgs/guyx/merging_mmHzz_nnHzz/hig2zz/lib/libHiggs2zz.so.0.1
+/cefs/higgs/guyx/merging_mmHzz_nnHzz/hig2zz/lib/libHiggs2zz.so

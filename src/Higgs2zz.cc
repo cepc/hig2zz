@@ -72,6 +72,8 @@ private:
   double LeptonEMax;
   double LeptonEMin;
   double LeptonPtMin;
+  double EjetMin;
+  int JetNpfoMin;
 
   TLorentzVector P4_Ecms;
 
@@ -135,16 +137,22 @@ private:
   std::vector<double> m_mup_e;
   std::vector<double> m_mup_p;
   std::vector<double> m_mup_pt;
+  std::vector<double> m_mup_px;
+  std::vector<double> m_mup_py;
   std::vector<double> m_mup_pz;
 
   std::vector<double> m_mum_e;
   std::vector<double> m_mum_p;
   std::vector<double> m_mum_pt;
+  std::vector<double> m_mum_px;
+  std::vector<double> m_mum_py;
   std::vector<double> m_mum_pz;
 
   std::vector<double> m_dimuon_m;
   std::vector<double> m_dimuon_p;
   std::vector<double> m_dimuon_pt;
+  std::vector<double> m_dimuon_px;
+  std::vector<double> m_dimuon_py;
   std::vector<double> m_dimuon_pz;
   std::vector<double> m_dimuon_e;
   std::vector<double> m_dimuon_rec_m;
@@ -160,8 +168,13 @@ private:
   std::vector<double> m_jet_m;
   std::vector<double> m_jet_p;
   std::vector<double> m_jet_pt;
+  std::vector<double> m_jet_px;
+  std::vector<double> m_jet_py;
   std::vector<double> m_jet_pz;
   std::vector<double> m_jet_e;
+
+  std::vector<double> m_jet_lead_e;
+  std::vector<double> m_jet_sub_e;
 
   std::vector<double> m_jet_phi;
   std::vector<double> m_jet_theta;
@@ -169,6 +182,8 @@ private:
   std::vector<double> m_dijet_m;
   std::vector<double> m_dijet_p;
   std::vector<double> m_dijet_pt;
+  std::vector<double> m_dijet_px;
+  std::vector<double> m_dijet_py;
   std::vector<double> m_dijet_pz;
   std::vector<double> m_dijet_e;
   std::vector<double> m_dijet_rec_m;
@@ -209,13 +224,18 @@ private:
   double m_vis_all_e;
   double m_vis_all_p;
   double m_vis_all_pt;
+  double m_vis_all_px;
+  double m_vis_all_py;
   double m_vis_all_pz;
   double m_vis_all_cos;
+  double m_cos;
   double m_vis_ex_dimuon_m;
   double m_vis_ex_dimuon_e;
   double m_vis_all_rec_m;
   double m_vis_all_rec_e;
-
+  double m_vis_all_rec_px;
+  double m_vis_all_rec_py;
+  double m_vis_all_rec_pz;
 
   // MC info 
   std::vector<int> m_mc_pdgid;
@@ -227,6 +247,10 @@ private:
 
   int m_mc_lepton_minus_id;
   int m_mc_lepton_plus_id;
+  int m_mc_neutrino_minus_id;
+  int m_mc_neutrino_plus_id;
+  int m_mc_quark_minus_id;
+  int m_mc_quark_plus_id;
 
   int m_mc_init_n_lepton_plus;
   int m_mc_init_n_lepton_minus;
@@ -234,6 +258,8 @@ private:
   double m_mc_init_leptonp_e;
   double m_mc_init_leptonp_p;
   double m_mc_init_leptonp_pt;
+  double m_mc_init_leptonp_px;
+  double m_mc_init_leptonp_py;
   double m_mc_init_leptonp_pz;
 
   double m_mc_init_leptonp_phi;
@@ -242,6 +268,8 @@ private:
   double m_mc_init_leptonm_e;
   double m_mc_init_leptonm_p;
   double m_mc_init_leptonm_pt;
+  double m_mc_init_leptonm_px;
+  double m_mc_init_leptonm_py;
   double m_mc_init_leptonm_pz;
 
   double m_mc_init_leptonm_phi;
@@ -316,7 +344,7 @@ private:
   void selectLeptons( LCCollection* col_IsoLeps );
   void saveLeptonInfo( std::vector<TLorentzVector> p4_muon_plus, std::vector<TLorentzVector> p4_muon_minus );
 
-  void selectJets( LCCollection* col_Jets );
+  void selectJets( LCCollection* col_Jets, LCCollection* col_rec1 , LCCollection* col_rec2 );
   void saveJetInfo( std::vector<TLorentzVector> p4_jet );
   void saveFastJet( LCCollection* col_Jets , LCCollection* col_rec1 , LCCollection* col_rec2 );
 
@@ -363,12 +391,15 @@ Higgs2zz::Higgs2zz() : Processor("Higgs2zz") {
 
   registerProcessorParameter( "OverwriteFile" , "Re-create (1) or Update (0)" , OverWrite , 1 );
 
-  registerProcessorParameter( "LeptonEMax" , "Maximum energy of leptons in GeV" , LeptonEMax , 100.0);
+  registerProcessorParameter( "LeptonEMax" , "Maximum energy of leptons in GeV" , LeptonEMax , 1e+20);
 
-  registerProcessorParameter( "LeptonEMin" , "Minimum energy of leptons in GeV" , LeptonEMin , 10.0);
+  registerProcessorParameter( "LeptonEMin" , "Minimum energy of leptons in GeV" , LeptonEMin , 3.0);
 
   registerProcessorParameter( "LeptonPtMin" , "Minimum Pt of leptons in GeV" , LeptonPtMin , 0.0);
 
+  registerProcessorParameter( "EjetMin" , "Minimum Energy of jet in GeV" , EjetMin , 1.0);
+
+  registerProcessorParameter( "JetNpfoMin" , "Minimum npfo in a jet" , JetNpfoMin , 5);
 }
 
 void Higgs2zz::init() {
@@ -440,7 +471,7 @@ bool Higgs2zz::buildHiggsToZZ() {
   h_evtflw->Fill(2); // N_{MuonP} > 0 && N_{MuonM} > 0
 
   // Select Jet pairs
-  selectJets( Col_FastJet ); 
+  selectJets( Col_FastJet, Col_FJPList1, Col_FJPList2 ); 
   if( m_n_jet!=2 ) return false;
 
   h_evtflw->Fill(3); // N_{Jet} == 2
@@ -529,16 +560,22 @@ void Higgs2zz::book_tree() {
   m_tree->Branch("mup_e", &m_mup_e);
   m_tree->Branch("mup_p", &m_mup_p);
   m_tree->Branch("mup_pt", &m_mup_pt);
+  m_tree->Branch("mup_px",&m_mup_px);
+  m_tree->Branch("mup_py",&m_mup_py);
   m_tree->Branch("mup_pz", &m_mup_pz);
   
   m_tree->Branch("mum_e", &m_mum_e);
   m_tree->Branch("mum_p", &m_mum_p);
   m_tree->Branch("mum_pt", &m_mum_pt);
+  m_tree->Branch("mum_px", &m_mum_px);
+  m_tree->Branch("mum_py", &m_mum_py);
   m_tree->Branch("mum_pz", &m_mum_pz);
 
   m_tree->Branch("dimuon_e", &m_dimuon_e);  
   m_tree->Branch("dimuon_p", &m_dimuon_p);
   m_tree->Branch("dimuon_pt", &m_dimuon_pt);
+  m_tree->Branch("dimuon_px", &m_dimuon_px);
+  m_tree->Branch("dimuon_py", &m_dimuon_py);
   m_tree->Branch("dimuon_pz", &m_dimuon_pz);
   m_tree->Branch("dimuon_m", &m_dimuon_m);
 
@@ -554,8 +591,12 @@ void Higgs2zz::book_tree() {
   m_tree->Branch("jet_m", &m_jet_m);
   m_tree->Branch("jet_p", &m_jet_p);
   m_tree->Branch("jet_pt", &m_jet_pt);
+  m_tree->Branch("jet_px", &m_jet_px);
+  m_tree->Branch("jet_py", &m_jet_py);
   m_tree->Branch("jet_pz", &m_jet_pz);
   m_tree->Branch("jet_e", &m_jet_e);
+  m_tree->Branch("jet_lead_e", &m_jet_lead_e);
+  m_tree->Branch("jet_sub_e", &m_jet_sub_e);
 
   m_tree->Branch("jet_phi", &m_jet_phi);
   m_tree->Branch("jet_theta", &m_jet_theta);
@@ -563,6 +604,8 @@ void Higgs2zz::book_tree() {
   m_tree->Branch("dijet_e", &m_dijet_e);
   m_tree->Branch("dijet_p", &m_dijet_p);
   m_tree->Branch("dijet_pt", &m_dijet_pt);
+  m_tree->Branch("dijet_px", &m_dijet_px);
+  m_tree->Branch("dijet_py", &m_dijet_py);
   m_tree->Branch("dijet_pz", &m_dijet_pz);
   m_tree->Branch("dijet_m", &m_dijet_m);
   m_tree->Branch("dijet_rec_m", &m_dijet_rec_m);
@@ -605,11 +648,16 @@ void Higgs2zz::book_tree() {
   m_tree->Branch("vis_all_e", &m_vis_all_e, "vis_all_e/D");
   m_tree->Branch("vis_all_p", &m_vis_all_p, "vis_all_p/D");
   m_tree->Branch("vis_all_pt", &m_vis_all_pt, "vis_all_pt/D");
+  m_tree->Branch("vis_all_px", &m_vis_all_px, "vis_all_px/D");
+  m_tree->Branch("vis_all_py", &m_vis_all_py, "vis_all_py/D");
   m_tree->Branch("vis_all_pz", &m_vis_all_pz, "vis_all_pz/D");
   m_tree->Branch("vis_all_cos", &m_vis_all_cos, "vis_all_cos/D");
+  m_tree->Branch("cos", &m_cos, "cos/D");
   m_tree->Branch("vis_all_rec_m", &m_vis_all_rec_m, "vis_all_rec_m/D");
   m_tree->Branch("vis_all_rec_e", &m_vis_all_rec_e, "vis_all_rec_e/D");
-  
+  m_tree->Branch("vis_all_rec_px", &m_vis_all_rec_px, "vis_all_rec_px/D");
+  m_tree->Branch("vis_all_rec_py", &m_vis_all_rec_py, "vis_all_rec_py/D");
+  m_tree->Branch("vis_all_rec_pz", &m_vis_all_rec_pz, "vis_all_rec_pz/D"); 
   
   // MC info 
   m_tree->Branch("mc_pdgid", &m_mc_pdgid);
@@ -617,13 +665,18 @@ void Higgs2zz::book_tree() {
   
   m_tree->Branch("mc_lepton_minus_id", &m_mc_lepton_minus_id, "mc_lepton_minus_id/I");
   m_tree->Branch("mc_lepton_plus_id", &m_mc_lepton_plus_id, "mc_lepton_plus_id/I");
-  
+  m_tree->Branch("mc_neutrino_minus_id", &m_mc_neutrino_minus_id, "mc_neutrino_minus_id/I");
+  m_tree->Branch("mc_neutrino_plus_id", &m_mc_neutrino_plus_id, "mc_neutrino_plus_id/I");
+  m_tree->Branch("mc_quark_minus_id", &m_mc_quark_minus_id, "mc_quark_minus_id/I");
+  m_tree->Branch("mc_quark_plus_id", &m_mc_quark_plus_id, "mc_quark_plus_id/I");
   m_tree->Branch("mc_init_n_lepton_plus", &m_mc_init_n_lepton_plus,  "mc_init_n_lepton_plus/I");
   m_tree->Branch("mc_init_n_lepton_minus", &m_mc_init_n_lepton_minus,  "mc_init_n_lepton_minus/I");
   
   m_tree->Branch("mc_init_leptonp_e",  &m_mc_init_leptonp_e,   "mc_init_leptonp_e/D");
   m_tree->Branch("mc_init_leptonp_p",  &m_mc_init_leptonp_p,   "mc_init_leptonp_p/D");
   m_tree->Branch("mc_init_leptonp_pt", &m_mc_init_leptonp_pt,  "mc_init_leptonp_pt/D");
+  m_tree->Branch("mc_init_leptonp_px", &m_mc_init_leptonp_px,  "mc_init_leptonp_px/D");
+  m_tree->Branch("mc_init_leptonp_py", &m_mc_init_leptonp_py,  "mc_init_leptonp_py/D");
   m_tree->Branch("mc_init_leptonp_pz", &m_mc_init_leptonp_pz,  "mc_init_leptonp_pz/D");
 
   m_tree->Branch("mc_init_leptonp_phi", &m_mc_init_leptonp_phi,  "mc_init_leptonp_phi/D");
@@ -632,6 +685,8 @@ void Higgs2zz::book_tree() {
   m_tree->Branch("mc_init_leptonm_e",  &m_mc_init_leptonm_e,   "mc_init_leptonm_e/D");
   m_tree->Branch("mc_init_leptonm_p",  &m_mc_init_leptonm_p,   "mc_init_leptonm_p/D");
   m_tree->Branch("mc_init_leptonm_pt", &m_mc_init_leptonm_pt,  "mc_init_leptonm_pt/D");
+  m_tree->Branch("mc_init_leptonm_px", &m_mc_init_leptonm_px,  "mc_init_leptonm_px/D");
+  m_tree->Branch("mc_init_leptonm_py", &m_mc_init_leptonm_py,  "mc_init_leptonm_py/D");
   m_tree->Branch("mc_init_leptonm_pz", &m_mc_init_leptonm_pz,  "mc_init_leptonm_pz/D");
 
   m_tree->Branch("mc_init_leptonm_phi", &m_mc_init_leptonm_phi,  "mc_init_leptonm_phi/D");
@@ -738,16 +793,22 @@ void Higgs2zz::clearVariables() {
   m_mup_e.clear();
   m_mup_p.clear();
   m_mup_pt.clear();
+  m_mup_px.clear();
+  m_mup_py.clear();
   m_mup_pz.clear();
 
   m_mum_e.clear();
   m_mum_p.clear();
   m_mum_pt.clear();
+  m_mum_px.clear();
+  m_mum_py.clear();
   m_mum_pz.clear();
   
   m_dimuon_m.clear();
   m_dimuon_p.clear();
   m_dimuon_pt.clear();
+  m_dimuon_px.clear();
+  m_dimuon_py.clear();
   m_dimuon_pz.clear();
   m_dimuon_e.clear();
   m_dimuon_rec_m.clear();
@@ -761,14 +822,20 @@ void Higgs2zz::clearVariables() {
   m_jet_m.clear();
   m_jet_p.clear();
   m_jet_pt.clear();
+  m_jet_px.clear();
+  m_jet_py.clear();
   m_jet_pz.clear();
   m_jet_e.clear();
+  m_jet_lead_e.clear();
+  m_jet_sub_e.clear();
   m_jet_phi.clear();
   m_jet_theta.clear();
 
   m_dijet_m.clear();
   m_dijet_p.clear();
   m_dijet_pt.clear();
+  m_dijet_px.clear();
+  m_dijet_py.clear();
   m_dijet_pz.clear();
   m_dijet_e.clear();
   m_dijet_rec_m.clear();
@@ -972,16 +1039,22 @@ void Higgs2zz::saveLeptonInfo(std::vector<TLorentzVector> p4_muon_plus, std::vec
       m_mup_e.push_back(p4_muon_plus[i].E());
       m_mup_p.push_back(p4_muon_plus[i].P());
       m_mup_pt.push_back(p4_muon_plus[i].Pt());
+      m_mup_px.push_back(p4_muon_plus[i].Px());
+      m_mup_py.push_back(p4_muon_plus[i].Py());
       m_mup_pz.push_back(p4_muon_plus[i].Pz());
 
       m_mum_e.push_back(p4_muon_minus[j].E());
       m_mum_p.push_back(p4_muon_minus[j].P());
       m_mum_pt.push_back(p4_muon_minus[j].Pt());
+      m_mum_px.push_back(p4_muon_minus[j].Px());
+      m_mum_py.push_back(p4_muon_minus[j].Py());
       m_mum_pz.push_back(p4_muon_minus[j].Pz());
 
       double mll     = ( p4_muon_plus[i] + p4_muon_minus[j] ).M();
       double pll     = ( p4_muon_plus[i] + p4_muon_minus[j] ).P();
       double ptll    = ( p4_muon_plus[i] + p4_muon_minus[j] ).Pt();
+      double pxll    = ( p4_muon_plus[i] + p4_muon_minus[j] ).Px();
+      double pyll    = ( p4_muon_plus[i] + p4_muon_minus[j] ).Py();
       double pzll    = ( p4_muon_plus[i] + p4_muon_minus[j] ).Pz();
       double ell     = ( p4_muon_plus[i] + p4_muon_minus[j] ).E();
       double rec_mll = ( P4_Ecms - p4_muon_plus[i] - p4_muon_minus[j] ).M();
@@ -991,6 +1064,8 @@ void Higgs2zz::saveLeptonInfo(std::vector<TLorentzVector> p4_muon_plus, std::vec
       m_dimuon_m.push_back(mll);
       m_dimuon_p.push_back(pll);
       m_dimuon_pt.push_back(ptll);
+      m_dimuon_px.push_back(pxll);
+      m_dimuon_py.push_back(pyll);
       m_dimuon_pz.push_back(pzll);
       m_dimuon_e.push_back(ell);
       m_dimuon_rec_m.push_back(rec_mll);
@@ -1005,6 +1080,8 @@ void Higgs2zz::saveLeptonInfo(std::vector<TLorentzVector> p4_muon_plus, std::vec
     m_mup_e.push_back( -9999.0 );    
     m_mup_p.push_back( -9999.0 );
     m_mup_pt.push_back( -9999.0 );
+    m_mup_px.push_back( -9999.0 );
+    m_mup_py.push_back( -9999.0 );
     m_mup_pz.push_back( -9999.0 );
   }
 
@@ -1013,6 +1090,8 @@ void Higgs2zz::saveLeptonInfo(std::vector<TLorentzVector> p4_muon_plus, std::vec
     m_mum_e.push_back( -9999.0 );    
     m_mum_p.push_back( -9999.0 );
     m_mum_pt.push_back( -9999.0 );
+    m_mum_px.push_back( -9999.0 );
+    m_mum_py.push_back( -9999.0 );
     m_mum_pz.push_back( -9999.0 );
   }
 
@@ -1022,6 +1101,8 @@ void Higgs2zz::saveLeptonInfo(std::vector<TLorentzVector> p4_muon_plus, std::vec
     m_dimuon_e.push_back( -9999.0 );
     m_dimuon_p.push_back( -9999.0 );
     m_dimuon_pt.push_back( -9999.0 );
+    m_dimuon_px.push_back( -9999.0 );
+    m_dimuon_py.push_back( -9999.0 );
     m_dimuon_pz.push_back( -9999.0 );
     m_dimuon_rec_m.push_back( -9999.0 );
     m_dimuon_dphi.push_back( -9999.0 );
@@ -1086,9 +1167,11 @@ void Higgs2zz::saveFastJet( LCCollection* col_Jets , LCCollection* col_rec1 , LC
   }
 }
 
-void Higgs2zz::selectJets( LCCollection* col_Jets ) {
+void Higgs2zz::selectJets( LCCollection* col_Jets, LCCollection* col_rec1 , LCCollection* col_rec2 ) {
 
   int ncol = col_Jets->getNumberOfElements();
+  int jet_npfo1 = col_rec1->getNumberOfElements();
+  int jet_npfo2 = col_rec2->getNumberOfElements();
   //std::cout << "njet = " << ncol << std::endl; 
   
   m_fastjet_flag = 1;
@@ -1129,18 +1212,22 @@ void Higgs2zz::selectJets( LCCollection* col_Jets ) {
     m_y67 = -1.0;
   }
 
-  for( int i = 0; i < ncol; i++) {
+  if ( jet_npfo1 + jet_npfo2 >= JetNpfoMin ) {
+    for( int i = 0; i < ncol; i++) {
 
-    ReconstructedParticle *reco_jet = dynamic_cast<EVENT::ReconstructedParticle *>(col_Jets->getElementAt(i));
+      ReconstructedParticle *reco_jet = dynamic_cast<EVENT::ReconstructedParticle *>(col_Jets->getElementAt(i));
 
-    double jet_px     = reco_jet->getMomentum()[0];
-    double jet_py     = reco_jet->getMomentum()[1];
-    double jet_pz     = reco_jet->getMomentum()[2];
-    double jet_e      = reco_jet->getEnergy();
+      double jet_px     = reco_jet->getMomentum()[0];
+      double jet_py     = reco_jet->getMomentum()[1];
+      double jet_pz     = reco_jet->getMomentum()[2];
+      double jet_e      = reco_jet->getEnergy();
     
-    TLorentzVector p4vec(jet_px, jet_py, jet_pz, jet_e);
+      TLorentzVector p4vec(jet_px, jet_py, jet_pz, jet_e);
 
-    P4_Jet.push_back( p4vec );
+      if ( jet_e > EjetMin ) {
+        P4_Jet.push_back( p4vec );
+      }
+    }
   }
 
   m_n_jet = P4_Jet.size();
@@ -1151,11 +1238,25 @@ void Higgs2zz::saveJetInfo( std::vector<TLorentzVector> p4_jet ) {
 
   int njet = p4_jet.size();
 
+  // filling leadingjet_e and subleadingjet_e, only true when njet=2
+  if (p4_jet[0].E() > p4_jet[1].E())
+  {
+    m_jet_lead_e.push_back(p4_jet[0].E());
+    m_jet_sub_e.push_back(p4_jet[1].E());
+  }
+  else
+  {
+    m_jet_lead_e.push_back(p4_jet[1].E());
+    m_jet_sub_e.push_back(p4_jet[0].E());
+  }
+
   for( int i=0; i < njet; i++ ) {
     
     m_jet_m.push_back(p4_jet[i].M());
     m_jet_p.push_back(p4_jet[i].P());
     m_jet_pt.push_back(p4_jet[i].Pt());
+    m_jet_px.push_back(p4_jet[i].Px());
+    m_jet_py.push_back(p4_jet[i].Py());
     m_jet_pz.push_back(p4_jet[i].Pz());
     m_jet_e.push_back(p4_jet[i].E());
 
@@ -1167,6 +1268,8 @@ void Higgs2zz::saveJetInfo( std::vector<TLorentzVector> p4_jet ) {
       double mjj     = ( p4_jet[i] + p4_jet[j] ).M();
       double pjj     = ( p4_jet[i] + p4_jet[j] ).P();
       double ptjj    = ( p4_jet[i] + p4_jet[j] ).Pt();
+      double pxjj    = ( p4_jet[i] + p4_jet[j] ).Px();
+      double pyjj    = ( p4_jet[i] + p4_jet[j] ).Py();
       double pzjj    = ( p4_jet[i] + p4_jet[j] ).Pz();
       double ejj     = ( p4_jet[i] + p4_jet[j] ).E();
       double rec_mjj = ( P4_Ecms - p4_jet[i] - p4_jet[j] ).M();
@@ -1176,6 +1279,8 @@ void Higgs2zz::saveJetInfo( std::vector<TLorentzVector> p4_jet ) {
       m_dijet_m.push_back( mjj );
       m_dijet_p.push_back( pjj );
       m_dijet_pt.push_back( ptjj );
+      m_dijet_px.push_back( pxjj );
+      m_dijet_py.push_back( pyjj );
       m_dijet_pz.push_back( pzjj );
       m_dijet_e.push_back( ejj );
       m_dijet_rec_m.push_back( rec_mjj );
@@ -1189,6 +1294,8 @@ void Higgs2zz::saveJetInfo( std::vector<TLorentzVector> p4_jet ) {
     m_dijet_m.push_back( -9999.0 );
     m_dijet_p.push_back( -9999.0 );
     m_dijet_pt.push_back( -9999.0 );
+    m_dijet_px.push_back( -9999.0 );
+    m_dijet_py.push_back( -9999.0 );
     m_dijet_pz.push_back( -9999.0 );
     m_dijet_e.push_back( -9999.0 );
     m_dijet_rec_m.push_back( -9999.0 );
@@ -1200,6 +1307,8 @@ void Higgs2zz::saveJetInfo( std::vector<TLorentzVector> p4_jet ) {
       m_jet_m.push_back( -9999.0 );
       m_jet_p.push_back( -9999.0 );
       m_jet_pt.push_back( -9999.0 );
+      m_jet_px.push_back( -9999.0 );
+      m_jet_py.push_back( -9999.0 );
       m_jet_pz.push_back( -9999.0 );
       m_jet_e.push_back( -9999.0 );
       m_jet_phi.push_back( -9999.0 );
@@ -1250,12 +1359,17 @@ void Higgs2zz::saveVariables() {
   m_vis_all_e = ( P4_Charged_Sum + P4_Neutral_Sum ).E();
   m_vis_all_p = ( P4_Charged_Sum + P4_Neutral_Sum ).P();
   m_vis_all_pt = ( P4_Charged_Sum + P4_Neutral_Sum ).Pt();
+  m_vis_all_px = ( P4_Charged_Sum + P4_Neutral_Sum ).Px();
+  m_vis_all_py = ( P4_Charged_Sum + P4_Neutral_Sum ).Py();
   m_vis_all_pz = ( P4_Charged_Sum + P4_Neutral_Sum ).Pz();
   m_vis_all_cos = ( P4_Charged_Sum + P4_Neutral_Sum ).CosTheta();
+  m_cos =  m_vis_all_pz/sqrt(m_vis_all_pz*m_vis_all_pz + m_vis_all_py*m_vis_all_py);
 
   m_vis_all_rec_m = ( P4_Ecms - P4_Charged_Sum - P4_Neutral_Sum ).M();
   m_vis_all_rec_e = ( P4_Ecms - P4_Charged_Sum - P4_Neutral_Sum ).E();
-
+  m_vis_all_rec_px = ( P4_Ecms - P4_Charged_Sum - P4_Neutral_Sum ).Px();
+  m_vis_all_rec_py = ( P4_Ecms - P4_Charged_Sum - P4_Neutral_Sum ).Py();
+  m_vis_all_rec_pz = ( P4_Ecms - P4_Charged_Sum - P4_Neutral_Sum ).Pz();
 }
 
 
@@ -1386,7 +1500,21 @@ void Higgs2zz::saveMCTruthInfo( LCCollection* col_MC ) {
 	m_mc_lepton_plus_id = pdgid;
 	P4_MCTruth_LeptonPlus.push_back( p4vec );
       }
-      
+
+      if( pdgid == MUON_NEUTRINO_PID || pdgid == ELECTRON_NEUTRINO_PID || pdgid == TAU_NEUTRINO_PID) {
+        m_mc_neutrino_minus_id = pdgid;
+      }
+      if( pdgid == -MUON_NEUTRINO_PID|| pdgid == -ELECTRON_NEUTRINO_PID|| pdgid == -TAU_NEUTRINO_PID){
+        m_mc_neutrino_plus_id = pdgid;
+      }
+
+      if( pdgid == 1 || pdgid == 2 || pdgid == 3 || pdgid == 4 || pdgid == 5 || pdgid == 6) {
+        m_mc_quark_minus_id = pdgid;
+      }
+      if( pdgid == -1 || pdgid == -2 || pdgid == -3 || pdgid == -4 || pdgid == -5 || pdgid == -6){
+        m_mc_quark_plus_id = pdgid;
+      }
+
       if( pdgid == PHOTON_PID )P4_MCTruth_photon.push_back( p4vec );
       if( pdgid == HIGGS_PID )P4_MCTruth_Higgs.push_back( p4vec );
 	
@@ -1484,6 +1612,8 @@ void Higgs2zz::fillMCInfo() {
     m_mc_init_leptonp_e  = P4_MCTruth_LeptonPlus[0].E();
     m_mc_init_leptonp_p  = P4_MCTruth_LeptonPlus[0].P();
     m_mc_init_leptonp_pt = P4_MCTruth_LeptonPlus[0].Pt();
+    m_mc_init_leptonp_px = P4_MCTruth_LeptonPlus[0].Px();
+    m_mc_init_leptonp_py = P4_MCTruth_LeptonPlus[0].Py();
     m_mc_init_leptonp_pz = P4_MCTruth_LeptonPlus[0].Pz();
 
     m_mc_init_leptonp_phi = P4_MCTruth_LeptonPlus[0].Phi()      *180.0/M_PI;
@@ -1492,6 +1622,8 @@ void Higgs2zz::fillMCInfo() {
     m_mc_init_leptonm_e  = P4_MCTruth_LeptonMinus[0].E();
     m_mc_init_leptonm_p  = P4_MCTruth_LeptonMinus[0].P();
     m_mc_init_leptonm_pt = P4_MCTruth_LeptonMinus[0].Pt();
+    m_mc_init_leptonm_px = P4_MCTruth_LeptonMinus[0].Px();
+    m_mc_init_leptonm_py = P4_MCTruth_LeptonMinus[0].Py();
     m_mc_init_leptonm_pz = P4_MCTruth_LeptonMinus[0].Pz();
 
     m_mc_init_leptonm_phi = P4_MCTruth_LeptonMinus[0].Phi()     *180.0/M_PI;
@@ -1520,6 +1652,8 @@ void Higgs2zz::fillMCInfo() {
     m_mc_init_leptonp_e  = -9999.0;
     m_mc_init_leptonp_p  = -9999.0;
     m_mc_init_leptonp_pt = -9999.0;
+    m_mc_init_leptonp_px = -9999.0;
+    m_mc_init_leptonp_py = -9999.0;
     m_mc_init_leptonp_pz = -9999.0;
 
     m_mc_init_leptonp_phi = -9999.0;
@@ -1528,6 +1662,8 @@ void Higgs2zz::fillMCInfo() {
     m_mc_init_leptonm_e  = -9999.0;
     m_mc_init_leptonm_p  = -9999.0;
     m_mc_init_leptonm_pt = -9999.0;
+    m_mc_init_leptonm_px = -9999.0;
+    m_mc_init_leptonm_py = -9999.0;
     m_mc_init_leptonm_pz = -9999.0;
 
     m_mc_init_leptonm_phi = -9999.0;
