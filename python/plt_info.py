@@ -18,9 +18,9 @@ def main():
 
     signal_sample =  ROOT.TFile('./run/llh2zz/hist/ana_File_merged_1.root')
 
-    evah = signal_sample.Get('hevtflw_sel')
-    eva = evah.GetBinContent(3)  #number of e2e2hvvjj
-    scs = 5600 * 6.77 * 0.0264 * 0.2 * 0.69 / eva
+    evah = signal_sample.Get('hevtflw_pre')
+    eva = evah.GetBinContent(1)  # # Total number of e2e2HZZ events analyzed
+    scs = 5600 * 6.77 * 0.0264 / eva
     print('scale for signal is %s'%scs)
 
     sh = signal_sample.Get('hevtflw_pre')
@@ -57,7 +57,7 @@ def main():
             if not s_line.startswith('#'):
                 l = [x.strip() for x in s_line.split(',')]
                 dname = l[0]
-                event_exp = 1.11 * float(l[3])
+                event_exp = 1.11 * float(l[3]) # 5050 fb-1 to 5600 fb-1
 
                 sample = ROOT.TFile('./run/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
                 h=sample.Get('hevtflw_pre')
