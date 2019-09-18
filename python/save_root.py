@@ -21,9 +21,9 @@ def main():
     s_out = './root/sig.root'
 
     signal_sample =  ROOT.TFile(s_in)
-    evah = signal_sample.Get('hevtflw_sel')
-    eva = evah.GetBinContent(3)  #number of e2e2hvvjj
-    s = 5600 * 6.77 * 0.0264 * 0.2 * 0.69 / eva
+    evah = signal_sample.Get('hevtflw_pre')
+    eva = evah.GetBinContent(1)  # # Total number of e2e2HZZ events analyzed
+    s = 5600 * 6.77 * 0.0264 / eva
 
     save_root(s_in, s_out, s)
 
