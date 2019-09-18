@@ -11,10 +11,10 @@ usage() {
 	printf "\n\start event_sel in 0.1.6 0.2.7 0.3.7\n" 
 	printf "\nOPTIONS\n" 
 	printf "\n\t%-9s  %-40s"  "0.1"      "[run signal sample]" 
-    printf "\n\t%-9s  %-40s"  "0.2"      "[run Z(->ff)H(->inclusive) sample]"  
-    printf "\n\t%-9s  %-40s"  "0.3"      "[run background sample]" 
-    printf "\n\t%-9s  %-40s"  "0.4"      "[[plot pictures and save results]" 
-    printf "\n\n" 
+	printf "\n\t%-9s  %-40s"  "0.2"      "[run Z(->ff)H(->inclusive) sample]"  
+	printf "\n\t%-9s  %-40s"  "0.3"      "[run background sample]" 
+	printf "\n\t%-9s  %-40s"  "0.4"      "[[plot pictures and save results]" 
+	printf "\n\n" 
 	printf "\nDATE\n"
 	printf "\n\t%-5s\n" "JUNE 2018" 
 }
@@ -149,7 +149,7 @@ case $option in
            ;;
 
     0.1.9) echo  "Merge event root files..."
-	       rm -rf ./run/llh2zz/hist
+	   rm -rf ./run/llh2zz/hist
            mkdir -p   ./run/llh2zz/hist
            ./python/mrg_rootfiles.py  ./run/llh2zz/events/ana  ./run/llh2zz/hist 
            ;; 
@@ -189,7 +189,7 @@ case $option in
 	   ./build.sh
 	   cd ./run/zh/steers/
 
-	   array=("nnh_X" "qqh_X")
+	   array=("nnh_zz" "qqh_zz")
 	   for dir in "${array[@]}"
 	   do
 	       cd ${dir}/test
@@ -252,7 +252,7 @@ case $option in
 	   done
 	   cd ../../../
 
-           ./python/sel_events.py  ${channel_opt} ./run/zh/ana/e2e2h_X/ana_File-1.root  ./run/zh/events/ana/e2e2h_X/ana_File-1_event.root ${sel_bg}
+           ./python/sel_events.py  ${channel_opt} ./run/zh/ana/nnh_zz/ana_File-1.root  ./run/zh/events/ana/nnh_zz/ana_File-1_event.root ${sel_bg}
            ;;
 
     0.2.8) echo "Generate Condor job scripts for event selection..."
@@ -498,7 +498,7 @@ case $option in
 				cd ..
 				cp -r root/merge/. calculate/workspace/data/new_zz/mzvj/
 				cd calculate/workspace/data/new_zz/mzvj/
-				root -l mzvj.cxx
+				root -l -q mzvj.cxx
 			else
 				cp sig.root ./merge/mzjv_sig.root
 				hadd ./merge/mzjv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
@@ -513,9 +513,8 @@ case $option in
 				cd ..
 				cp -r root/merge/. calculate/workspace/data/new_zz/mzjv/
 				cd calculate/workspace/data/new_zz/mzjv/
-				root -l mzjv.cxx
+				root -l -q mzjv.cxx
 			fi
-			.q
 			;;
 
 	0.4.5) echo  "fit results..." #source setupATLAS.sh first
