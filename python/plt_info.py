@@ -75,20 +75,26 @@ def main():
                         tname = dname.replace('_',r'\_')
                         fout_script.write("%-25s&%-25s&%-25s%-25s\n"%(tname,scb,int(evt),r'\\'))
 
+                    if tabs.index(t) == 0:                    
+                        z_raw += event_exp
+
+                    if tabs.index(t) == 1:                    
+                        f_raw += event_exp
+
+                    if tabs.index(t) == 2:                        
+                        ff_raw += event_exp
+
                     for i in range(11):
                         exec ("cut%s = tep.GetBinContent(%s) * scb"%(i+1,i+1))
 
                         if tabs.index(t) == 0:
                             exec ("z%s += cut%s"%(i+1,i+1))
-                            z_raw += event_exp
 
                         if tabs.index(t) == 1:
                             exec ("f%s += cut%s"%(i+1,i+1))
-                            f_raw += event_exp
 
                         if tabs.index(t) == 2:
                             exec ("ff%s += cut%s"%(i+1,i+1))
-                            ff_raw += event_exp
 
     print('\n')
     print("%-25s%-15s%-15s%-15s%-15s"%('cut','llhzz','zh','2f','4f'))
