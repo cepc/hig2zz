@@ -560,7 +560,7 @@ case $option in
         sub_0_1 option 
         ;;
     0.1.*) echo "run signal sample"
-2        sub_0_1 option
+        sub_0_1 option
         ;;
         
     0.2) echo "run Z(->ff)H(->inclusive) sample"
