@@ -475,54 +475,66 @@ case $option in
            python ./python/plt_info.py  ./table/zh_sample_list.txt  ./table/bg_2f.txt  ./table/bg_4f.txt
            ;; 
 
-	0.4.3) echo  "Generate tables and LaTex tables..."
-			python ./python/gen_tex.py   ./table/zh_sample_list.txt ./table/bg_2f.txt  ./table/bg_4f.txt
-			# python ./python/gen_table.py
-			;; 
+    0.4.3) echo  "Generate tables and LaTex tables..."
+	    python ./python/gen_tex.py   ./table/zh_sample_list.txt ./table/bg_2f.txt  ./table/bg_4f.txt
+	    ;; 
 			
-	0.4.4) echo  "Save results..."
-			rm -rf ./root
-			mkdir -p   ./root/merge
-			python ./python/save_root.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
+    0.4.4) echo  "Save results..."
+	    rm -rf ./root
+	    mkdir -p   ./root/merge
+	    python ./python/save_root.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
+	    
+	    cd ./root/
+	    
+	    if [ ${channel_opt} = 1 ]; then
+		cp sig.root ./merge/mzvj_sig.root
+		hadd ./merge/mzvj_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
+		hadd ./merge/mzvj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+		hadd ./merge/mzvj_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
+		hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
+		hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
+		
+		cd ..
+		cp -r root/merge/. calculate/workspace/data/new_zz/mzvj/
+		cd calculate/workspace/data/new_zz/mzvj/
+		root -l -q mzvj.cxx
+	    else
+		cp sig.root ./merge/mzjv_sig.root
+		hadd ./merge/mzjv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
+		hadd ./merge/mzjv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+		hadd ./merge/mzjv_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
+		hadd ./merge/mzjv_az.root bkg_e2e2h_az.root bkg_qqh_az.root
+		hadd ./merge/mzjv_bb.root bkg_e2e2h_bb.root
+		hadd ./merge/mzjv_cc.root bkg_e2e2h_cc.root
+		hadd ./merge/mzjv_gg.root bkg_e2e2h_gg.root
+		hadd ./merge/mzjv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
+		
+		cd ..
+		cp -r root/merge/. calculate/workspace/data/new_zz/mzjv/
+		cd calculate/workspace/data/new_zz/mzjv/
+		root -l -q mzjv.cxx
+	    fi
+	    ;;
+ 
+    0.4.5)  echo "fit results...\n"     #source setupATLAS.sh first
+	    echo "Need to source ./calculate/setupATLAS.sh first \n"      
+	    echo "If it is not, please do so \n" 
+	    echo "Ready to go next ? Please type ENTER or stop now (Ctrl-C)" 
+	    read flag
 
-			cd ./root/
+	    cd ./calculate/workspace
 
-			if [ ${channel_opt} = 1 ]; then
-				cp sig.root ./merge/mzvj_sig.root
-				hadd ./merge/mzvj_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
-				hadd ./merge/mzvj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-				hadd ./merge/mzvj_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
-				hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
-				hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
+	    if [ ${channel_opt} = 1 ]; then
+		cp -p ./inc/shapeFit_HZZ_vvjj.h ./inc/shapeFit.h
+	    else 
+	        cp -p ./inc/shapeFit_HZZ_jjvv.h ./inc/shapeFit.h
+	    fi
 
-				cd ..
-				cp -r root/merge/. calculate/workspace/data/new_zz/mzvj/
-				cd calculate/workspace/data/new_zz/mzvj/
-				root -l -q mzvj.cxx
-			else
-				cp sig.root ./merge/mzjv_sig.root
-				hadd ./merge/mzjv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
-				hadd ./merge/mzjv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-				hadd ./merge/mzjv_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
-				hadd ./merge/mzjv_az.root bkg_e2e2h_az.root bkg_qqh_az.root
-				hadd ./merge/mzjv_bb.root bkg_e2e2h_bb.root
-				hadd ./merge/mzjv_cc.root bkg_e2e2h_cc.root
-				hadd ./merge/mzjv_gg.root bkg_e2e2h_gg.root
-				hadd ./merge/mzjv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
-				
-				cd ..
-				cp -r root/merge/. calculate/workspace/data/new_zz/mzjv/
-				cd calculate/workspace/data/new_zz/mzjv/
-				root -l -q mzjv.cxx
-			fi
-			;;
+	    ./job/run.sh
+	    ./job/plot.sh
 
-	0.4.5) echo  "fit results..." #source setupATLAS.sh first
-
-			cd ./calculate/workspace/
-			./job/run.sh
-			./job/plot.sh
-			;;
+	    echo "Please check the output under ./calculate/workspace/out/ " 
+	    ;;
 
     esac
 }
