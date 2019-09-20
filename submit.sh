@@ -87,7 +87,7 @@ signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pe2e2h_zz.e0.p0.w
 sel_all=0
 sel_signal=1
 sel_bg=2
-channel_opt=2  #1 for hvvjj, 2 for hjjvv
+channel_opt=1  #1 for hvvjj, 2 for hjjvv
 
     # --------------------------------------------------------------------------
     #  0.1 Signal   

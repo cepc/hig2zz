@@ -23,8 +23,8 @@ RooWorkspace *makespace(TString cname, int index, int lu)
     checkcname(cname);
     
     std::cerr << "Sep. 20th, 2019 " << std::endl;
-    std::cerr << "change(set) the bool variable isz to false, for the HZZ only case" << std::endl;
-    std::cerr << "If it is not the case, please check the flags and so on" << std::endl;
+    std::cerr << "change(set) the bool variable isz to false" << std::endl;
+    std::cerr << "You may check/change the flags and so on for the other analysis" << std::endl;
     isz=false;
 
     n_sig =  c.nsig;
