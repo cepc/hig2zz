@@ -16,14 +16,20 @@ from tools import check_outfile_path
 
 def main():
 
+    combine_opt = int(sys.argv[4])
+
     #signal
-    s_in = './run/llh2zz/hist/ana_File_merged_1.root'
-    s_out = './root/sig.root'
+    if (combine_opt==1):
+        s_in = './run/channel_ll/llh2zz/hist/ana_File_merged_1.root'
+        s_out = './root/channel_ll/sig.root'
+    if (combine_opt==2):
+        s_in = './run/channel_nn/nnh2zz/hist/ana_File_merged_1.root'
+        s_out = './root/channel_nn/sig.root'
 
     signal_sample =  ROOT.TFile(s_in)
-    evah = signal_sample.Get('hevtflw_sel')
-    eva = evah.GetBinContent(3)  #number of e2e2hvvjj
-    s = 5600 * 6.77 * 0.0264 * 0.2 * 0.69 / eva
+    evah = signal_sample.Get('hevtflw_pre')
+    eva = evah.GetBinContent(1)  #number of e2e2h
+    s = 5600 * 6.77 * 0.0264 / eva
 
     save_root(s_in, s_out, s)
 
@@ -42,7 +48,10 @@ def main():
                 l = [x.strip() for x in s_line.split(',')]
                 dname = l[0]
                 event_exp = 1.11 * float(l[3])
-                b_in = './run/' + path + '/hist/' + dname + '/ana_File_merged_1.root'
+                if (combine_opt==1):
+                    b_in = './run/channel_ll/' + path + '/hist/' + dname + '/ana_File_merged_1.root'
+                if (combine_opt==2):
+                    b_in = './run/channel_nn/' + path + '/hist/' + dname + '/ana_File_merged_1.root'
                 sample = ROOT.TFile(b_in)
                 h=sample.Get('hevtflw_pre')
                 event_ana = h.GetBinContent(1)
@@ -84,6 +93,10 @@ def save_root(f_in, f_out, s):
     t.Branch( 'vis_ex_dimuon_m', vis_ex_dimuon_m, 'vis_ex_dimuon_m/D')
     t.Branch( 'vis_all_rec_m', vis_all_rec_m, 'vis_all_rec_m/D')
     t.Branch( 'vis_all_pt', vis_all_pt, 'vis_all_pt/D')
+    if (combine_opt==1):
+        t.Branch( 'Higgs_m', dimuon_rec_m, 'Higgs_m/D')
+    if (combine_opt==2):
+        t.Branch( 'Higgs_m', vis_all_m, 'Higgs_m/D')
     t.Branch( 'scale', scale, 'scale/D')
 
     for jentry in xrange(entries):
@@ -103,6 +116,7 @@ def save_root(f_in, f_out, s):
         vis_ex_dimuon_m[0] = t_in.vis_ex_dimuon_m
         vis_all_rec_m[0] = t_in.vis_all_rec_m
         vis_all_pt[0] = t_in.vis_all_pt
+        vis_all_m[0] = t_in.vis_all_m
         scale[0] = s
 
         t.Fill()

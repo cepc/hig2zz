@@ -1,0 +1,14 @@
+name                     &scale                    &final                    \\ \hline                
+nnh\_zz                  &0.06832                  &53                       \\                       
+cut                                     &signal                   &zh background            &2f background            &4f background            \\ \hline                
+Raw events                              &1000                     &1140511                  &801811977                &107203890                \\                       
+$Pre-selection$                         &616                      &30494                    &480828                   &515450                   \\                       
+$Signal or not$                         &211                      &30282                    &480828                   &515450                   \\                       
+$Missing Mass>M_{dijets}$               &107                      &1608                     &115062                   &28809                    \\                       
+$80GeV<M_{\mu^{+}\mu^{-}}<100GeV$       &95                       &725                      &73741                    &6830                     \\                       
+$120GeV<M_{Recoil}<150GeV$              &95                       &706                      &7886                     &1359                     \\                       
+$15GeV<N_{pfo}$                         &94                       &336                      &3268                     &574                      \\                       
+$10GeV<Pt_{total visible}$              &89                       &312                      &342                      &168                      \\                       
+$Min angle>0.3$\degree                  &85                       &298                      &283                      &139                      \\                       
+$Missing Mass>80,M_{dijets}<35$\degree  &62                       &80                       &253                      &46                       \\                       
+$Pt_{jet1,2}>3,E_{jet1,2}>3$            &54                       &67                       &0                        &9                        \\                       
