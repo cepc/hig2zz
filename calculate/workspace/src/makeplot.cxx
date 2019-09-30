@@ -18,9 +18,10 @@ TString part="part";
 //   bool import=false;
   const int ch =5;
 //   const int ch =2;
-  const TString CN[ch] = { //"mzjv",
-                            "mzvj"
-                            };
+  const TString CN[ch] = {
+    "mzjv",
+    //"mzvj"
+  };
 
 void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n) 
 {
@@ -93,11 +94,11 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
 
     if ( cname.Contains("mzvj") )
         wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"),Components(RooArgSet( (*wchannel->pdf("pdf_zz_" + cname)), (*wchannel->pdf("pdf_ww_" + cname)),(*wchannel->pdf("pdf_tt_" + cname)),(*wchannel->pdf("pdf_zy_" + cname)),(*wchannel->pdf("pdf_b_" + cname)) )),LineColor(kGreen),LineWidth(2),LineStyle(2));
-    }
+    //    }  // original code from Z. Kaili. 
 
     else if ( cname.Contains("mzjv") )
         wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"),Components(RooArgSet( (*wchannel->pdf("pdf_zz_" + cname)), (*wchannel->pdf("pdf_ww_" + cname)),(*wchannel->pdf("pdf_tt_" + cname)),(*wchannel->pdf("pdf_zy_" + cname)),(*wchannel->pdf("pdf_bb_" + cname)), (*wchannel->pdf("pdf_cc_" + cname)), (*wchannel->pdf("pdf_gg_" + cname)),(*wchannel->pdf("pdf_b_" + cname)) )),LineColor(kGreen),LineWidth(2),LineStyle(2)); 
-    
+    }   // modified.  09/20/2019
     else if (cname.Contains("cos"))
     { //cos
         wchannel->data("d_mass_s")->plotOn(frame, DataError(RooAbsData::SumW2),XErrorSize(1),Name(proc),MarkerColor(kRed));
@@ -253,7 +254,8 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
     FormatLatex(tex);
     if (!is250) 
     {
-        tex->DrawLatexNDC(tx, ty+0.14, "#bf{CEPC CDR}");
+      //tex->DrawLatexNDC(tx, ty+0.14, "#bf{CEPC CDR}");  // original code from Z. Kaili
+        tex->DrawLatexNDC(tx, ty+0.14, "#bf{CEPC}");  // modified.
         // tex->DrawLatexNDC(tx, ty+0.09, "#scale[0.7]{#int}Ldt=5 ab^{-1}, #sqrt{s}="+ECM+" GeV");
         if ( cname.Contains("zhaoh")) tex->DrawLatexNDC(tx, ty+0.09, "CEPC-v4, "+ECM+" GeV");
         else tex->DrawLatexNDC(tx, ty+0.09, "5.6 ab^{-1}, "+ECM+" GeV");
@@ -424,9 +426,11 @@ int main(int argc, char **argv)
 
   RooMsgService::instance().setGlobalKillBelow(RooFit::FATAL);
 
-for (int i=0; i<ch; i++)
+  //for (int i=0; i<ch; i++)   // original code from Z. Kaili. 
+for (int i=0; i<Nch; i++)    // modified for easy use. The variable are defined in shapceFIt.h.  09/20/2019 
 {
-    TString cname=CN[i];
+  //TString cname=CN[i];  // original code from Z. Kaili.
+  TString cname=m_CN[i];  // modified for easy use.  The variable defined in shapceFIt.h.  09/20/2019
     if(argc>1) 
     {
         cname=argv[1];

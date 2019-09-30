@@ -52,7 +52,8 @@ RooWorkspace* w[Nch];
    w[i] = makespace(CN[i] , i, j);
 
    channellist -> defineType(CN[i]) ;
-   CombinedPdf.addPdf(*w[i]->pdf("model_"+CN[i]),CN[i]) ;
+   //CombinedPdf.addPdf(*w[i]->pdf("model_"+CN[i]),CN[i]) ;  // original code from Z. Kaili
+   CombinedPdf.addPdf(*w[i]->pdf("modelSB_"+CN[i]),CN[i]) ;
    nuisanceParameters->add( *w[i]->set("nuisanceParameters"));
    globalObservables->add(*w[i]->set("globalObservables"));
    Observables->add(*w[i]->set("Observables"));

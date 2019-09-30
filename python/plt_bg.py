@@ -61,11 +61,12 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
     check_outfile_path(figfile)
 
     evah = signal_sample.Get('hevtflw_pre')
-    eva = evah.GetBinContent(1)  #number of e2e2hvvjj
+    eva = evah.GetBinContent(1)  # Total number of e2e2HZZ events analyzed
     if (combine_opt==1):
         scs = 5600 * 6.77 * 0.0264 / eva
     if (combine_opt==2):
         scs = 5600 * 46.3 * 0.0264 / eva
+
     s = signal_sample.Get(pic)
     s.Scale(scs)
 

@@ -12,8 +12,12 @@
 <marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
  <execute>
    <processor name="MyIsolatedLeptonFinderProcessor"/>   
-<!--   <processor name="VertexFinder"/>               -->
-<!--   <processor name="JetClusteringAndFlavorTag"/>  -->
+
+   <!-- Following two processors are for LCFIplus                                             -->
+   <!-- If LCFIplus is not used in Higgs2ZZ, please turned off for the sake of execution time -->
+   <processor name="VertexFinder"/>              
+   <processor name="JetClusteringAndFlavorTag"/> 
+
    <processor name="MyFastJetClustering"/>        
    <processor name="MyHiggs2zz"/>  
  </execute>
@@ -46,10 +50,11 @@ $gear_xml
   <parameter name="TreeOutputFile" type="string"> 
 $output_rootfile 
   </parameter>
-
   <parameter name="EjetMin" type="double"> 1.0 </parameter>
   <parameter name="JetNpfo" type="int"> 5 </parameter>
-
+  <!-- Which type of Jet algorithm is called and used in Higgs2zz             -->
+  <!-- Fastjet only( JetAlgorithm=0 ) or FastJet + LCFIplus( JetAlgorithm=1 ) -->    
+  <parameter name="JetAlgorithm" type="int"> 1 </parameter>
 </processor>
 
 
@@ -304,8 +309,6 @@ $output_rootfile
 	</parameter>
 	
 </processor>
-
-
 
 
 </marlin>

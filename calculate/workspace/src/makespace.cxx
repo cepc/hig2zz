@@ -21,6 +21,11 @@ RooWorkspace *makespace(TString cname, int index, int lu)
 
     channel c=channelbyname(cname);
     checkcname(cname);
+    
+    std::cerr << "Sep. 20th, 2019 " << std::endl;
+    std::cerr << "change(set) the bool variable isz to false" << std::endl;
+    std::cerr << "You may check/change the flags and so on for the other analysis" << std::endl;
+    isz=false;
 
     n_sig =  c.nsig;
     n_bkg =  c.nbkg;
@@ -892,6 +897,11 @@ Float_t pdfShape(RooWorkspace &ws, channel c, TString proc, TString func)
     else 
 {
     TString fun=funcsetting(cname, proc, 1);
+    std::cerr << std::endl;
+    std::cerr << "The func type to be fitted to each pdf is set in pdfShape function " << std::endl;
+    std::cerr << "If you want to change that, please visit the line here" << std::endl;
+    // if( proc.Contains("zz") ){  func = "exp2" ; }
+
     if ((fun!="") && (!cname.Contains("_"))) func=fun;
     if (nentries<28) func="keys";
     cerr << "primez_label=" << proc << "," << cname <<", 1st func="<<func<< endl;
