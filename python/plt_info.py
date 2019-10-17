@@ -22,13 +22,12 @@ def main():
     if (combine_opt==2):
         signal_sample =  ROOT.TFile('./run/channel_nn/nnh2zz/hist/ana_File_merged_1.root')
 
-    evah = signal_sample.Get('hevtflw_pre')
-    eva = evah.GetBinContent(1)  # Total number of e2e2HZZ events analyzed
+    sh = signal_sample.Get('hevtflw_pre')
+    eva = sh.GetBinContent(1)  #number of e2e2h
     if (combine_opt==1):
         scs = 5600 * 6.77 * 0.0264 / eva
     if (combine_opt==2):
         scs = 5600 * 46.3 * 0.0264 / eva
-
     print('scale for signal is %s'%scs)
 
     s_raw = sh.GetBinContent(1) * scs
@@ -62,12 +61,13 @@ def main():
     if (combine_opt==1):
         outname = './table/channel_ll/cut_info.txt'
     if (combine_opt==2):
-        outname = './table/channel_nn/cut_info.txt'
+        outname = './table/channel_nn_cut_info.txt'
 
     fout_script = open(outname,'w')
 
     fout_script.write("%-25s&%-25s&%-25s%-25s\n"%('name','scale','final',r'\\ \hline'))
         
+
     for t in tabs: 
 
         tab = open(t , 'r' )
@@ -84,7 +84,6 @@ def main():
                     sample = ROOT.TFile('./run/channel_ll/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
                 if (combine_opt==2):
                     sample = ROOT.TFile('./run/channel_nn/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
-                event_exp = 1.11 * float(l[3]) # 5050 fb-1 to 5600 fb-1
 
                 h=sample.Get('hevtflw_pre')
                 event_ana = h.GetBinContent(1)

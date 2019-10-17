@@ -44,6 +44,7 @@ def main():
 
     if (combine_opt==2):
         draw_signal_bg('h_vis_all_m_final',115,135,'vis_all_m_final(GeV)',2)
+        #save_signal_bg('h_vis_all_m_final', 115, 135, 'Invariant Mass(GeV)',2)
 
 def draw_signal_bg(pic, x1, x2, title, combine_opt):
 
@@ -61,12 +62,11 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
     check_outfile_path(figfile)
 
     evah = signal_sample.Get('hevtflw_pre')
-    eva = evah.GetBinContent(1)  # Total number of e2e2HZZ events analyzed
+    eva = evah.GetBinContent(1)  #number of e2e2hvvjj
     if (combine_opt==1):
         scs = 5600 * 6.77 * 0.0264 / eva
     if (combine_opt==2):
         scs = 5600 * 46.3 * 0.0264 / eva
-
     s = signal_sample.Get(pic)
     s.Scale(scs)
 
@@ -98,13 +98,12 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
                     a.Scale(scb)
                     exec('b%s.Add(a)'%tabs.index(t))
 
-    max0=b0.GetMaximum()
-    max1=b1.GetMaximum()
-    max2=b2.GetMaximum()
-    max_sig = s.GetMaximum()
+    max0=0
+    max1=0
+    max2=0    
 
-#    for i in range(3):
-#        exec('max%s = b%s.GetMaximum()'%(i,i))
+    for i in range(3):
+        exec('max%s = b%s.GetMaximum()'%(i,i))
 
     max = max0
     if max1 > max:
@@ -112,9 +111,6 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
     
     if max2 > max:
         max = max2
-
-    if max_sig >max:
-        max = max_sig
 
 #    ROOT.gPad.SetLogy(1)
 #    b0.SetMinimum(0.1)

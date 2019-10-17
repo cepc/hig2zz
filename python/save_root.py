@@ -16,7 +16,7 @@ from tools import check_outfile_path
 
 def main():
 
-    combine_opt = int(sys.argv[4])
+    combine_opt = int(sys.argv[1])
 
     #signal
     if (combine_opt==1):
@@ -28,13 +28,16 @@ def main():
 
     signal_sample =  ROOT.TFile(s_in)
     evah = signal_sample.Get('hevtflw_pre')
-    eva = evah.GetBinContent(1)  # # Total number of e2e2HZZ events analyzed
-    s = 5600 * 6.77 * 0.0264 / eva
+    eva = evah.GetBinContent(1)  #number of e2e2h
+    if (combine_opt==1):
+        s = 5600 * 6.77 * 0.0264 / eva
+    if (combine_opt==2):
+        s = 5600 * 46.3 * 0.0264 / eva
 
-    save_root(s_in, s_out, s)
+    save_root(s_in, s_out, s, combine_opt)
 
     #background
-    tabs = sys.argv[1:]
+    tabs = sys.argv[2:]
 
     for t in tabs: 
 
@@ -62,10 +65,13 @@ def main():
                     tep=sample.Get('hevtflw_sel')
                     if tep.GetBinContent(11) != 0:
 
-                        b_out = './root/bkg_%s.root'%dname
-                        save_root(b_in, b_out, s)
+                        if (combine_opt==1):
+                            b_out = './root/channel_ll/bkg_%s.root'%dname
+                        if (combine_opt==2):
+                            b_out = './root/channel_nn/bkg_%s.root'%dname
+                        save_root(b_in, b_out, s, combine_opt)
 
-def save_root(f_in, f_out, s):
+def save_root(f_in, f_out, s, combine_opt):
 
     check_outfile_path(f_out)
     
@@ -82,6 +88,7 @@ def save_root(f_in, f_out, s):
     vis_ex_dimuon_m = array( 'd', [0] )
     vis_all_rec_m = array( 'd', [0] )
     vis_all_pt = array( 'd', [0] )
+    vis_all_m = array( 'd', [0] )
     scale = array( 'd', [0] )
 
     t = ROOT.TTree( 'Higgs Tree', 'Higgs Tree' )

@@ -3,8 +3,8 @@ import os
 
 def main():
 
-    combine_opt = int(sys.argv[1])
     tabs = sys.argv[2:]
+    combine_opt = int(sys.argv[1])
     if (combine_opt==1):
         outname = './table/channel_ll/tex_bg.txt'
     if (combine_opt==2):

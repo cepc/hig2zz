@@ -188,8 +188,8 @@ case $option in
            ;;
     
     1.1.4) echo "Generate Condor job scripts..."
-	   mkdir -p   ./run/channel_ll/llh2zz/condor/script/marlin
-           ./python/gen_condorscripts.py ${channel_opt_ll} 1  ./run/channel_ll/llh2zz/steers ./run/channel_ll/llh2zz/condor  ${sel_signal}
+	   mkdir -p  ./run/channel_ll/llh2zz/condor/script/marlin
+           ./python/gen_condorscripts.py ${channel_opt_ll} 1 ./run/channel_ll/llh2zz/steers ./run/channel_ll/llh2zz/condor ${sel_signal} ${llhzz}
            ;;
 
     1.1.5) echo "Submit Condor jobs for pre-selection on signal..."
@@ -289,7 +289,7 @@ case $option in
 	   done
 
 	   cd ../../../../
-           ./python/gen_bg_condorscripts.py ${channel_opt_ll} 1  ./run/channel_ll/zh/steers ./run/channel_ll/zh/condor  ${sel_signal}
+           ./python/gen_bg_condorscripts.py ${channel_opt_ll} 1  ./run/channel_ll/zh/steers ./run/channel_ll/zh/condor  ${sel_signal} ${llhzz}
            ;;
 
     1.2.6) echo "Submit Condor jobs for pre-selection on background sample..."
@@ -435,7 +435,7 @@ case $option in
 	   done
 
 	   cd ../../../../
-           ./python/gen_bg_condorscripts.py ${channel_opt_ll} 1  ./run/channel_ll/bg/steers ./run/channel_ll/bg/condor  ${sel_signal} 
+           ./python/gen_bg_condorscripts.py ${channel_opt_ll} 1  ./run/channel_ll/bg/steers ./run/channel_ll/bg/condor  ${sel_signal} ${llhzz} 
            ;;
 
     1.3.6) echo "Submit Condor jobs for pre-selection on background sample..."
@@ -729,7 +729,7 @@ case $option in
            done
 
            cd ../../../../
-           ./python/gen_bg_condorscripts.py ${channel_opt_nn} 1  ./run/channel_nn/zh/steers ./run/channel_nn/zh/condor  ${sel_signal}
+           ./python/gen_bg_condorscripts.py ${channel_opt_nn} 1  ./run/channel_nn/zh/steers ./run/channel_nn/zh/condor  ${sel_signal} ${nnhzz}
            ;;
 
     2.2.6) echo "Copy the same zh ntuple as mmHzz channel..."
@@ -858,7 +858,7 @@ case $option in
            done
 
            cd ../../../../
-           ./python/gen_bg_condorscripts.py ${channel_opt_nn} 1  ./run/channel_nn/bg/steers ./run/channel_nn/bg/condor  ${sel_signal} 
+           ./python/gen_bg_condorscripts.py ${channel_opt_nn} 1  ./run/channel_nn/bg/steers ./run/channel_nn/bg/condor  ${sel_signal} ${nnhzz} 
            ;;
 
     2.3.6) echo "Copy the same bg ntuple as mmHzz channel..."
