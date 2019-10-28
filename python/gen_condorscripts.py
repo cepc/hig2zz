@@ -44,7 +44,8 @@ def main():
     src = args[1]
     dst = args[2]
     flag = args[3]
-    
+    combine_opt = args[4]    
+
     if src.startswith('.'):                    
         src = src[2:]
     if src.endswith('/'):                    
@@ -54,7 +55,6 @@ def main():
         dst = dst[2:]
     if dst.endswith('/'):                    
         dst = dst[:-1]
-
 
     cwd = os.getcwd()
 
@@ -158,7 +158,7 @@ def main():
                 fout_script.write('                                 \n') 
                 fout_script.write('source setup.sh                  \n')
                 fout_script.write('                                 \n') 
-                fout_script.write('./python/sel_events.py  %s %s %s %s \n' % ( channel_opt, root_in, root_out, flag ) ) 
+                fout_script.write('./python/sel_events.py  %s %s %s %s %s \n' % ( channel_opt, root_in, root_out, flag, combine_opt ) ) 
                 fout_script.write('                                 \n') 
                 fout_script.close()
                 sys.stdout.write('Creating condor submit script %s \n'  % outname)

@@ -44,13 +44,14 @@ $gear_xml
   <parameter name="Ecms" type="double"> $ecms </parameter>
   <parameter name="EcmsOption" type="int"> 1 </parameter>
   <parameter name="TreeName" type="string"> tree </parameter>
-  <parameter name="LeptonEMax" type="double"> 100.0 </parameter>
-  <parameter name="LeptonEMin" type="double"> 10.0 </parameter>
+  <parameter name="LeptonEMax" type="double"> 1e+20 </parameter>
+  <parameter name="LeptonEMin" type="double"> 3.0 </parameter>
   <parameter name="LeptonPtMin" type="double"> 0.0 </parameter>
   <parameter name="TreeOutputFile" type="string"> 
 $output_rootfile 
   </parameter>
-
+  <parameter name="EjetMin" type="double"> 1.0 </parameter>
+  <parameter name="JetNpfo" type="int"> 5 </parameter>
   <!-- Which type of Jet algorithm is called and used in Higgs2zz             -->
   <!-- Fastjet only( JetAlgorithm=0 ) or FastJet + LCFIplus( JetAlgorithm=1 ) -->    
   <parameter name="JetAlgorithm" type="int"> 1 </parameter>
@@ -75,13 +76,13 @@ $output_rootfile
     <!--Cosine of the half-angle of the cone used in isolation criteria-->
     <parameter name="CosConeAngle" type="float">0.98 </parameter>
     <!--Electron ID: Maximum Ecal deposit divided by sum of Ecal and Hcal deposits-->
-    <parameter name="ElectronMaxEcalToHcalFraction" type="float">1 </parameter>
+    <parameter name="ElectronMaxEcalToHcalFraction" type="float">1.5 </parameter>
     <!--Electron ID: Maximum energy deposit divided by momentum-->
-    <parameter name="ElectronMaxEnergyDepositByMomentum" type="float">1.4 </parameter>
+    <parameter name="ElectronMaxEnergyDepositByMomentum" type="float">1.5 </parameter>
     <!--Electron ID: Minimum Ecal deposit divided by sum of Ecal and Hcal deposits-->
-    <parameter name="ElectronMinEcalToHcalFraction" type="float">0.9 </parameter>
+    <parameter name="ElectronMinEcalToHcalFraction" type="float">0.7 </parameter>
     <!--Electron ID: Minimum energy deposit divided by momentum-->
-    <parameter name="ElectronMinEnergyDepositByMomentum" type="float">0.7 </parameter>
+    <parameter name="ElectronMinEnergyDepositByMomentum" type="float">0.5 </parameter>
     <!--Maximum impact parameter in 3D-->
     <parameter name="ImpactParameterMax3D" type="float">0.01 </parameter>
     <!--Maximum impact parameter significance in 3D-->
@@ -115,9 +116,9 @@ $output_rootfile
     <!--Minimum cone energy for isolation requirement-->
     <parameter name="IsolationMinimumConeEnergy" type="float">0 </parameter>
     <!--Minimum track energy for isolation requirement-->
-    <parameter name="IsolationMinimumTrackEnergy" type="float">10 </parameter>
+    <parameter name="IsolationMinimumTrackEnergy" type="float">3 </parameter>
     <!--Polynomial cut (A) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
-    <parameter name="IsolationPolynomialCutA" type="float">0.16 </parameter>
+    <parameter name="IsolationPolynomialCutA" type="float">0.01 </parameter>
     <!--Polynomial cut (B) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
     <parameter name="IsolationPolynomialCutB" type="float">0 </parameter>
     <!--Polynomial cut (C) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
@@ -151,7 +152,7 @@ $output_rootfile
     <!--Use jet-based isolation-->
     <parameter name="UseJetIsolation" type="bool">false </parameter>
     <!--Use primitive particle ID based on calorimeter energy deposits-->
-    <parameter name="UsePID" type="bool"> false </parameter>
+    <parameter name="UsePID" type="bool"> true </parameter>
     <!--Use polynomial cuts on track and cone energy-->
     <parameter name="UsePolynomialIsolation" type="bool">true </parameter>
     <!--Use rectangular cuts on track and cone energy-->
@@ -308,8 +309,6 @@ $output_rootfile
 	</parameter>
 	
 </processor>
-
-
 
 
 </marlin>
