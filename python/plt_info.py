@@ -133,7 +133,10 @@ def main():
                                 exec ("ff%s += cut%s"%(i+1,i+1))
 
     print('\n')
-    print("%-25s%-15s%-15s%-15s%-15s"%('cut','llhzz','zh','2f','4f'))
+    if (combine_opt==1):
+        print("%-25s%-15s%-15s%-15s%-15s"%('cut','llhzz','zh','2f','4f'))
+    if (combine_opt==2):
+        print("%-25s%-15s%-15s%-15s%-15s"%('cut','nnhzz','zh','2f','4f'))
     print("%-25s%-15s%-15s%-15s%-15s"%('Raw events',int(s_raw),int(z_raw),int(f_raw),int(ff_raw)))
     print("%-25s%-15s%-15s%-15s%-15s"%('Pre-selection',int(s1),int(z1),int(f1),int(ff1)))
     print("%-25s%-15s%-15s%-15s%-15s"%('Signal or not',int(s2),int(z2),int(f2),int(ff2)))
