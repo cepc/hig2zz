@@ -546,11 +546,11 @@ case $option in
 	   ;; 
 			
     1.4.4) echo  "Save results..."
-	   rm -rf ./root/llhzz
-	   mkdir -p   ./root/llhzz/merge
-	   python ./python/save_root.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt ${llhzz}
+	   rm -rf ./root/channel_ll
+	   mkdir -p   ./root/channel_ll/merge
+	   python ./python/save_root.py  ${llhzz} ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt 
 
-	   cd ./root/llhzz
+	   cd ./root/channel_ll
 
 	   if [ ${channel_opt_ll} = 1 ]; then
 		cp sig.root ./merge/mzvj_sig.root
@@ -560,7 +560,7 @@ case $option in
 		hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
 		hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
 		cd ../..
-		cp -r root/llhzz/merge/. calculate/workspace/data/new_zz/mzvj/
+		cp -r root/channel_ll/merge/. calculate/workspace/data/new_zz/mzvj/
 		cd calculate/workspace/data/new_zz/mzvj/
 		root -l -q mzvj.cxx
            else
@@ -575,7 +575,7 @@ case $option in
 		hadd ./merge/mzjv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
 		
 		cd ../..
-		cp -r root/llhzz/merge/. calculate/workspace/data/new_zz/mzjv/
+		cp -r root/channel_ll/merge/. calculate/workspace/data/new_zz/mzjv/
 		cd calculate/workspace/data/new_zz/mzjv/
 		root -l -q mzjv.cxx
             fi
@@ -586,8 +586,12 @@ case $option in
            echo "If it is not, please do so \n" 
            echo "Ready to go next ? Please type ENTER or stop now (Ctrl-C)" 
            read flag
+
            cd ./calculate/workspace/
-           if [ ${channel_opt} = 1 ]; then
+	   mkdir -p ./bin
+	   mkdir -p ./lib
+	   make clean
+           if [ ${channel_opt_ll} = 1 ]; then
                cp -p ./inc/shapeFit_HZZ_vvjj.h ./inc/shapeFit.h
            else
                cp -p ./inc/shapeFit_HZZ_jjvv.h ./inc/shapeFit.h
@@ -632,7 +636,7 @@ case $option in
 
     2.1.4) echo "Generate Condor job scripts..."
            mkdir -p ./run/channel_nn/nnh2zz/condor/script/marlin
-           ./python/gen_condorscripts.py ${channel_opt_nn} 1 ./run/channel_nn/nnh2zz/steers ./run/channel_nn/nnh2zz/condor ${sel_signal}
+           ./python/gen_condorscripts.py ${channel_opt_nn} 1 ./run/channel_nn/nnh2zz/steers ./run/channel_nn/nnh2zz/condor ${sel_signal} ${nnhzz}
            ;;
 
     2.1.5) echo "Submit Condor jobs for pre-selection on signal..."
@@ -951,41 +955,44 @@ case $option in
            ;;
 
     2.4.4) echo  "Save results..."
-           rm -rf ./root/nnhzz
-           mkdir -p   ./root/nnhzz/merge
-           python ./python/save_root.py  ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt ${nnhzz}
+           rm -rf ./root/channel_nn
+           mkdir -p   ./root/channel_nn/merge
+           python ./python/save_root.py  ${nnhzz} ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt 
 
-           cd ./root/nnhzz
+           cd ./root/channel_nn
 
-           if [ ${channel_opt_nn} = 1 ]; then
-               cp sig.root ./merge/mzvj_sig.root
-               hadd ./merge/mzvj_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
-               hadd ./merge/mzvj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-               hadd ./merge/mzvj_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
-               hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
-               hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
-
-               cd ../..
-               cp -r root/nnhzz/merge/. calculate/workspace/data/new_zz/mzvj/
-               cd calculate/workspace/data/new_zz/mzvj/
-               root -l -q mzvj.cxx
-           else
-               cp sig.root ./merge/mzjv_sig.root
-               hadd ./merge/mzjv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
-               hadd ./merge/mzjv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-               hadd ./merge/mzjv_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
-               hadd ./merge/mzjv_az.root bkg_e2e2h_az.root bkg_qqh_az.root
-               hadd ./merge/mzjv_bb.root bkg_e2e2h_bb.root
-               hadd ./merge/mzjv_cc.root bkg_e2e2h_cc.root
-               hadd ./merge/mzjv_gg.root bkg_e2e2h_gg.root
-               hadd ./merge/mzjv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
-
-               cd ../..
-               cp -r root/nnhzz/merge/. calculate/workspace/data/new_zz/mzjv/
-               cd calculate/workspace/data/new_zz/mzjv/
-               root -l -q mzjv.cxx
-           fi
-           .q
+# Comment [ 2019-10-28 ] :
+# Following section should be updated (based on 1.4.4)  so as to fit to the nnHZZ channel, thus, they all are commented out for the moment 
+# 
+#           if [ ${channel_opt_nn} = 1 ]; then
+#               cp sig.root ./merge/mzvj_sig.root
+#               hadd ./merge/mzvj_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
+#               hadd ./merge/mzvj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+#               hadd ./merge/mzvj_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
+#               hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
+#               hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
+#
+#               cd ../..
+#               cp -r root/nnhzz/merge/. calculate/workspace/data/new_zz/mzvj/
+#               cd calculate/workspace/data/new_zz/mzvj/
+#               root -l -q mzvj.cxx
+#           else
+#               cp sig.root ./merge/mzjv_sig.root
+#               hadd ./merge/mzjv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
+#               hadd ./merge/mzjv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+#               hadd ./merge/mzjv_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
+#               hadd ./merge/mzjv_az.root bkg_e2e2h_az.root bkg_qqh_az.root
+#               hadd ./merge/mzjv_bb.root bkg_e2e2h_bb.root
+#               hadd ./merge/mzjv_cc.root bkg_e2e2h_cc.root
+#               hadd ./merge/mzjv_gg.root bkg_e2e2h_gg.root
+#               hadd ./merge/mzjv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
+#
+#               cd ../..
+#               cp -r root/nnhzz/merge/. calculate/workspace/data/new_zz/mzjv/
+#               cd calculate/workspace/data/new_zz/mzjv/
+#               root -l -q mzjv.cxx
+#           fi
+#           .q
            ;;
 
     2.4.5) echo  "fit results...\n" #source setupATLAS.sh first
@@ -993,17 +1000,21 @@ case $option in
            echo "If it is not, please do so \n" 
            echo "Ready to go next ? Please type ENTER or stop now (Ctrl-C)" 
            read flag
-           cd ./calculate/workspace/
-           if [ ${channel_opt} = 1 ]; then
-               cp -p ./inc/shapeFit_HZZ_vvjj.h ./inc/shapeFit.h
-           else
-               cp -p ./inc/shapeFit_HZZ_jjvv.h ./inc/shapeFit.h
-           fi
 
-           cd ./calculate/workspace/
-           ./job/run.sh
-           ./job/plot.sh
-           echo "Please check the output under ./calculate/workspace/out/ " 
+# Comment [ 2019-10-28 ] :
+# Following section should be updated (based on 1.4.5)  so as to fit to the nnHZZ channel, thus, they all are commented out for the moment 
+#
+#           cd ./calculate/workspace/
+#           if [ ${channel_opt} = 1 ]; then
+#               cp -p ./inc/shapeFit_HZZ_vvjj.h ./inc/shapeFit.h
+#           else
+#               cp -p ./inc/shapeFit_HZZ_jjvv.h ./inc/shapeFit.h
+#           fi
+#
+#           cd ./calculate/workspace/
+#           ./job/run.sh
+#           ./job/plot.sh
+#           echo "Please check the output under ./calculate/workspace/out/ " 
            ;;
     esac
 }

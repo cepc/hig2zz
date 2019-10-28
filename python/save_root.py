@@ -63,13 +63,15 @@ def main():
                     s = (event_exp / event_ana)
 
                     tep=sample.Get('hevtflw_sel')
-                    if tep.GetBinContent(11) != 0:
 
-                        if (combine_opt==1):
+                    if (combine_opt==1):
+                        if tep.GetBinContent(11) != 0:
                             b_out = './root/channel_ll/bkg_%s.root'%dname
-                        if (combine_opt==2):
+                            save_root(b_in, b_out, s, combine_opt)
+                    if (combine_opt==2):
+                        if tep.GetBinContent(16) != 0:
                             b_out = './root/channel_nn/bkg_%s.root'%dname
-                        save_root(b_in, b_out, s, combine_opt)
+                            save_root(b_in, b_out, s, combine_opt)
 
 def save_root(f_in, f_out, s, combine_opt):
 
