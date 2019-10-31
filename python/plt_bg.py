@@ -105,12 +105,20 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
     for i in range(3):
         exec('max%s = b%s.GetMaximum()'%(i,i))
 
-    max = max0
+    max_signal = s.GetMaximum()
+    max = max_signal
+
+    if max0 > max:
+        max = max0
+
     if max1 > max:
         max = max1
     
     if max2 > max:
         max = max2
+
+
+    ROOT.gStyle.SetOptStat(000)
 
 #    ROOT.gPad.SetLogy(1)
 #    b0.SetMinimum(0.1)
