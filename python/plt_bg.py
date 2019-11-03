@@ -44,14 +44,18 @@ def main():
 
     if (combine_opt==2):
         draw_signal_bg('h_vis_all_m_final',115,135,'vis_all_m_final(GeV)',2)
-        #save_signal_bg('h_vis_all_m_final', 115, 135, 'Invariant Mass(GeV)',2)
 
 def draw_signal_bg(pic, x1, x2, title, combine_opt):
 
     tabs = sys.argv[3:]
 
-    leg = ROOT.TLegend(0.7, 0.71, 0.9, 0.91)
     c = ROOT.TCanvas('c', 'c', 1600, 1600)
+
+    leg = ROOT.TLegend(0.63, 0.7, 0.90, 0.90)
+    stack = ROOT.THStack('stack','')
+
+    leg.SetTextFont(60)
+    leg.SetTextSize(0.02)
 
     if (combine_opt==1):
         figfile = './fig/channel_ll/sbg_%s.pdf'%pic
@@ -59,6 +63,7 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
     if (combine_opt==2):
         figfile = './fig/channel_nn/sbg_%s.pdf'%pic
         signal_sample =  ROOT.TFile('./run/channel_nn/nnh2zz/hist/ana_File_merged_1.root')
+
     check_outfile_path(figfile)
 
     evah = signal_sample.Get('hevtflw_pre')
@@ -98,6 +103,8 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
                     a.Scale(scb)
                     exec('b%s.Add(a)'%tabs.index(t))
 
+    SetCEPCCDRStyle()
+
     max0=0
     max1=0
     max2=0    
@@ -123,36 +130,41 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
 #    ROOT.gPad.SetLogy(1)
 #    b0.SetMinimum(0.1)
 #    b0.SetMaximum(10 * max)
-    b0.SetMaximum(max*1.15)
-    b0.GetXaxis().SetRangeUser(x1, x2)
-    b0.SetXTitle(title)
+    s.SetMaximum(max*1.15)
+    s.GetXaxis().SetRangeUser(x1, x2)
+    s.SetXTitle(title)
 
     if pic == 'h_min_angle' or pic == 'h_single_jet_theta':
-        b0.SetYTitle('Events/degree') 
+        s.SetYTitle('Events/degree') 
     elif pic == 'h_npfo' or pic == 'h_npfo_raw' or pic == 'h_npfo_final':
-        b0.SetYTitle('Events')
+        s.SetYTitle('Events')
     else:
-        b0.SetYTitle('Events/GeV') 
+        s.SetYTitle('Events/GeV') 
 
-    b0.SetLineColor(6)
-    b0.Draw()
-    leg.AddEntry(b0, '2fermion background')
-    leg.Draw()
-
-    b1.SetLineColor(3)
-    b1.Draw('same')
-    leg.AddEntry(b1, '4fermion background')
-    leg.Draw()
-
-    b2.SetLineColor(4)
-    b2.Draw('same')
-    leg.AddEntry(b2, 'ZH background')
-    leg.Draw()
-
+    s.GetYaxis().SetTitleOffset(1.4)
+    s.GetYaxis().SetLabelFont(50)
+    s.GetYaxis().SetLabelSize(0.034)
+    s.GetXaxis().SetLabelFont(50)
+    s.GetXaxis().SetLabelSize(0.034)
     s.SetLineColor(2)
-    s.Draw('same')
+    s.Draw('')
     leg.AddEntry(s, "signal")
+   
+    b0.SetFillColor(6)
+    stack.Add(b0)
+    leg.AddEntry(b0, '2fermion background')
+
+    b1.SetFillColor(4)
+    stack.Add(b1)
+    leg.AddEntry(b1, '4fermion background')
+
+    b2.SetFillColor(8)
+    stack.Add(b2)
+    leg.AddEntry(b2, 'ZH background')
+
     leg.Draw()
+    stack.Draw('sameH')
+    s.Draw('same')
 
     c.SaveAs(figfile)
 
@@ -176,6 +188,94 @@ def draw_2d(pic, combine_opt):
     s.SetContour(99)
     s.Draw("colz")
     c.SaveAs(figfile)
+
+def SetCEPCCDRStyle():
+
+    CEPCCDRStyle = ROOT.TStyle("CEPCCDRStyle","Style for CEPC CDR by Kaili")
+
+    #canvas
+    CEPCCDRStyle.SetCanvasBorderMode(0)
+    CEPCCDRStyle.SetCanvasColor(0)
+    CEPCCDRStyle.SetCanvasDefH(800)
+    CEPCCDRStyle.SetCanvasDefW(800)
+    CEPCCDRStyle.SetCanvasDefX(0)
+    CEPCCDRStyle.SetCanvasDefY(0)
+
+    #pad
+    CEPCCDRStyle.SetPadBorderMode(0)
+    CEPCCDRStyle.SetPadColor(0)
+    CEPCCDRStyle.SetGridStyle(3)
+    CEPCCDRStyle.SetGridWidth(1)
+
+    #frame
+    CEPCCDRStyle.SetFrameBorderMode(0);
+    CEPCCDRStyle.SetFrameBorderSize(1);
+    CEPCCDRStyle.SetFrameFillColor(0);
+    CEPCCDRStyle.SetFrameFillStyle(0);
+    CEPCCDRStyle.SetFrameLineColor(1);
+    CEPCCDRStyle.SetFrameLineStyle(1);
+    CEPCCDRStyle.SetFrameLineWidth(2);
+
+    #hist
+    CEPCCDRStyle.SetHistLineStyle(0)
+    CEPCCDRStyle.SetEndErrorSize(2)
+    CEPCCDRStyle.SetMarkerStyle(20)
+
+    #fit
+    CEPCCDRStyle.SetOptFit(0)
+    CEPCCDRStyle.SetFitFormat("5.4g")
+    CEPCCDRStyle.SetFuncColor(2)
+    CEPCCDRStyle.SetFuncStyle(1)
+    CEPCCDRStyle.SetFuncWidth(2)
+
+    #date
+    CEPCCDRStyle.SetOptDate(0)
+
+    #statistics box
+    CEPCCDRStyle.SetOptFile(0)
+    CEPCCDRStyle.SetOptStat(0)
+    CEPCCDRStyle.SetStatColor(0)
+    CEPCCDRStyle.SetStatTextColor(1)
+    CEPCCDRStyle.SetStatFormat("6.4g")
+    CEPCCDRStyle.SetStatBorderSize(1)
+    CEPCCDRStyle.SetStatH(0.1)
+    CEPCCDRStyle.SetStatW(0.15)
+
+    #margins
+    CEPCCDRStyle.SetPadLeftMargin(0.18)
+    CEPCCDRStyle.SetPadRightMargin(0.04)
+    CEPCCDRStyle.SetPadBottomMargin(0.11)
+    CEPCCDRStyle.SetPadTopMargin(0.02)
+
+    #title
+    CEPCCDRStyle.SetOptTitle(0)
+    CEPCCDRStyle.SetTitleFont(43)
+    CEPCCDRStyle.SetTitleColor(1)
+    CEPCCDRStyle.SetTitleTextColor(1)
+    CEPCCDRStyle.SetTitleFillColor(0)
+    CEPCCDRStyle.SetTitleFontSize(36)
+    CEPCCDRStyle.SetTitleXOffset(0.9)
+    CEPCCDRStyle.SetTitleYOffset(1.0)
+    #axis
+    CEPCCDRStyle.SetTitleColor(1, "XYZ")
+    CEPCCDRStyle.SetTitleFont(43, "XYZ")
+    CEPCCDRStyle.SetTitleSize(36, "XYZ")
+    CEPCCDRStyle.SetLabelColor(1, "XYZ")
+    CEPCCDRStyle.SetLabelFont(43, "XYZ")
+    CEPCCDRStyle.SetLabelOffset(0.005, "XYZ")
+    CEPCCDRStyle.SetLabelSize(34, "XYZ")
+    CEPCCDRStyle.SetAxisColor(1, "XYZ")
+    CEPCCDRStyle.SetStripDecimals(1)
+    CEPCCDRStyle.SetTickLength(0.02, "XYZ")
+    CEPCCDRStyle.SetNdivisions(508, "XYZ")
+    CEPCCDRStyle.SetPadTickX(1)
+    CEPCCDRStyle.SetPadTickY(1)
+
+    #others
+    CEPCCDRStyle.SetPaperSize(20.,20.)
+    CEPCCDRStyle.SetHatchesLineWidth(5)
+    CEPCCDRStyle.SetHatchesSpacing(0.05)
+    CEPCCDRStyle.cd()
 
 if __name__ == '__main__':
     main()
