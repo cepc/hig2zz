@@ -15,7 +15,9 @@ bool isuseexistingpdf=false;
                                 //  "qw4q", "vw4q", 
                                 //  "minc_mi", "minc_md", "einc_mi", "einc_md",
                                 //  "vweq", "vwmq",
-                                //  "vzej", "vzmj", "mzvj",           
+                                //  "vzej",
+                                   "vz",
+                                //   "mzvj",           
                                 //  "mmtt", "qqtt", "eett", "vvtt",
                                 //  "eeqq", "mmqq", 
                                 //  "qqqq", "vvqq", 
@@ -23,8 +25,10 @@ bool isuseexistingpdf=false;
                                  
                                 //  "qz4v", "ez4v", 
                                  
-                                 "mzvj",  
-                                // "mzjv"      
+                                // "mzvj",  
+                                // "mzjv"
+                                // "qzvm",
+                                // "qzmv"      
                                 //  "eeqq_inv",
                                 //  "qw4q_rec", "vw4q_rec", "qqqq_rec", "vvqq_rec",
                                 //  "mcom",
@@ -838,14 +842,21 @@ const channel c[150]=
             {"zh",  "data/new_zz/vveejj/ZH_bkg.root"}
         }
     },
-    {   "vzmj", 2, 1, 100, 150,
-        "data/new_zz/vvmmjj/sm.root",
-        {"s", "zh"},
+    {   "vz", 8, 1, 100, 150,
+        "data/new_zz/vz/new_vz_sm.root",
+        {"s", "zz", "ww", "tt", "zy","bb", "cc", "gg"},
         {
-            {"s",   "data/new_zz/vvmmjj/sig.root"},
-            {"zh",  "data/new_zz/vvmmjj/ZH_bkg.root"}
+            {"s",   "data/new_zz/vz/new_vz_sig.root"},
+            {"zz",  "data/new_zz/vz/new_vz_zz.root"},
+            {"ww",  "data/new_zz/vz/new_vz_ww.root"},
+            {"tt",  "data/new_zz/vz/new_vz_tt.root"},
+            {"zy",  "data/new_zz/vz/new_vz_az.root"},
+            {"bb",  "data/new_zz/vz/new_vz_bb.root"},
+            {"cc",  "data/new_zz/vz/new_vz_cc.root"},
+            {"gg",  "data/new_zz/vz/new_vz_gg.root"}
         }
     },
+
     {   "ezej", 1, 1, 120, 140,
         "data/new_zz/eeeejj/bkg.root",
         {"s", "zh"},
@@ -877,7 +888,6 @@ const channel c[150]=
             {"ww",  "data/new_zz/mzvj/new_mzvj_ww.root"},
             {"tt",  "data/new_zz/mzvj/new_mzvj_tt.root"},
             {"zy",  "data/new_zz/mzvj/new_mzvj_az.root"}
-
         }
     },
     
@@ -893,6 +903,34 @@ const channel c[150]=
             {"bb",  "data/new_zz/mzjv/new_mzjv_bb.root"},
             {"cc",  "data/new_zz/mzjv/new_mzjv_cc.root"},
             {"gg",  "data/new_zz/mzjv/new_mzjv_gg.root"}
+
+        }
+    },
+
+    {   "qzvm", 5, 1, 120, 140,
+        "data/new_zz/qzvm/new_qzvm_sm.root",
+        {"s", "zz", "ww", "tt", "zy"},
+        {   
+            {"s",   "data/new_zz/qzvm/new_qzvm_sig.root"},
+            {"zz",  "data/new_zz/qzvm/new_qzvm_zz.root"},
+            {"ww",  "data/new_zz/qzvm/new_qzvm_ww.root"},
+            {"tt",  "data/new_zz/qzvm/new_qzvm_tt.root"},
+            {"zy",  "data/new_zz/qzvm/new_qzvm_az.root"}
+        }
+    },
+
+    {   "qzmv", 8, 1, 120, 140,
+        "data/new_zz/qzmv/new_qzmv_sm.root",
+        {"s", "zz", "ww", "tt", "zy","bb", "cc", "gg"},
+        {
+            {"s",   "data/new_zz/qzmv/new_qzmv_sig.root"},
+            {"zz",  "data/new_zz/qzmv/new_qzmv_zz.root"},
+            {"ww",  "data/new_zz/qzmv/new_qzmv_ww.root"},
+            {"tt",  "data/new_zz/qzmv/new_qzmv_tt.root"},
+            {"zy",  "data/new_zz/qzmv/new_qzmv_az.root"},
+            {"bb",  "data/new_zz/qzmv/new_qzmv_bb.root"},
+            {"cc",  "data/new_zz/qzmv/new_qzmv_cc.root"},
+            {"gg",  "data/new_zz/qzmv/new_qzmv_gg.root"}
 
         }
     },
@@ -1344,6 +1382,9 @@ const map<TString, TString> name=
     {"vzmj",    "Z#rightarrow#nu#nu, H#rightarrowZZ*#rightarrow#mu^{+}#mu^{-}q#bar{q}"},
     {"mzvj",    "Z#rightarrow#mu^{+}#mu^{-}, H#rightarrowZZ*#rightarrow#nu#nuq#bar{q}"},
     {"mzjv",    "Z#rightarrow#mu^{+}#mu^{-}, H#rightarrowZZ*#rightarrowq#bar{q}#nu#nu"},
+    {"vz",      "Z#rightarrow#nu#nu, H#rightarrowZZ*#rightarrowq#bar{q}#mu^{+}#mu^{-}"},
+    {"qzvm",    "Z#rightarrowq#bar{q}, H#rightarrowZZ*#rightarrow#nu#nu#mu^{+}#mu^{-}"},
+    {"qzmv",    "Z#rightarrowq#bar{q}, H#rightarrowZZ*#rightarrow#mu^{+}#mu^{-}#nu#nu"},
     {"ezej",    "Z#rightarrowe^{+}e^{-}, H#rightarrowZZ*#rightarrowe^{+}e^{-}q#bar{q}"},
     // {"ezmj",    "Z#rightarrowe^{+}e^{-}, H#rightarrowZZ*#rightarrow#mu^{+}#mu^{-}q#bar{q}"},
     {"qz4v",    "Z#rightarrowq#bar{q}, H#rightarrowZZ*#rightarrow#nu#nu#nu#nu"},
@@ -1400,6 +1441,9 @@ const map<TString, TString> xrec=
     {"mmqq",    "Recoil"},
     {"mzvj",        "Recoil"},
     {"mzjv",        "Recoil"},
+    {"vz",          "Recoil"},
+    {"qzvm",        "Recoil"},
+    {"qzmv",        "Recoil"},
     {"vvhbb_rec",       "Recoil"},
     {"vvhbb",       "Recoil"},
     {"mmyy_ryy",    "Recoil"},
@@ -1455,6 +1499,9 @@ const map<TString, TString> xname=
     {"vzmj",    "#mu#muq#bar{q}"},
     {"mzvj",    "#mu#mu"},
     {"mzjv",    "#mu#mu"},
+    {"vz",      "#nu#nu"},
+    {"qzvm",    "q#bar{q}"},
+    {"qzmv",    "q#bar{q}"},
     {"ezej",    "ee"},
     // {"ezmj",    "ee"},
     {"qz4v",    "qq"},
@@ -1544,6 +1591,9 @@ const map<TString, TString> varname=
     {"zzgg_rec",            "Mass_invar"},
      {"mzvj",            "Mass_H"},
      {"mzjv",            "Mass_H"},
+     {"vz",              "Mass_H"},
+     {"qzvm",            "Mass_H"},
+     {"qzmv",            "Mass_H"},
     
 };
 const map<TString, Float_t> histomax=
