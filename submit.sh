@@ -217,7 +217,7 @@ signal_slcio_dir_qq=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pqqh_zz.e0.p0.
 sel_all=0
 sel_signal=1
 sel_bg=2
-channel_opt_ll=1  #1 for hvvjj, 2 for hjjvv
+channel_opt_ll=2  #1 for hvvjj, 2 for hjjvv
 channel_opt_nn=1
 channel_opt_qq=1  #1 for hvvmm, 2 for hmmvv
 llhzz=1
@@ -700,8 +700,7 @@ case $option in
     1.4.6) echo "move repository for another parallel sub channel"
            if [ ${channel_opt_ll} = 1 ]; then
                cd ./run/channel_ll/llh2zz/
-               rm -rf channel_ll_vvjj
-               mkdir channel_ll_vvjj
+               mkdir -p channel_ll_vvjj
                mv ./condor channel_ll_vvjj/
                mv ./events channel_ll_vvjj/
                mv ./hist channel_ll_vvjj/
@@ -709,8 +708,7 @@ case $option in
                mv ./steers channel_ll_vvjj/
 
                cd ../zh/
-               rm -rf channel_ll_vvjj
-               mkdir channel_ll_vvjj
+               mkdir -p channel_ll_vvjj
                mv ./condor channel_ll_vvjj/
                mv ./events channel_ll_vvjj/
                mv ./hist channel_ll_vvjj/
@@ -718,8 +716,7 @@ case $option in
                mv ./steers channel_ll_vvjj/
 
                cd ../bg/
-               rm -rf channel_ll_vvjj
-               mkdir channel_ll_vvjj
+               mkdir -p channel_ll_vvjj
                mv ./condor channel_ll_vvjj/
                mv ./events channel_ll_vvjj/
                mv ./hist channel_ll_vvjj/
@@ -732,8 +729,7 @@ case $option in
                mv ./fig/channel_ll ./fig/channel_ll_vvjj
            else
                cd ./run/channel_ll/llh2zz/
-               rm -rf channel_ll_jjvv
-               mkdir channel_ll_jjvv
+               mkdir -p channel_ll_jjvv
                mv ./condor channel_ll_jjvv/
                mv ./events channel_ll_jjvv/
                mv ./hist channel_ll_jjvv/
@@ -741,8 +737,7 @@ case $option in
                mv ./steers channel_ll_jjvv/
 
                cd ../zh/
-               rm -rf channel_ll_jjvv
-               mkdir channel_ll_jjvv
+               mkdir -p channel_ll_jjvv
                mv ./condor channel_ll_jjvv/
                mv ./events channel_ll_jjvv/
                mv ./hist channel_ll_jjvv/
@@ -750,8 +745,7 @@ case $option in
                mv ./steers channel_ll_jjvv/
 
                cd ../bg/
-               rm -rf channel_ll_jjvv
-               mkdir channel_ll_jjvv
+               mkdir -p channel_ll_jjvv
                mv ./condor channel_ll_jjvv/
                mv ./events channel_ll_jjvv/
                mv ./hist channel_ll_jjvv/
@@ -1572,8 +1566,7 @@ case $option in
     3.4.6) echo "move repository for another parallel sub channel"
            if [ ${channel_opt_qq} = 1 ]; then
                cd ./run/channel_qq/qqh2zz/
-               rm -rf channel_qq_vvmm
-               mkdir channel_qq_vvmm
+               mkdir -p channel_qq_vvmm
                mv ./condor channel_qq_vvmm/
                mv ./events channel_qq_vvmm/
                mv ./hist channel_qq_vvmm/
@@ -1581,8 +1574,7 @@ case $option in
                mv ./steers channel_qq_vvmm/
 
                cd ../zh/
-               rm -rf channel_qq_vvmm
-               mkdir channel_qq_vvmm
+               mkdir -p channel_qq_vvmm
                mv ./condor channel_qq_vvmm/
                mv ./events channel_qq_vvmm/
                mv ./hist channel_qq_vvmm/
@@ -1590,8 +1582,7 @@ case $option in
                mv ./steers channel_qq_vvmm/
 
                cd ../bg/
-               rm -rf channel_qq_vvmm
-               mkdir channel_qq_vvmm
+               mkdir -p channel_qq_vvmm
                mv ./condor channel_qq_vvmm/
                mv ./events channel_qq_vvmm/
                mv ./hist channel_qq_vvmm/
@@ -1604,8 +1595,7 @@ case $option in
                mv ./fig/channel_qq ./fig/channel_qq_vvmm
            else
                cd ./run/channel_qq/qqh2zz/
-               rm -rf channel_qq_mmvv
-               mkdir channel_qq_mmvv
+               mkdir -p channel_qq_mmvv
                mv ./condor channel_qq_mmvv/
                mv ./events channel_qq_mmvv/
                mv ./hist channel_qq_mmvv/
@@ -1613,8 +1603,7 @@ case $option in
                mv ./steers channel_qq_mmvv/
 
                cd ../zh/
-               rm -rf channel_qq_mmvv
-               mkdir channel_qq_mmvv
+               mkdir -p channel_qq_mmvv
                mv ./condor channel_qq_mmvv/
                mv ./events channel_qq_mmvv/
                mv ./hist channel_qq_mmvv/
@@ -1622,8 +1611,7 @@ case $option in
                mv ./steers channel_qq_mmvv/
 
                cd ../bg/
-               rm -rf channel_qq_mmvv
-               mkdir channel_qq_mmvv
+               mkdir -p channel_qq_mmvv
                mv ./condor channel_qq_mmvv/
                mv ./events channel_qq_mmvv/
                mv ./hist channel_qq_mmvv/

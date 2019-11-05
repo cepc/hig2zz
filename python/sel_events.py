@@ -212,7 +212,7 @@ def main():
         h_evtflw.GetXaxis().SetBinLabel(16,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
 
     if combine_opt==3 :
-        if ZZ_selection==1:
+        if ZZ_Selection==1:
             h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
             h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
             h_evtflw.GetXaxis().SetBinLabel(3,'M(missing)>M(dimuon)')
@@ -232,7 +232,7 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
             h_evtflw.GetXaxis().SetBinLabel(18,'vis_all_m<122GeV + 128GeV<vis_all_m')
 
-        if ZZ_selection==2:
+        if ZZ_Selection==2:
             h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
             h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
             h_evtflw.GetXaxis().SetBinLabel(3,'M(missing)<M(dimuon)')

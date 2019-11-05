@@ -72,15 +72,15 @@ def main():
                     tep=sample.Get('hevtflw_sel')
 
                     if (combine_opt==1):
-                        if tep.GetBinContent(11) != 0:
+                     #   if tep.GetBinContent(11) != 0:
                             b_out = './root/channel_ll/bkg_%s.root'%dname
                             save_root(b_in, b_out, s, combine_opt)
                     if (combine_opt==2):
-                        if tep.GetBinContent(16) != 0:
+                     #   if tep.GetBinContent(16) != 0:
                             b_out = './root/channel_nn/bkg_%s.root'%dname
                             save_root(b_in, b_out, s, combine_opt)
                     if (combine_opt==3):
-                        if tep.GetBinContent(18) != 0:
+                     #   if tep.GetBinContent(18) != 0:
                             b_out = './root/channel_qq/bkg_%s.root'%dname
                             save_root(b_in, b_out, s, combine_opt)
 
