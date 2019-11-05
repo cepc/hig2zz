@@ -240,9 +240,12 @@ case $option in
            ;;
 
     1.1.2) echo "Generate XML input files for Marlin job..."
+           if [ ${channel_opt_ll} = 2 ]; then
+               mv ./run/channel_ll/llh2zz/ana ./run/channel_ll/llh2zz/ana-save
+           fi
 	   mkdir -p   ./run/channel_ll/llh2zz/steers 
 	   mkdir -p   ./run/channel_ll/llh2zz/steers/test 
-	   mkdir -p   ./run/channel_ll/llh2zz/ana
+           mkdir -p   ./run/channel_ll/llh2zz/ana
            ./python/gen_steerfiles.py ./table/template_jobfile.xml ./run/channel_ll/llh2zz/samples ./run/channel_ll/llh2zz/steers ./run/channel_ll/llh2zz/ana/ana_File.root ${llhzz}
            ;;
 
@@ -264,6 +267,8 @@ case $option in
                ./condor_submit.sh
            else 
                echo "Use the same ntuples as vvjj channel..."
+               rm -r ./run/channel_ll/llh2zz/ana
+               mv ./run/channel_ll/llh2zz/ana-save ./run/channel_ll/llh2zz/ana
            fi
            ;;
 
@@ -313,7 +318,10 @@ case $option in
            ;;
 
     1.2.2) echo "Generate XML input files for Marlin job..."
-	   mkdir -p   ./run/channel_ll/zh/steers 
+           if [ ${channel_opt_ll} = 2 ]; then
+               mv ./run/channel_ll/zh/ana ./run/channel_ll/zh/ana-save
+           fi
+           mkdir -p   ./run/channel_ll/zh/steers 
 	   mkdir -p   ./run/channel_ll/zh/ana
 
            ./python/gen_bg_steerfiles.py ./table/zh_sample_list.txt ./table/template_jobfile.xml  ./run/channel_ll/zh/samples  ./run/channel_ll/zh/steers  ./run/channel_ll/zh/ana
@@ -384,6 +392,8 @@ case $option in
                done
            else
                echo "Use the same ntuples as vvjj channel..."
+               rm -r ./run/channel_ll/zh/ana
+               mv ./run/channel_ll/zh/ana-save ./run/channel_ll/zh/ana
            fi
            ;;
 
@@ -467,7 +477,10 @@ case $option in
            ;;
 
     1.3.2) echo "Generate XML input files for Marlin job..."
-	   mkdir -p   ./run/channel_ll/bg/steers 
+           if [ ${channel_opt_ll} = 2 ]; then
+               mv ./run/channel_ll/bg/ana ./run/channel_ll/bg/ana-save
+           fi
+           mkdir -p   ./run/channel_ll/bg/steers 
 	   mkdir -p   ./run/channel_ll/bg/ana
 
            ./python/gen_bg_steerfiles.py ./table/bg_sample_list.txt ./table/template_jobfile.xml  ./run/channel_ll/bg/samples  ./run/channel_ll/bg/steers  ./run/channel_ll/bg/ana
@@ -534,6 +547,8 @@ case $option in
                done
            else
                echo "Use the same ntuples as vvjj channel..."
+               rm -r ./run/channel_ll/bg/ana
+               mv ./run/channel_ll/bg/ana-save ./run/channel_ll/bg/ana
            fi
            ;;
 
@@ -713,7 +728,7 @@ case $option in
 
                cd ../../../
                mv ./root/channel_ll ./root/channel_ll_vvjj
-               mv ./tabel/channel_ll/cut_info.txt ./tabel/channel_ll_vvjj/cut_info.txt
+               mv ./table/channel_ll/cut_info.txt ./table/channel_ll_vvjj/cut_info.txt
                mv ./fig/channel_ll ./fig/channel_ll_vvjj
            else
                cd ./run/channel_ll/llh2zz/
@@ -745,7 +760,7 @@ case $option in
 
                cd ../../../
                mv ./root/channel_ll ./root/channel_ll_jjvv
-               mv ./tabel/channel_ll/cut_info.txt ./tabel/channel_ll_jjvv/cut_info.txt
+               mv ./table/channel_ll/cut_info.txt ./table/channel_ll_jjvv/cut_info.txt
                mv ./fig/channel_ll ./fig/channel_ll_jjvv
            fi
            ;;
@@ -1111,20 +1126,38 @@ case $option in
 
            cd ./root/channel_nn
 
-           cp sig.root ./merge/vz_sig.root
-           hadd ./merge/vz_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
-           hadd ./merge/vz_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-           hadd ./merge/vz_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
-           hadd ./merge/vz_az.root bkg_e2e2h_az.root bkg_qqh_az.root
-           hadd ./merge/vz_bb.root bkg_e2e2h_bb.root
-           hadd ./merge/vz_cc.root bkg_e2e2h_cc.root
-           hadd ./merge/vz_gg.root bkg_e2e2h_gg.root
-           hadd ./merge/vz_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
-
-           cd ../..
-           cp -r root/channel_nn/merge/. calculate/workspace/data/new_zz/vz/
-           cd calculate/workspace/data/new_zz/vz/
-           root -l -q vz.cxx
+# Comment [ 2019-10-28 ] :
+# Following section should be updated (based on 1.4.4)  so as to fit to the nnHZZ channel, thus, they all are commented out for the moment 
+# 
+#           if [ ${channel_opt_nn} = 1 ]; then
+#               cp sig.root ./merge/mzvj_sig.root
+#               hadd ./merge/mzvj_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
+#               hadd ./merge/mzvj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+#               hadd ./merge/mzvj_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
+#               hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
+#               hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
+#
+#               cd ../..
+#               cp -r root/nnhzz/merge/. calculate/workspace/data/new_zz/mzvj/
+#               cd calculate/workspace/data/new_zz/mzvj/
+#               root -l -q mzvj.cxx
+#           else
+#               cp sig.root ./merge/mzjv_sig.root
+#               hadd ./merge/mzjv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
+#               hadd ./merge/mzjv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+#               hadd ./merge/mzjv_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
+#               hadd ./merge/mzjv_az.root bkg_e2e2h_az.root bkg_qqh_az.root
+#               hadd ./merge/mzjv_bb.root bkg_e2e2h_bb.root
+#               hadd ./merge/mzjv_cc.root bkg_e2e2h_cc.root
+#               hadd ./merge/mzjv_gg.root bkg_e2e2h_gg.root
+#               hadd ./merge/mzjv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
+#
+#               cd ../..
+#               cp -r root/nnhzz/merge/. calculate/workspace/data/new_zz/mzjv/
+#               cd calculate/workspace/data/new_zz/mzjv/
+#               root -l -q mzjv.cxx
+#           fi
+#           .q
            ;;
 
     2.4.5) echo  "fit results...\n" #source setupATLAS.sh first
@@ -1133,18 +1166,20 @@ case $option in
            echo "Ready to go next ? Please type ENTER or stop now (Ctrl-C)" 
            read flag
 
-           cd ./calculate/workspace/
-           mkdir -p ./bin
-           mkdir -p ./lib
-           make clean
-           if [ ${channel_opt_qq} = 1 ]; then
-               cp -p ./inc/shapeFit_HZZ_vz.h ./inc/shapeFit.h
-           else
-               cp -p ./inc/shapeFit_HZZ_vz.h ./inc/shapeFit.h
-           fi
-           ./job/run.sh
-           ./job/plot.sh
-           echo "Please check the output under ./calculate/workspace/out/ " 
+# Comment [ 2019-10-28 ] :
+# Following section should be updated (based on 1.4.5)  so as to fit to the nnHZZ channel, thus, they all are commented out for the moment 
+#
+#           cd ./calculate/workspace/
+#           if [ ${channel_opt} = 1 ]; then
+#               cp -p ./inc/shapeFit_HZZ_vvjj.h ./inc/shapeFit.h
+#           else
+#               cp -p ./inc/shapeFit_HZZ_jjvv.h ./inc/shapeFit.h
+#           fi
+#
+#           cd ./calculate/workspace/
+#           ./job/run.sh
+#           ./job/plot.sh
+#           echo "Please check the output under ./calculate/workspace/out/ " 
            ;;
     esac
 }
@@ -1161,6 +1196,9 @@ case $option in
            ;;
 
     3.1.2) echo "Generate XML input files for Marlin job..."
+           if [ ${channel_opt_qq} = 2 ]; then
+               mv ./run/channel_qq/qqh2zz/ana ./run/channel_qq/qqh2zz/ana-save
+           fi
            mkdir -p   ./run/channel_qq/qqh2zz/steers
            mkdir -p   ./run/channel_qq/qqh2zz/steers/test
            mkdir -p   ./run/channel_qq/qqh2zz/ana
@@ -1185,6 +1223,8 @@ case $option in
                ./condor_submit.sh
            else
                echo "Use the same ntuples as vvmm channel..."
+               rm -r ./run/channel_qq/qqh2zz/ana
+               mv ./run/channel_qq/qqh2zz/ana-save ./run/channel_qq/qqh2zz/ana
            fi
 
            ;;
@@ -1229,6 +1269,9 @@ case $option in
            ;;
 
     3.2.2) echo "Generate XML input files for Marlin job..."
+           if [ ${channel_opt_qq} = 2 ]; then
+               mv ./run/channel_qq/zh/ana ./run/channel_qq/zh/ana-save
+           fi
            mkdir -p   ./run/channel_qq/zh/steers
            mkdir -p   ./run/channel_qq/zh/ana
 
@@ -1283,6 +1326,8 @@ case $option in
                cp -r run/channel_ll/zh/ana run/channel_qq/zh/
            else
                echo "Use the same ntuples as vvmm channel..."
+               rm -r ./run/channel_qq/zh/ana
+               mv ./run/channel_qq/zh/ana-save ./run/channel_qq/zh/ana
            fi
            ;;
 
@@ -1362,6 +1407,9 @@ case $option in
            ;;
 
     3.3.2) echo "Generate XML input files for Marlin job..."
+           if [ ${channel_opt_qq} = 2 ]; then
+               mv ./run/channel_qq/bg/ana ./run/channel_qq/bg/ana-save
+           fi
            mkdir -p   ./run/channel_qq/bg/steers
            mkdir -p   ./run/channel_qq/bg/ana
 
@@ -1416,6 +1464,8 @@ case $option in
                cp -r run/channel_ll/bg/ana run/channel_qq/bg
            else
                echo "Use the same ntuples as vvmm channel..."
+               rm -r ./run/channel_qq/qqh2zz/ana
+               mv ./run/channel_qq/bg/ana-save ./run/channel_qq/bg/ana
            fi
            ;;
 
@@ -1510,34 +1560,6 @@ case $option in
            python ./python/save_root.py  ${qqhzz} ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
 
            cd ./root/channel_qq
-
-           if [ ${channel_opt_qq} = 1 ]; then
-               cp sig.root ./merge/qzvm_sig.root
-               hadd ./merge/qzvm_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
-               hadd ./merge/qzvm_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-               hadd ./merge/qzvm_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
-               hadd ./merge/qzvm_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
-               hadd ./merge/qzvm_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
-               cd ../..
-               cp -r root/channel_qq/merge/. calculate/workspace/data/new_zz/qzvm/
-               cd calculate/workspace/data/new_zz/qzvm/
-               root -l -q qzvm.cxx
-           else
-               cp sig.root ./merge/qzmv_sig.root
-               hadd ./merge/qzmv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
-               hadd ./merge/qzmv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-               hadd ./merge/qzmv_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
-               hadd ./merge/qzmv_az.root bkg_e2e2h_az.root bkg_qqh_az.root
-               hadd ./merge/qzmv_bb.root bkg_e2e2h_bb.root
-               hadd ./merge/qzmv_cc.root bkg_e2e2h_cc.root
-               hadd ./merge/qzmv_gg.root bkg_e2e2h_gg.root
-               hadd ./merge/qzmv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
-
-               cd ../..
-               cp -r root/channel_qq/merge/. calculate/workspace/data/new_zz/qzmv/
-               cd calculate/workspace/data/new_zz/qzmv/
-               root -l -q qzmv.cxx
-           fi
            ;;
 
     3.4.5) echo  "fit results...\n" #source setupATLAS.sh first
@@ -1545,19 +1567,6 @@ case $option in
            echo "If it is not, please do so \n" 
            echo "Ready to go next ? Please type ENTER or stop now (Ctrl-C)" 
            read flag
-
-           cd ./calculate/workspace/
-           mkdir -p ./bin
-           mkdir -p ./lib
-           make clean
-           if [ ${channel_opt_qq} = 1 ]; then
-               cp -p ./inc/shapeFit_HZZ_vvmm.h ./inc/shapeFit.h
-           else
-               cp -p ./inc/shapeFit_HZZ_mmvv.h ./inc/shapeFit.h
-           fi
-           ./job/run.sh
-           ./job/plot.sh
-           echo "Please check the output under ./calculate/workspace/out/ " 
            ;;
 
     3.4.6) echo "move repository for another parallel sub channel"
@@ -1591,7 +1600,7 @@ case $option in
 
                cd ../../../
                mv ./root/channel_qq ./root/channel_qq_vvmm
-               mv ./tabel/channel_qq/cut_info.txt ./tabel/channel_qq_vvmm/cut_info.txt
+               mv ./table/channel_qq/cut_info.txt ./table/channel_qq_vvmm/cut_info.txt
                mv ./fig/channel_qq ./fig/channel_qq_vvmm
            else
                cd ./run/channel_qq/qqh2zz/
@@ -1623,7 +1632,7 @@ case $option in
 
                cd ../../../
                mv ./root/channel_qq ./root/channel_qq_mmvv
-               mv ./tabel/channel_qq/cut_info.txt ./tabel/channel_qq_mmvv/cut_info.txt
+               mv ./table/channel_qq/cut_info.txt ./table/channel_qq_mmvv/cut_info.txt
                mv ./fig/channel_qq ./fig/channel_qq_mmvv
            fi
            ;;
