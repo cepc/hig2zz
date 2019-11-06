@@ -217,7 +217,7 @@ signal_slcio_dir_qq=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pqqh_zz.e0.p0.
 sel_all=0
 sel_signal=1
 sel_bg=2
-channel_opt_ll=2  #1 for hvvjj, 2 for hjjvv
+channel_opt_ll=1  #1 for hvvjj, 2 for hjjvv
 channel_opt_nn=1
 channel_opt_qq=1  #1 for hvvmm, 2 for hmmvv
 llhzz=1
@@ -1119,39 +1119,22 @@ case $option in
            python ./python/save_root.py  ${nnhzz} ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt 
 
            cd ./root/channel_nn
+           if [ ${channel_opt_nn} = 1 ]; then
+                cp sig.root ./merge/vzmj_sig.root
+                hadd ./merge/vzmj_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
+                hadd ./merge/vzmj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+                hadd ./merge/vzmj_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
+                hadd ./merge/vzmj_az.root bkg_e2e2h_az.root bkg_qqh_az.root
+                hadd ./merge/vzmj_bb.root bkg_e2e2h_bb.root
+                hadd ./merge/vzmj_cc.root bkg_e2e2h_cc.root
+                hadd ./merge/vzmj_gg.root bkg_e2e2h_gg.root
+                hadd ./merge/vzmj_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
 
-# Comment [ 2019-10-28 ] :
-# Following section should be updated (based on 1.4.4)  so as to fit to the nnHZZ channel, thus, they all are commented out for the moment 
-# 
-#           if [ ${channel_opt_nn} = 1 ]; then
-#               cp sig.root ./merge/mzvj_sig.root
-#               hadd ./merge/mzvj_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
-#               hadd ./merge/mzvj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-#               hadd ./merge/mzvj_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
-#               hadd ./merge/mzvj_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
-#               hadd ./merge/mzvj_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
-#
-#               cd ../..
-#               cp -r root/nnhzz/merge/. calculate/workspace/data/new_zz/mzvj/
-#               cd calculate/workspace/data/new_zz/mzvj/
-#               root -l -q mzvj.cxx
-#           else
-#               cp sig.root ./merge/mzjv_sig.root
-#               hadd ./merge/mzjv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
-#               hadd ./merge/mzjv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-#               hadd ./merge/mzjv_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
-#               hadd ./merge/mzjv_az.root bkg_e2e2h_az.root bkg_qqh_az.root
-#               hadd ./merge/mzjv_bb.root bkg_e2e2h_bb.root
-#               hadd ./merge/mzjv_cc.root bkg_e2e2h_cc.root
-#               hadd ./merge/mzjv_gg.root bkg_e2e2h_gg.root
-#               hadd ./merge/mzjv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
-#
-#               cd ../..
-#               cp -r root/nnhzz/merge/. calculate/workspace/data/new_zz/mzjv/
-#               cd calculate/workspace/data/new_zz/mzjv/
-#               root -l -q mzjv.cxx
-#           fi
-#           .q
+                cd ../..
+                cp -r root/channel_nn/merge/. calculate/workspace/data/new_zz/vzmj/
+                cd calculate/workspace/data/new_zz/vzmj/
+                root -l -q vzmj.cxx
+            fi
            ;;
 
     2.4.5) echo  "fit results...\n" #source setupATLAS.sh first
@@ -1159,21 +1142,17 @@ case $option in
            echo "If it is not, please do so \n" 
            echo "Ready to go next ? Please type ENTER or stop now (Ctrl-C)" 
            read flag
+           cd ./calculate/workspace/
+           mkdir -p ./bin
+           mkdir -p ./lib
+           make clean
+           if [ ${channel_opt_nn} = 1 ]; then
+               cp -p ./inc/shapeFit_HZZ_vzmj.h ./inc/shapeFit.h
+           fi
+           ./job/run.sh
+           ./job/plot.sh
+           echo "Please check the output under ./calculate/workspace/out/ " 
 
-# Comment [ 2019-10-28 ] :
-# Following section should be updated (based on 1.4.5)  so as to fit to the nnHZZ channel, thus, they all are commented out for the moment 
-#
-#           cd ./calculate/workspace/
-#           if [ ${channel_opt} = 1 ]; then
-#               cp -p ./inc/shapeFit_HZZ_vvjj.h ./inc/shapeFit.h
-#           else
-#               cp -p ./inc/shapeFit_HZZ_jjvv.h ./inc/shapeFit.h
-#           fi
-#
-#           cd ./calculate/workspace/
-#           ./job/run.sh
-#           ./job/plot.sh
-#           echo "Please check the output under ./calculate/workspace/out/ " 
            ;;
     esac
 }
@@ -1554,6 +1533,34 @@ case $option in
            python ./python/save_root.py  ${qqhzz} ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
 
            cd ./root/channel_qq
+
+           if [ ${channel_opt_qq} = 1 ]; then
+                cp sig.root ./merge/qzvm_sig.root
+                hadd ./merge/qzvm_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
+                hadd ./merge/qzvm_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+                hadd ./merge/qzvm_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
+                hadd ./merge/qzvm_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
+                hadd ./merge/qzvm_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
+                cd ../..
+                cp -r root/channel_qq/merge/. calculate/workspace/data/new_zz/qzvm/
+                cd calculate/workspace/data/new_zz/qzvm/
+                root -l -q qzvm.cxx
+           else
+                cp sig.root ./merge/qzmv_sig.root
+                hadd ./merge/qzmv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
+                hadd ./merge/qzmv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+                hadd ./merge/qzmv_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
+                hadd ./merge/qzmv_az.root bkg_e2e2h_az.root bkg_qqh_az.root
+                hadd ./merge/qzmv_bb.root bkg_e2e2h_bb.root
+                hadd ./merge/qzmv_cc.root bkg_e2e2h_cc.root
+                hadd ./merge/qzmv_gg.root bkg_e2e2h_gg.root
+                hadd ./merge/qzmv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
+
+                cd ../..
+                cp -r root/channel_qq/merge/. calculate/workspace/data/new_zz/qzmv/
+                cd calculate/workspace/data/new_zz/qzmv/
+                root -l -q qzmv.cxx
+            fi
            ;;
 
     3.4.5) echo  "fit results...\n" #source setupATLAS.sh first
@@ -1561,6 +1568,19 @@ case $option in
            echo "If it is not, please do so \n" 
            echo "Ready to go next ? Please type ENTER or stop now (Ctrl-C)" 
            read flag
+
+           cd ./calculate/workspace/
+           mkdir -p ./bin
+           mkdir -p ./lib
+           make clean
+           if [ ${channel_opt_qq} = 1 ]; then
+               cp -p ./inc/shapeFit_HZZ_qzvm.h ./inc/shapeFit.h
+           else
+               cp -p ./inc/shapeFit_HZZ_qzmv.h ./inc/shapeFit.h
+           fi
+           ./job/run.sh
+           ./job/plot.sh
+           echo "Please check the output under ./calculate/workspace/out/ " 
            ;;
 
     3.4.6) echo "move repository for another parallel sub channel"
@@ -1691,7 +1711,7 @@ case $option in
         sub_2_1 option
         ;;
 
-    2.2) echo "run Z(->nn)H(->inclusive) sample"
+    2.2) echo "run Z(->ll,qq,nn)H(->inclusive) sample"
         usage_2_2
         echo "Please enter your option: " 
         read option
@@ -1736,7 +1756,7 @@ case $option in
         sub_3_1 option
         ;;
 
-    3.2) echo "run Z(->nn)H(->inclusive) sample"
+    3.2) echo "run Z(->ll,qq,nn)H(->inclusive) sample"
         usage_3_2
         echo "Please enter your option: " 
         read option
@@ -1795,7 +1815,7 @@ case $option in
        read option
        sub_3 option
         ;;
-    3.*) echo "run nnHzz"
+    3.*) echo "run qqHzz"
        sub_3 option
         ;;
 esac

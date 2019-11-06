@@ -274,7 +274,7 @@ def main():
             
             fill_histograms(t_in,flag,combine_opt)
 
-            if select_higgs_to_zz(t_in,combine_opt): 
+            if select_higgs_to_zz(t_in,combine_opt):
                 index=0
                 h_m_dimuon_final.Fill( t_in.dimuon_m[index] )
                 h_mrec_dimuon_final.Fill( t_in.dimuon_rec_m[index] )
@@ -698,7 +698,7 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
             h_evtflw.Fill(17)
 
-        if (ZZ_Selection==1):
+        if (ZZ_Selection==2):
             index=0
 
             if not ( t.dimuon_m[index] > t.vis_all_rec_m):

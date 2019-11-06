@@ -48,7 +48,7 @@ def main():
     if (combine_opt==3):
 #        draw_signal_bg('h_m_dimuon_final',0,100,'Dimuon mass(GeV)')
 #        draw_signal_bg('h_m_dijet_final',10,100,'Dijet mass(GeV)')
-        draw_signal_bg('h_mrec_dijet_final',110,220,'Dijet rec mass(GeV)')
+        draw_signal_bg('h_mrec_dijet_final',110,220,'Dijet rec mass(GeV)',3)
 #        draw_signal_bg('h_mrec_dimuon_final',110,220, 'Dimuon rec mass (GeV)')
 #        draw_signal_bg('h_m_visible_final',10,100,'visible_mass_final(GeV)')
 #        draw_signal_bg('h_m_missing_final',65,105,'missing_mass_final(GeV)')
