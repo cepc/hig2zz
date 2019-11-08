@@ -25,6 +25,9 @@ def main():
     if (combine_opt==2):
         s_in = './run/channel_nn/nnh2zz/hist/ana_File_merged_1.root'
         s_out = './root/channel_nn/sig.root'
+    if (combine_opt==3):
+        s_in = './run/channel_qq/qqh2zz/hist/ana_File_merged_1.root'
+        s_out = './root/channel_qq/sig.root'
 
     signal_sample =  ROOT.TFile(s_in)
     evah = signal_sample.Get('hevtflw_pre')
@@ -33,6 +36,8 @@ def main():
         s = 5600 * 6.77 * 0.0264 / eva
     if (combine_opt==2):
         s = 5600 * 46.3 * 0.0264 / eva
+    if (combine_opt==3):
+        s = 5600 * 137 * 0.0264 / eva
 
     save_root(s_in, s_out, s, combine_opt)
 
@@ -50,11 +55,13 @@ def main():
             if not s_line.startswith('#'):
                 l = [x.strip() for x in s_line.split(',')]
                 dname = l[0]
-                event_exp = 1.11 * float(l[3])
+                event_exp = 5600.0/5050.0 * float(l[3])
                 if (combine_opt==1):
                     b_in = './run/channel_ll/' + path + '/hist/' + dname + '/ana_File_merged_1.root'
                 if (combine_opt==2):
                     b_in = './run/channel_nn/' + path + '/hist/' + dname + '/ana_File_merged_1.root'
+                if (combine_opt==3):
+                    b_in = './run/channel_qq/' + path + '/hist/' + dname + '/ana_File_merged_1.root'
                 sample = ROOT.TFile(b_in)
                 h=sample.Get('hevtflw_pre')
                 event_ana = h.GetBinContent(1)
@@ -65,12 +72,16 @@ def main():
                     tep=sample.Get('hevtflw_sel')
 
                     if (combine_opt==1):
-                        if tep.GetBinContent(11) != 0:
+                     #   if tep.GetBinContent(11) != 0:
                             b_out = './root/channel_ll/bkg_%s.root'%dname
                             save_root(b_in, b_out, s, combine_opt)
                     if (combine_opt==2):
-                        if tep.GetBinContent(16) != 0:
+                     #   if tep.GetBinContent(16) != 0:
                             b_out = './root/channel_nn/bkg_%s.root'%dname
+                            save_root(b_in, b_out, s, combine_opt)
+                    if (combine_opt==3):
+                     #   if tep.GetBinContent(18) != 0:
+                            b_out = './root/channel_qq/bkg_%s.root'%dname
                             save_root(b_in, b_out, s, combine_opt)
 
 def save_root(f_in, f_out, s, combine_opt):
@@ -100,12 +111,15 @@ def save_root(f_in, f_out, s, combine_opt):
     t.Branch( 'dijet_m', dijet_m, 'dijet_m/D')
     t.Branch( 'dijet_rec_m', dijet_rec_m, 'dijet_rec_m/D')
     t.Branch( 'vis_ex_dimuon_m', vis_ex_dimuon_m, 'vis_ex_dimuon_m/D')
+    t.Branch( 'vis_all_m', vis_all_m, 'vis_all_m/D')
     t.Branch( 'vis_all_rec_m', vis_all_rec_m, 'vis_all_rec_m/D')
     t.Branch( 'vis_all_pt', vis_all_pt, 'vis_all_pt/D')
     if (combine_opt==1):
         t.Branch( 'Higgs_m', dimuon_rec_m, 'Higgs_m/D')
     if (combine_opt==2):
         t.Branch( 'Higgs_m', vis_all_m, 'Higgs_m/D')
+    if (combine_opt==3):
+        t.Branch( 'Higgs_m', dijet_rec_m, 'Higgs_m/D')
     t.Branch( 'scale', scale, 'scale/D')
 
     for jentry in xrange(entries):
@@ -132,7 +146,6 @@ def save_root(f_in, f_out, s, combine_opt):
 
     fout.Write()
     fout.Close()
-
 
 if __name__ == '__main__':
     main()

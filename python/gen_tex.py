@@ -9,6 +9,8 @@ def main():
         outname = './table/channel_ll/tex_bg.txt'
     if (combine_opt==2):
         outname = './table/channel_nn/tex_bg.txt'    
+    if (combine_opt==3):
+        outname = './table/channel_qq/tex_bg.txt'
 
     fout_script = open(outname,'w')
 

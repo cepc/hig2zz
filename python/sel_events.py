@@ -22,7 +22,7 @@ from tools import duration, check_outfile_path
 TEST=False
 
 # Flag
-ZZ_Selection = int(sys.argv[1])     # 1: Z->nunu, Z*->jj,  2: Z->jj, Z*->nunu , 3: Both 
+ZZ_Selection = int(sys.argv[1])     # 1: Z->nunu, Z*->jj/mm,  2: Z->jj/mm, Z*->nunu , 3: Both 
 
 # Global constants 
 Z_MASS = 91.2
@@ -54,36 +54,6 @@ h_angle_mj_raw = ROOT.TH1D('h_angle_mj_raw','h_angle_mj_raw',180,0,180);
 h_2D_visible_missing_raw =  ROOT.TH2D('h_2D_visible_missing_raw', '2D_visible_missing_raw', 240, -20, 220, 240, -40, 200)
 h_2D_dijet_missing_raw =  ROOT.TH2D('h_2D_dijet_missing_raw', '2D_dijet_missing_raw', 240, -20, 220, 240, -40, 200)
 
-## At Each Cut Stage 
-h_2D_visible_missing =  ROOT.TH2D('h_2D_visible_missing', '2D_visible_missing', 240, -20, 220, 240, -40, 200)
-h_2D_dijet_missing =  ROOT.TH2D('h_2D_dijet_missing', '2D_dijet_missing', 240, -20, 220, 240, -40, 200)
-h_min_angle =  ROOT.TH1D('h_min_angle', 'min_angle', 40, 0, 200)
-h_vis_all_pt =  ROOT.TH1D('h_vis_all_pt', 'vis_all_pt', 150, 0, 150)
-h_vis_all_m = ROOT.TH1D('h_vis_all_m', 'vis_all_m', 240,0,240)
-h_vis_all_p = ROOT.TH1D('h_vis_all_p', 'vis_all_p', 80,0,80)
-h_vis_all_rec_m = ROOT.TH1D('h_vis_all_rec_m', 'vis_all_rec_m', 300,-50,250)
-h_vis_all_cos = ROOT.TH1D('h_vis_all_cos', 'vis_all_cos', 100,-1,1)
-h_cos = ROOT.TH1D('h_cos', 'cos', 100,-1,1)
-h_mrec_dimuon = ROOT.TH1D('h_mrec_dimuon', 'mrec_dimuon', 260, 0, 260)
-h_m_dimuon = ROOT.TH1D('h_m_dimuon', 'm_dimuon', 260, 0, 260)
-h_m_dijet =  ROOT.TH1D('h_m_dijet', 'm_dijet', 260, 0, 260)
-h_npfo = ROOT.TH1D('h_npfo','h_npfo',200,0,200)
-h_jet_lead_e = ROOT.TH1D('h_jet_lead_e','h_jet_lead_e',200,0,200);
-h_jet_sub_e = ROOT.TH1D('h_jet_sub_e','h_jet_sub_e',200,0,200);
-h_angle_mj = ROOT.TH1D('h_angle_mj','h_angle_mj',180,0,180);
-
-h_single_jet1_pt = ROOT.TH1D('h_single_jet1_pt', 'single_jet1_pt', 200, 0, 200)
-h_single_jet2_pt = ROOT.TH1D('h_single_jet2_pt', 'single_jet2_pt', 200, 0, 200)
-h_single_jet1_e = ROOT.TH1D('h_single_jet1_e', 'single_jet1_e', 200, 0, 200)
-h_single_jet2_e = ROOT.TH1D('h_single_jet2_e', 'single_jet2_e', 200, 0, 200)
-h_single_jet_theta = ROOT.TH1D('h_single_jet_theta', 'single_jet_theta', 180, 0, 180)
-h_single_jet1_pz = ROOT.TH1D('h_single_jet1_pz', 'single_jet1_pz', 200, 0, 200)
-h_single_jet2_pz = ROOT.TH1D('h_single_jet2_pz', 'single_jet2_pz', 200, 0, 200)
-h_single_jet1_m = ROOT.TH1D('h_single_jet1_m', 'single_jet1_m', 200, 0, 200)
-h_single_jet2_m = ROOT.TH1D('h_single_jet2_m', 'single_jet2_m', 200, 0, 200)
-
-h_n_lepton = ROOT.TH1D('h_n_lepton', 'n_lepton', 180, 0, 180)
-
 ## After All of Cuts
 h_m_dimuon_final = ROOT.TH1D('h_m_dimuon_final', 'm_dimuon_final', 260, 0, 260)
 h_mrec_dimuon_final = ROOT.TH1D('h_mrec_dimuon_final', 'mrec_dimuon_final', 260, 0, 260)
@@ -102,6 +72,8 @@ h_jet_lead_e_final = ROOT.TH1D('h_jet_lead_e_final','h_jet_lead_e_final',200,0,2
 h_jet_sub_e_final = ROOT.TH1D('h_jet_sub_e_final','h_jet_sub_e_final',200,0,200)
 h_angle_mj_final = ROOT.TH1D('h_angle_mj_final','h_angle_mj_final',180,0,180)
 h_m_lljj = ROOT.TH1D('h_m_lljj', 'm_lljj', 260, 0, 260)
+h_2D_visible_missing_final =  ROOT.TH2D('h_2D_visible_missing_final', '2D_visible_missing_final', 240, -20, 220, 240, -40, 200)
+h_2D_dijet_missing_final =  ROOT.TH2D('h_2D_dijet_missing_final', '2D_dijet_missing_final', 240, -20, 220, 240, -40, 200)
 
 h_y12 = ROOT.TH1D('h_y12', 'y12', 4000, -2, 2)
 h_y23 = ROOT.TH1D('h_y23', 'y23', 4000, -2, 2)
@@ -193,21 +165,37 @@ def main():
     t.Branch( 'cos', cos, 'cos/D')
 
     if combine_opt==1 :
-        h_evtflw.GetXaxis().SetBinLabel(1,'raw')
-        h_evtflw.GetXaxis().SetBinLabel(2,'start selection')
-        h_evtflw.GetXaxis().SetBinLabel(3,'M(miss)> M(dijet)')
-        h_evtflw.GetXaxis().SetBinLabel(4,'M(dimuon)')
-        h_evtflw.GetXaxis().SetBinLabel(5,'RecM(dimuon)')
-        h_evtflw.GetXaxis().SetBinLabel(6,'Npfo > 15')
-        h_evtflw.GetXaxis().SetBinLabel(7,'Total PT > 10GeV')
-        h_evtflw.GetXaxis().SetBinLabel(8,'Mininum angle')
-        h_evtflw.GetXaxis().SetBinLabel(9,'M(miss)>60GeV, M(dijet)<45GeV')
-        h_evtflw.GetXaxis().SetBinLabel(10,'Jet Pt > 5GeV')
-        h_evtflw.GetXaxis().SetBinLabel(11,'N(lepton)==2')
+        if ZZ_Selection==1 :
+            h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
+            h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
+            h_evtflw.GetXaxis().SetBinLabel(3,'M(miss)>M(dijet)')
+            h_evtflw.GetXaxis().SetBinLabel(4,'80GeV<M(dimuon)<100GeV')
+            h_evtflw.GetXaxis().SetBinLabel(5,'120GeV<RecM(dimuon)<150GeV')
+            h_evtflw.GetXaxis().SetBinLabel(6,'15<Npfo<70')
+            h_evtflw.GetXaxis().SetBinLabel(7,'visible PT>10GeV')
+            h_evtflw.GetXaxis().SetBinLabel(8,'Mininum angle>17.2')
+            h_evtflw.GetXaxis().SetBinLabel(9,'M(miss)>80GeV, M(dijet)<35GeV')
+            h_evtflw.GetXaxis().SetBinLabel(10,'JetE>5GeV,JetPt>3GeV')
+            h_evtflw.GetXaxis().SetBinLabel(11,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
+            h_evtflw.GetXaxis().SetBinLabel(12,'vis_all_m<122GeV + 128GeV<vis_all_m')
+
+        if ZZ_Selection==2 :
+            h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
+            h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
+            h_evtflw.GetXaxis().SetBinLabel(3,'M(miss)<M(dijet)')
+            h_evtflw.GetXaxis().SetBinLabel(4,'80GeV<M(dimuon)<100GeV')
+            h_evtflw.GetXaxis().SetBinLabel(5,'120GeV<RecM(dimuon)<150GeV')
+            h_evtflw.GetXaxis().SetBinLabel(6,'30<Npfo<100')
+            h_evtflw.GetXaxis().SetBinLabel(7,'10GeV<visible PT<50GeV')
+            h_evtflw.GetXaxis().SetBinLabel(8,'17.2<Mininum angle<90')
+            h_evtflw.GetXaxis().SetBinLabel(9,'M(miss),M(dijet)')
+            h_evtflw.GetXaxis().SetBinLabel(10,'JetE,JetPt,JetAngle')
+            h_evtflw.GetXaxis().SetBinLabel(11,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
+            h_evtflw.GetXaxis().SetBinLabel(12,'vis_all_m<122GeV + 128GeV<vis_all_m')
 
     if combine_opt==2 :
-        h_evtflw.GetXaxis().SetBinLabel(1,'raw')
-        h_evtflw.GetXaxis().SetBinLabel(2,'2m+2j')
+        h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
+        h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
         h_evtflw.GetXaxis().SetBinLabel(3,'Npfo > 9')
         h_evtflw.GetXaxis().SetBinLabel(4,'115Gev<Vis_Mass<135GeV')
         h_evtflw.GetXaxis().SetBinLabel(5,'|cos_theta|<0.9')
@@ -220,8 +208,49 @@ def main():
         h_evtflw.GetXaxis().SetBinLabel(12,'13GeV<M(dimuon)<100GeV')
         h_evtflw.GetXaxis().SetBinLabel(13,'vis_all_cos')
         h_evtflw.GetXaxis().SetBinLabel(14,'80GeV<RecM(vis_all)<107GeV')
-        h_evtflw.GetXaxis().SetBinLabel(15,'RecM(dimuon)<120GeV + 130GeV<RecM(dimuon)')
-        h_evtflw.GetXaxis().SetBinLabel(16,'RecM(dijet)<120GeV + 130GeV<RecM(dijet)')
+        h_evtflw.GetXaxis().SetBinLabel(15,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
+        h_evtflw.GetXaxis().SetBinLabel(16,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
+
+    if combine_opt==3 :
+        if ZZ_Selection==1:
+            h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
+            h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
+            h_evtflw.GetXaxis().SetBinLabel(3,'M(missing)>M(dimuon)')
+            h_evtflw.GetXaxis().SetBinLabel(4,'35<Npfo<107')
+            h_evtflw.GetXaxis().SetBinLabel(5,'103Gev<Vis_Mass<179GeV')
+            h_evtflw.GetXaxis().SetBinLabel(6,'-0.94<cos_theta<0.95')
+            h_evtflw.GetXaxis().SetBinLabel(7,'155GeV<RecM(dimuon)<217GeV')
+            h_evtflw.GetXaxis().SetBinLabel(8,'7GeV<vis_all_p<76GeV')
+            h_evtflw.GetXaxis().SetBinLabel(9,'60GeV<M(dijet)<111GeV')
+            h_evtflw.GetXaxis().SetBinLabel(10,'34GeV<jet_lead_e<88GeV')
+            h_evtflw.GetXaxis().SetBinLabel(11,'13GeV<jet_sub_e<57GeV')
+            h_evtflw.GetXaxis().SetBinLabel(12,'20<angle_mj<175')
+            h_evtflw.GetXaxis().SetBinLabel(13,'8GeV<M(dimuon)<59GeV')
+            h_evtflw.GetXaxis().SetBinLabel(14,'-0.84<vis_all_cos<0.86')
+            h_evtflw.GetXaxis().SetBinLabel(15,'43GeV<RecM(vis_all)<125GeV')
+            h_evtflw.GetXaxis().SetBinLabel(16,'10GeV<vis_all_pt<74GeV')
+            h_evtflw.GetXaxis().SetBinLabel(17,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
+            h_evtflw.GetXaxis().SetBinLabel(18,'vis_all_m<122GeV + 128GeV<vis_all_m')
+
+        if ZZ_Selection==2:
+            h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
+            h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
+            h_evtflw.GetXaxis().SetBinLabel(3,'M(missing)<M(dimuon)')
+            h_evtflw.GetXaxis().SetBinLabel(4,'29<Npfo<105')
+            h_evtflw.GetXaxis().SetBinLabel(5,'164Gev<Vis_Mass<222GeV')
+            h_evtflw.GetXaxis().SetBinLabel(6,'-0.94<cos_theta<0.95')
+            h_evtflw.GetXaxis().SetBinLabel(7,'114GeV<RecM(dimuon)<161GeV')
+            h_evtflw.GetXaxis().SetBinLabel(8,'4GeV<vis_all_p<62GeV')
+            h_evtflw.GetXaxis().SetBinLabel(9,'69GeV<M(dijet)<110GeV')
+            h_evtflw.GetXaxis().SetBinLabel(10,'44GeV<jet_lead_e<83GeV')
+            h_evtflw.GetXaxis().SetBinLabel(11,'22GeV<jet_sub_e<58GeV')
+            h_evtflw.GetXaxis().SetBinLabel(12,'95<angle_mj<171')
+            h_evtflw.GetXaxis().SetBinLabel(13,'57GeV<M(dimuon)<95GeV')
+            h_evtflw.GetXaxis().SetBinLabel(14,'-0.84<vis_all_cos<0.86')
+            h_evtflw.GetXaxis().SetBinLabel(15,'15GeV<RecM(vis_all)<61GeV')
+            h_evtflw.GetXaxis().SetBinLabel(16,'8GeV<vis_all_pt<48GeV')
+            h_evtflw.GetXaxis().SetBinLabel(17,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
+            h_evtflw.GetXaxis().SetBinLabel(18,'vis_all_m<122GeV + 128GeV<vis_all_m')
 
     for jentry in xrange(entries):
         pbar.update(jentry+1)
@@ -245,7 +274,7 @@ def main():
             
             fill_histograms(t_in,flag,combine_opt)
 
-            if select_higgs_to_zz(t_in,combine_opt): 
+            if select_higgs_to_zz(t_in,combine_opt):
                 index=0
                 h_m_dimuon_final.Fill( t_in.dimuon_m[index] )
                 h_mrec_dimuon_final.Fill( t_in.dimuon_rec_m[index] )
@@ -263,6 +292,8 @@ def main():
                 h_jet_lead_e_final.Fill( t_in.jet_lead_e[0] )
                 h_jet_sub_e_final.Fill( t_in.jet_sub_e[0] )
                 h_angle_mj_final.Fill( t_in.lj_angle )
+                h_2D_visible_missing_final.Fill( t_in.vis_ex_dimuon_m, t_in.vis_all_rec_m )
+                h_2D_dijet_missing_final.Fill( t_in.dijet_m[0], t_in.vis_all_rec_m )
 
                 # h_m_lljj.Fill( t_in.lljj_m )
 
@@ -333,8 +364,7 @@ def is_signal(t,combine_opt):
     if ( t.mc_quark_plus_id == -1 or t.mc_quark_plus_id == -2 or t.mc_quark_plus_id == -3 or t.mc_quark_plus_id == -4 or t.mc_quark_plus_id == -5 or t.mc_quark_plus_id == -6):
         QuarkPlus = 1
 
-    # if ( t.mc_zz_flag > 0 ): #ZZ
-    if ( combine_opt==1 and (t.mc_zz_flag == 12 or t.mc_zz_flag == 21)): #vvjj & jjvv
+    if ( combine_opt==1 and (t.mc_zz_flag == 12 or t.mc_zz_flag == 21)): 
         hig = 1
     if ( combine_opt==2 and (t.mc_zz_flag == 13 or t.mc_zz_flag == 31)):
         hig = 1
@@ -392,68 +422,7 @@ def save_pid(t):
 def fill_histograms(t,num,combine_opt):
 
     index = 0
-    if combine_opt==1:    
-        if ( ZZ_Selection == 1 ):
-            Cut_InvMass_miss   = ( t.vis_all_rec_m > t.dijet_m[0] )
-            Cut_InvMass_dijet  = ( t.vis_all_rec_m > 80 and t.dijet_m[0] < 35 )
-            Cut_npfo           = ( t.n_col_reco > 15 and t.n_col_reco < 70)
-            Cut_Pt_jet         = ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 5.0  and t.jet_e[1] > 5.0 )
-            Cut_Pt_visible     = ( t.vis_all_pt > 10 )
-            Cut_Min_angle      = ( t.lj_minangle > 17.2 )
-
-        if ( ZZ_Selection == 2 ):
-            Cut_InvMass_miss   = ( t.vis_all_rec_m < t.dijet_m[0] )    
-            Cut_InvMass_dijet  = ( t.vis_all_rec_m < 50 and t.dijet_m[0] < 101 and 12 * t.dijet_m[0] + 7 * t.vis_all_rec_m > 1160) 
-            Cut_npfo           = ( t.n_col_reco > 30 and t.n_col_reco < 100)
-            Cut_Pt_jet         = ( t.jet_pt[0] > 10 and t.jet_pt[0] < 65 and t.jet_pt[1] > 10 and t.jet_pt[1] < 65 and t.jet_e[0] > 20 and t.jet_e[0] <80 and t.jet_e[1] > 20 and t.jet_e[1] < 80 and t.jet_theta[0] > 10 and  t.jet_theta[0] < 170 and t.jet_theta[1] >10 and  t.jet_theta[1] < 170)
-            Cut_Pt_visible     = ( t.vis_all_pt > 10 and t.vis_all_pt < 50)
-            Cut_Min_angle      = ( t.lj_minangle > 17.2 and t.lj_minangle < 90)
-    
-        Cut_InvMass_dimuon = ( t.dimuon_m[index] > 80.0 and t.dimuon_m[index] < 100.0 )
-        Cut_RecMass_dimuon = ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 150.0 )
-
-
-        if( Cut_InvMass_miss ):
-            h_m_dimuon.Fill( t.dimuon_m[index] )
-          
-        if( Cut_InvMass_miss and Cut_InvMass_dimuon ):
-            h_mrec_dimuon.Fill( t.dimuon_rec_m[index] )
-             
-        if( Cut_InvMass_miss and Cut_InvMass_dimuon and Cut_RecMass_dimuon ):
-            h_npfo.Fill( t.n_col_reco )
-            
-        if( Cut_InvMass_miss and Cut_InvMass_dimuon and Cut_RecMass_dimuon and Cut_npfo ):
-            h_vis_all_pt.Fill( t.vis_all_pt )
-
-        if( Cut_InvMass_miss and Cut_InvMass_dimuon and Cut_RecMass_dimuon and Cut_npfo and 
-            Cut_Pt_visible ):
-            h_min_angle.Fill( t.lj_minangle )
-            
-        if( Cut_InvMass_miss and Cut_InvMass_dimuon and Cut_RecMass_dimuon and Cut_npfo and 
-            Cut_Pt_visible and Cut_Min_angle ):
-            h_2D_visible_missing.Fill( t.vis_ex_dimuon_m, t.vis_all_rec_m )
-            h_2D_dijet_missing.Fill( t.dijet_m[0] , t.vis_all_rec_m )
-            h_m_dijet.Fill(  t.dijet_m[0] )
-        
-        if( Cut_InvMass_miss and Cut_InvMass_dimuon and Cut_RecMass_dimuon and Cut_npfo and 
-            Cut_Pt_visible and Cut_Min_angle and Cut_InvMass_dijet ):
-            h_single_jet1_pt.Fill( t.jet_pt[0] );
-            h_single_jet2_pt.Fill( t.jet_pt[1] );
-            h_single_jet1_e.Fill( t.jet_e[0] );
-            h_single_jet2_e.Fill( t.jet_e[1] );
-            h_single_jet_theta.Fill( t.jet_theta[0] );
-            h_single_jet_theta.Fill( t.jet_theta[1] );
-            h_single_jet1_pz.Fill(t.jet_pz[0])
-            h_single_jet2_pz.Fill(t.jet_pz[1])
-            h_single_jet1_m.Fill(t.jet_m[0])
-            h_single_jet2_m.Fill(t.jet_m[1])
-    
-
-        if( Cut_InvMass_miss and Cut_InvMass_dimuon and Cut_RecMass_dimuon and Cut_npfo and 
-            Cut_Pt_visible and Cut_Min_angle and Cut_InvMass_dijet and Cut_Pt_jet ):
-            h_n_lepton.Fill( t.n_lepton )
-
-            
+    if (is_sel(t,num,combine_opt) ):
         # Distribution after pre-selectioon ( muon_p>=1, muon_m>=1, njet=2 ) 
         h_m_dimuon_raw.Fill( t.dimuon_m[index] )
         h_mrec_dimuon_raw.Fill( t.dimuon_rec_m[index] )
@@ -462,41 +431,17 @@ def fill_histograms(t,num,combine_opt):
         h_m_visible_raw.Fill( t.vis_ex_dimuon_m )
         h_m_missing_raw.Fill( t.vis_all_rec_m )
         h_vis_all_pt_raw.Fill( t.vis_all_pt )
-
+        h_vis_all_m_raw.Fill( t.vis_all_m )
+        h_vis_all_p_raw.Fill( t.vis_all_p)
+        h_vis_all_rec_m_raw.Fill( t.vis_all_rec_m )
+        h_vis_all_cos_raw.Fill( t.vis_all_cos )
+        h_cos_raw.Fill( t.cos )
+        h_npfo_raw.Fill( t.n_col_reco )
+        h_jet_lead_e_raw.Fill( t.jet_lead_e[0] )
+        h_jet_sub_e_raw.Fill( t.jet_sub_e[0] )
+        h_angle_mj_raw.Fill( t.lj_angle )
         h_2D_visible_missing_raw.Fill( t.vis_ex_dimuon_m, t.vis_all_rec_m )
         h_2D_dijet_missing_raw.Fill( t.dijet_m[0], t.vis_all_rec_m )
-
-    if combine_opt==2:
-        Cut_npfo           = ( 20 < t.n_col_reco and t.n_col_reco < 73 )
-        Cut_m_visible      = ( 115 < t.vis_all_m and t.vis_all_m < 135 )
-        Cut_cos            = ( -0.9 < t.cos and t.cos < 0.9 )
-        if (is_sel(t,num,combine_opt) ):
-            h_npfo.Fill( t.n_col_reco )
-
-            if( Cut_npfo ):
-                h_vis_all_m.Fill( t.vis_all_m )
-
-            if( Cut_npfo and Cut_m_visible ):
-                h_cos.Fill( t.cos )
-            h_m_dimuon_raw.Fill( t.dimuon_m[index] )
-            h_mrec_dimuon_raw.Fill( t.dimuon_rec_m[index] )
-            h_m_dijet_raw.Fill( t.dijet_m[0] )
-            h_mrec_dijet_raw.Fill( t.dijet_rec_m[0] )
-            h_m_visible_raw.Fill( t.vis_ex_dimuon_m )
-            h_m_missing_raw.Fill( t.vis_all_rec_m )
-            h_vis_all_pt_raw.Fill( t.vis_all_pt )
-            h_vis_all_m_raw.Fill( t.vis_all_m )
-            h_vis_all_p_raw.Fill( t.vis_all_p)
-            h_vis_all_rec_m_raw.Fill( t.vis_all_rec_m )
-            h_vis_all_cos_raw.Fill( t.vis_all_cos )
-            h_cos_raw.Fill( t.cos )
-            h_npfo_raw.Fill( t.n_col_reco )
-            h_jet_lead_e_raw.Fill( t.jet_lead_e[0] )
-            h_jet_sub_e_raw.Fill( t.jet_sub_e[0] )
-            h_angle_mj_raw.Fill( t.lj_angle )
-
-            h_2D_visible_missing_raw.Fill( t.vis_ex_dimuon_m, t.vis_all_rec_m )
-            h_2D_dijet_missing_raw.Fill( t.dijet_m[0], t.vis_all_rec_m )
 
 def write_histograms():
 	
@@ -524,34 +469,6 @@ def write_histograms():
     h_2D_visible_missing_raw.Write()
     h_2D_dijet_missing_raw.Write()
 
-## At Each Cut Stage 
-    h_2D_visible_missing.Write()
-    h_2D_dijet_missing.Write()
-    h_min_angle.Write()
-    h_vis_all_pt.Write()
-    h_vis_all_m.Write()
-    h_vis_all_p.Write()
-    h_vis_all_rec_m.Write()
-    h_vis_all_cos.Write()
-    h_cos.Write()
-    h_npfo.Write()
-    h_jet_lead_e.Write()
-    h_jet_sub_e.Write()
-    h_angle_mj.Write()
-    h_mrec_dimuon.Write()
-    h_m_dimuon.Write()
-    h_m_dijet.Write()
-    h_single_jet1_pt.Write()
-    h_single_jet2_pt.Write()
-    h_single_jet1_e.Write()
-    h_single_jet2_e.Write()
-    h_single_jet_theta.Write()
-    h_single_jet1_pz.Write()
-    h_single_jet2_pz.Write()
-    h_single_jet1_m.Write()
-    h_single_jet2_m.Write()
-    h_n_lepton.Write()
-
 # After All of Cuts
     h_m_dimuon_final.Write()
     h_mrec_dimuon_final.Write()
@@ -569,6 +486,9 @@ def write_histograms():
     h_jet_lead_e_final.Write()
     h_jet_sub_e_final.Write()
     h_angle_mj_final.Write()
+    h_2D_visible_missing_final.Write()
+    h_2D_dijet_missing_final.Write()
+
     h_m_lljj.Write()
 
     h_y12.Write()
@@ -596,17 +516,14 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
         h_evtflw.Fill(2)
     
-        # Invariant mass of muon pairs :  80.0 GeV/c^2 < M(dimuon) < 100.0 GeV/c^2
         if not ( t.dimuon_m[index] > 80.0 and t.dimuon_m[index] < 100.0 ):
             return False
         h_evtflw.Fill(3)
     
-        # Recoil mass of muon pairs : 120.0 GeV/c^2 < M_rec(dimuon) < 135.0 GeV/c^2
         if not ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 150.0 ):
             return False
         h_evtflw.Fill(4)
     
-        # Number of Particle flow objects 
         if ( ZZ_Selection == 1 ):
             if not ( t.n_col_reco > 15 and t.n_col_reco < 70 ):
                 return False
@@ -615,7 +532,6 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
         h_evtflw.Fill(5)
     
-        # Total(visible) Pt > 10 GeV/c
         if ( ZZ_Selection == 1 ):
             if not ( t.vis_all_pt > 10 ):
                 return False
@@ -624,7 +540,6 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
         h_evtflw.Fill(6)
     
-        # Minimum angle between a muon and a jet > 0.3 rad ( == 0.3*180.0/3.141592 = 17.2 degree ) 
         if ( ZZ_Selection == 1 ):
             if not ( t.lj_minangle > 17.2  ):
                 return False
@@ -633,7 +548,6 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
         h_evtflw.Fill(7)
     
-        # Tight selection on ZZ*->nunu,jj : Mass(missing) > 80 GeV/c^2,  Mass(dijet) < 35 GeV/c^2
         if ( ZZ_Selection == 1 ):
             if not ( t.vis_all_rec_m > 80 and t.dijet_m[0] < 35 ):
                 return False
@@ -642,7 +556,6 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
         h_evtflw.Fill(8)
         
-        # Jet Pt 
         if ( ZZ_Selection == 1 ):
             if not ( t.jet_pt[0] > 3.0 and t.jet_pt[1] > 3.0 and t.jet_e[0] > 5.0  and t.jet_e[1] > 5.0 ):
                 return False
@@ -651,12 +564,14 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
         h_evtflw.Fill(9)
 
-        # N(lepton) < 3 ( == 2) 
-        if not ( t.n_lepton < 3 ):
+        if ( 122 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 128 ):
             return False
-        h_evtflw.Fill(10)      
-    
-                            
+        h_evtflw.Fill(10)
+
+        if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
+            return False
+        h_evtflw.Fill(11)
+
     if ( combine_opt == 2 ):
         index=0
         if not ( 20 < t.n_col_reco and t.n_col_reco < 73 ):
@@ -707,17 +622,150 @@ def select_higgs_to_zz(t,combine_opt):
             return False
         h_evtflw.Fill(13)
 
-        if ( 120 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 130 ):
+        if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
             return False
         h_evtflw.Fill(14)
 
-        if ( 120 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 130 ):
+        if ( 122 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 128 ):
             return False
         h_evtflw.Fill(15)
 
+    if ( combine_opt == 3 ):
+        if (ZZ_Selection==1):
+            index=0
+
+            if not ( t.dimuon_m[index] < t.vis_all_rec_m):
+                return False
+            h_evtflw.Fill(2)
+
+            if not ( 35 < t.n_col_reco and t.n_col_reco < 107 ):
+                return False
+            h_evtflw.Fill(3)
+ 
+            if not ( 103 < t.vis_all_m and t.vis_all_m < 179 ):
+                return False
+            h_evtflw.Fill(4)
+
+            if not ( -0.94 < t.cos and t.cos < 0.95 ):
+                return False
+            h_evtflw.Fill(5)
+
+            if not ( 155 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 217):
+                return False
+            h_evtflw.Fill(6)
+
+            if not ( 7 < t.vis_all_p and t.vis_all_p < 76 ):
+                return False
+            h_evtflw.Fill(7)
+
+            if not ( 60 < t.dijet_m[0] and t.dijet_m[0] < 111 ):
+                return False
+            h_evtflw.Fill(8)
+
+            if not ( 34 < t.jet_lead_e[0] and t.jet_lead_e[0] < 88 ):
+                return False
+            h_evtflw.Fill(9)
+
+            if not ( 13 < t.jet_sub_e[0] and t.jet_sub_e[0] < 57 ):
+                return False
+            h_evtflw.Fill(10)
+
+            if not ( 20 < t.lj_angle and t.lj_angle < 175):
+                return False
+            h_evtflw.Fill(11)
+ 
+            if not ( 8 < t.dimuon_m[index] and t.dimuon_m[index] < 59 ):
+                return False
+            h_evtflw.Fill(12)
+
+            if not ( -0.84 < t.vis_all_cos and t.vis_all_cos < 0.86 ):
+                return False
+            h_evtflw.Fill(13)
+
+            if not ( 43 < t.vis_all_rec_m and t.vis_all_rec_m < 125 ):
+                return False
+            h_evtflw.Fill(14)
+
+            if not ( 10 < t.vis_all_pt and t.vis_all_pt < 74):
+                return False
+            h_evtflw.Fill(15)
+ 
+            if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
+                return False
+            h_evtflw.Fill(16)
+
+            if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
+                return False
+            h_evtflw.Fill(17)
+
+        if (ZZ_Selection==2):
+            index=0
+
+            if not ( t.dimuon_m[index] > t.vis_all_rec_m):
+                return False
+            h_evtflw.Fill(2)
+
+            if not ( 29 < t.n_col_reco and t.n_col_reco < 105 ):
+                return False
+            h_evtflw.Fill(3)
+
+            if not ( 164 < t.vis_all_m and t.vis_all_m < 222 ):
+                return False
+            h_evtflw.Fill(4)
+
+            if not ( -0.94 < t.cos and t.cos < 0.95 ):
+                return False
+            h_evtflw.Fill(5)
+
+            if not ( 114 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 161):
+                return False
+            h_evtflw.Fill(6)
+
+            if not ( 4 < t.vis_all_p and t.vis_all_p < 62 ):
+                return False
+            h_evtflw.Fill(7)
+
+            if not ( 69 < t.dijet_m[0] and t.dijet_m[0] < 110 ):
+                return False
+            h_evtflw.Fill(8)
+
+            if not ( 44 < t.jet_lead_e[0] and t.jet_lead_e[0] < 83 ):
+                return False
+            h_evtflw.Fill(9)
+
+            if not ( 22 < t.jet_sub_e[0] and t.jet_sub_e[0] < 58 ):
+                return False
+            h_evtflw.Fill(10)
+
+            if not ( 95 < t.lj_angle and t.lj_angle < 171):
+                return False
+            h_evtflw.Fill(11)
+
+            if not ( 57 < t.dimuon_m[index] and t.dimuon_m[index] < 95 ):
+                return False
+            h_evtflw.Fill(12)
+
+            if not ( -0.84 < t.vis_all_cos and t.vis_all_cos < 0.86 ):
+                return False
+            h_evtflw.Fill(13)
+
+            if not ( 15 < t.vis_all_rec_m and t.vis_all_rec_m < 61 ):
+                return False
+            h_evtflw.Fill(14)
+
+            if not ( 8 < t.vis_all_pt and t.vis_all_pt < 48):
+                return False
+            h_evtflw.Fill(15)
+
+            if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
+                return False
+            h_evtflw.Fill(16)
+
+            if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
+                return False
+            h_evtflw.Fill(17)
 
     return True
-
 
 def select_zpole_muon(t):
 
@@ -729,8 +777,6 @@ def select_zpole_muon(t):
            index = i
 
     return index
-
-
 
 if __name__ == '__main__':
 	main()
