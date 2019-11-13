@@ -27,6 +27,7 @@ bool isuseexistingpdf=false;
                                  
                                 // "mzvj",  
                                 // "mzjv"
+                                // "vzjm"
                                  "qzvm",
                                 // "qzmv"      
                                 //  "eeqq_inv",
@@ -842,20 +843,6 @@ const channel c[150]=
             {"zh",  "data/new_zz/vveejj/ZH_bkg.root"}
         }
     },
-    {   "vz", 8, 1, 100, 150,
-        "data/new_zz/vz/new_vz_sm.root",
-        {"s", "zz", "ww", "tt", "zy","bb", "cc", "gg"},
-        {
-            {"s",   "data/new_zz/vz/new_vz_sig.root"},
-            {"zz",  "data/new_zz/vz/new_vz_zz.root"},
-            {"ww",  "data/new_zz/vz/new_vz_ww.root"},
-            {"tt",  "data/new_zz/vz/new_vz_tt.root"},
-            {"zy",  "data/new_zz/vz/new_vz_az.root"},
-            {"bb",  "data/new_zz/vz/new_vz_bb.root"},
-            {"cc",  "data/new_zz/vz/new_vz_cc.root"},
-            {"gg",  "data/new_zz/vz/new_vz_gg.root"}
-        }
-    },
 
     {   "ezej", 1, 1, 120, 140,
         "data/new_zz/eeeejj/bkg.root",
@@ -903,35 +890,43 @@ const channel c[150]=
             {"bb",  "data/new_zz/mzjv/new_mzjv_bb.root"},
             {"cc",  "data/new_zz/mzjv/new_mzjv_cc.root"},
             {"gg",  "data/new_zz/mzjv/new_mzjv_gg.root"}
+        }
+    },
 
+    {   "vzjm", 5, 1, 120, 140,
+        "data/new_zz/vzjm/new_vzjm_sm.root",
+        {"s", "zz", "ww", "tt", "bb"},
+        {
+            {"s",   "data/new_zz/vzjm/new_vzjm_sig.root"},
+            {"zz",  "data/new_zz/vzjm/new_vzjm_zz.root"},
+            {"ww",  "data/new_zz/vzjm/new_vzjm_ww.root"},
+            {"tt",  "data/new_zz/vzjm/new_vzjm_tt.root"},
+            {"bb",  "data/new_zz/vzjm/new_vzjm_bb.root"}
         }
     },
 
     {   "qzvm", 5, 1, 120, 140,
         "data/new_zz/qzvm/new_qzvm_sm.root",
-        {"s", "zz", "ww", "tt", "zy"},
+        {"s", "zz", "ww", "tt", "bb"},
         {   
             {"s",   "data/new_zz/qzvm/new_qzvm_sig.root"},
             {"zz",  "data/new_zz/qzvm/new_qzvm_zz.root"},
             {"ww",  "data/new_zz/qzvm/new_qzvm_ww.root"},
             {"tt",  "data/new_zz/qzvm/new_qzvm_tt.root"},
-            {"zy",  "data/new_zz/qzvm/new_qzvm_az.root"}
+            {"bb",  "data/new_zz/qzvm/new_qzvm_bb.root"}
         }
     },
 
-    {   "qzmv", 8, 1, 120, 140,
+    {   "qzmv", 6, 1, 120, 140,
         "data/new_zz/qzmv/new_qzmv_sm.root",
-        {"s", "zz", "ww", "tt", "zy","bb", "cc", "gg"},
+        {"s", "zz", "ww", "tt", "bb", "cc"},
         {
             {"s",   "data/new_zz/qzmv/new_qzmv_sig.root"},
             {"zz",  "data/new_zz/qzmv/new_qzmv_zz.root"},
             {"ww",  "data/new_zz/qzmv/new_qzmv_ww.root"},
             {"tt",  "data/new_zz/qzmv/new_qzmv_tt.root"},
-            {"zy",  "data/new_zz/qzmv/new_qzmv_az.root"},
             {"bb",  "data/new_zz/qzmv/new_qzmv_bb.root"},
             {"cc",  "data/new_zz/qzmv/new_qzmv_cc.root"},
-            {"gg",  "data/new_zz/qzmv/new_qzmv_gg.root"}
-
         }
     },
     
@@ -1382,7 +1377,7 @@ const map<TString, TString> name=
     {"vzmj",    "Z#rightarrow#nu#nu, H#rightarrowZZ*#rightarrow#mu^{+}#mu^{-}q#bar{q}"},
     {"mzvj",    "Z#rightarrow#mu^{+}#mu^{-}, H#rightarrowZZ*#rightarrow#nu#nuq#bar{q}"},
     {"mzjv",    "Z#rightarrow#mu^{+}#mu^{-}, H#rightarrowZZ*#rightarrowq#bar{q}#nu#nu"},
-    {"vz",      "Z#rightarrow#nu#nu, H#rightarrowZZ*#rightarrowq#bar{q}#mu^{+}#mu^{-}"},
+    {"vzjm",    "Z#rightarrow#nu#nu, H#rightarrowZZ*#rightarrowq#bar{q}#mu^{+}#mu^{-}"},
     {"qzvm",    "Z#rightarrowq#bar{q}, H#rightarrowZZ*#rightarrow#nu#nu#mu^{+}#mu^{-}"},
     {"qzmv",    "Z#rightarrowq#bar{q}, H#rightarrowZZ*#rightarrow#mu^{+}#mu^{-}#nu#nu"},
     {"ezej",    "Z#rightarrowe^{+}e^{-}, H#rightarrowZZ*#rightarrowe^{+}e^{-}q#bar{q}"},
@@ -1441,7 +1436,7 @@ const map<TString, TString> xrec=
     {"mmqq",    "Recoil"},
     {"mzvj",        "Recoil"},
     {"mzjv",        "Recoil"},
-    {"vz",          "Recoil"},
+    {"vzjm",        "Recoil"},
     {"qzvm",        "Recoil"},
     {"qzmv",        "Recoil"},
     {"vvhbb_rec",       "Recoil"},
@@ -1499,7 +1494,7 @@ const map<TString, TString> xname=
     {"vzmj",    "#mu#muq#bar{q}"},
     {"mzvj",    "#mu#mu"},
     {"mzjv",    "#mu#mu"},
-    {"vz",      "#nu#nu"},
+    {"vzjm",    "#nu#nu"},
     {"qzvm",    "q#bar{q}"},
     {"qzmv",    "q#bar{q}"},
     {"ezej",    "ee"},
@@ -1591,7 +1586,7 @@ const map<TString, TString> varname=
     {"zzgg_rec",            "Mass_invar"},
      {"mzvj",            "Mass_H"},
      {"mzjv",            "Mass_H"},
-     {"vz",              "Mass_H"},
+     {"vzjm",            "Mass_H"},
      {"qzvm",            "Mass_H"},
      {"qzmv",            "Mass_H"},
     
