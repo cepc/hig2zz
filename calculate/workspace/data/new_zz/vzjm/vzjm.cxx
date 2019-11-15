@@ -65,7 +65,7 @@ void vv_ntuple(TString a,TString b)
    Double_t BDTs, BDTb, recoEs, recoEb, invmass, recmass, type;
    Ts->SetBranchAddress("scale",   &weight);
   //  Tb->SetBranchAddress("BDT",   &BDTb);
-   Ts->SetBranchAddress("dimuon_rec_m",  &invmass);
+   Ts->SetBranchAddress("vis_all_m",  &invmass);
 //    Ts->SetBranchAddress("higtype",    &type);
 //    Ts->SetBranchAddress("invmass",   &invmass);
 //    Ts->SetBranchAddress("recoilmass",   &recmass);

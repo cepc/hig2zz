@@ -893,7 +893,7 @@ const channel c[150]=
         }
     },
 
-    {   "vzjm", 5, 1, 120, 140,
+    {   "vzjm", 5, 1, 100, 140,
         "data/new_zz/vzjm/new_vzjm_sm.root",
         {"s", "zz", "ww", "tt", "bb"},
         {
@@ -905,7 +905,7 @@ const channel c[150]=
         }
     },
 
-    {   "qzvm", 5, 1, 120, 140,
+    {   "qzvm", 5, 1, 100, 150,
         "data/new_zz/qzvm/new_qzvm_sm.root",
         {"s", "zz", "ww", "tt", "bb"},
         {   
@@ -917,7 +917,7 @@ const channel c[150]=
         }
     },
 
-    {   "qzmv", 6, 1, 120, 140,
+    {   "qzmv", 6, 1, 100, 150,
         "data/new_zz/qzmv/new_qzmv_sm.root",
         {"s", "zz", "ww", "tt", "bb", "cc"},
         {

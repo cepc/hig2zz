@@ -893,7 +893,7 @@ const channel c[150]=
         }
     },
 
-    {   "vzjm", 5, 1, 120, 140,
+    {   "vzjm", 5, 1, 100, 140,
         "data/new_zz/vzjm/new_vzjm_sm.root",
         {"s", "zz", "ww", "tt", "bb"},
         {
@@ -905,7 +905,7 @@ const channel c[150]=
         }
     },
 
-    {   "qzvm", 5, 1, 120, 140,
+    {   "qzvm", 5, 1, 100, 140,
         "data/new_zz/qzvm/new_qzvm_sm.root",
         {"s", "zz", "ww", "tt", "bb"},
         {   
@@ -917,7 +917,7 @@ const channel c[150]=
         }
     },
 
-    {   "qzmv", 6, 1, 120, 140,
+    {   "qzmv", 6, 1, 100, 140,
         "data/new_zz/qzmv/new_qzmv_sm.root",
         {"s", "zz", "ww", "tt", "bb", "cc"},
         {
@@ -1436,7 +1436,7 @@ const map<TString, TString> xrec=
     {"mmqq",    "Recoil"},
     {"mzvj",        "Recoil"},
     {"mzjv",        "Recoil"},
-    {"vzjm",        "Recoil"},
+    //{"vzjm",        "Recoil"},
     {"qzvm",        "Recoil"},
     {"qzmv",        "Recoil"},
     {"vvhbb_rec",       "Recoil"},
@@ -1494,7 +1494,7 @@ const map<TString, TString> xname=
     {"vzmj",    "#mu#muq#bar{q}"},
     {"mzvj",    "#mu#mu"},
     {"mzjv",    "#mu#mu"},
-    {"vzjm",    "#nu#nu"},
+    {"vzjm",    "#mu^{+}#mu^{-}q#bar{q}"},
     {"qzvm",    "q#bar{q}"},
     {"qzmv",    "q#bar{q}"},
     {"ezej",    "ee"},
