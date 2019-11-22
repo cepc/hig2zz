@@ -1104,7 +1104,7 @@ case $option in
            python ./python/plt_bg.py  ${channel_opt_nn} ${nnhzz} ./table/bg_2f.txt  ./table/bg_4f.txt  ./table/zh_sample_list.txt
            ;;
 
-    2.4.2) echo  "Plot information..."  # Meantime, it winn generate table for LaTeX
+    2.4.2) echo  "Plot information..."  # Meantime, it will generate table for LaTeX
            mkdir -p ./table/channel_nn
            python ./python/plt_info.py  ${channel_opt_nn} ${nnhzz} ./table/zh_sample_list.txt  ./table/bg_2f.txt  ./table/bg_4f.txt 
            ;;
@@ -1120,20 +1120,17 @@ case $option in
 
            cd ./root/channel_nn
            if [ ${channel_opt_nn} = 1 ]; then
-                cp sig.root ./merge/vzmj_sig.root
-                hadd ./merge/vzmj_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
-                hadd ./merge/vzmj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-                hadd ./merge/vzmj_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
-                hadd ./merge/vzmj_az.root bkg_e2e2h_az.root bkg_qqh_az.root
-                hadd ./merge/vzmj_bb.root bkg_e2e2h_bb.root
-                hadd ./merge/vzmj_cc.root bkg_e2e2h_cc.root
-                hadd ./merge/vzmj_gg.root bkg_e2e2h_gg.root
-                hadd ./merge/vzmj_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
+                cp sig.root ./merge/vzjm_sig.root
+                hadd ./merge/vzjm_zz.root bkg_e2e2h_zz.root bkg_qqh_zz.root
+                hadd ./merge/vzjm_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root bkg_qqh_ww.root
+                hadd ./merge/vzjm_tt.root bkg_qqh_e3e3.root
+                hadd ./merge/vzjm_bb.root bkg_e2e2h_bb.root
+                hadd ./merge/vzjm_sm.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root bkg_ww_sl0tauq.root
 
                 cd ../..
-                cp -r root/channel_nn/merge/. calculate/workspace/data/new_zz/vzmj/
-                cd calculate/workspace/data/new_zz/vzmj/
-                root -l -q vzmj.cxx
+                cp -r root/channel_nn/merge/. calculate/workspace/data/new_zz/vzjm/
+                cd calculate/workspace/data/new_zz/vzjm/
+                root -l -q vzjm.cxx
             fi
            ;;
 
@@ -1147,7 +1144,7 @@ case $option in
            mkdir -p ./lib
            make clean
            if [ ${channel_opt_nn} = 1 ]; then
-               cp -p ./inc/shapeFit_HZZ_vzmj.h ./inc/shapeFit.h
+               cp -p ./inc/shapeFit_HZZ_vzjm.h ./inc/shapeFit.h
            fi
            ./job/run.sh
            ./job/plot.sh
@@ -1536,11 +1533,11 @@ case $option in
 
            if [ ${channel_opt_qq} = 1 ]; then
                 cp sig.root ./merge/qzvm_sig.root
-                hadd ./merge/qzvm_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root
-                hadd ./merge/qzvm_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
-                hadd ./merge/qzvm_tt.root bkg_e2e2h_e3e3.root bkg_e3e3h_e3e3.root
-                hadd ./merge/qzvm_az.root bkg_e2e2h_az.root bkg_e3e3h_az.root
-                hadd ./merge/qzvm_sm.root bkg_zz_l0taumu.root bkg_zz_l04tau.root bkg_zz_sl0tau_up.root
+                hadd ./merge/qzvm_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_nnh_zz.root bkg_nnh_zz.root bkg_qqh_zz.root
+                hadd ./merge/qzvm_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root bkg_nnh_ww.root bkg_qqh_ww.root
+                hadd ./merge/qzvm_tt.root bkg_qqh_e3e3.root
+                hadd ./merge/qzvm_bb.root bkg_e2e2h_bb.root bkg_e3e3h_bb.root
+                hadd ./merge/qzvm_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_zz_l0taumu.root bkg_ww_sl0muq.root bkg_ww_sl0tauq.root bkg_sze_l0mu.root
                 cd ../..
                 cp -r root/channel_qq/merge/. calculate/workspace/data/new_zz/qzvm/
                 cd calculate/workspace/data/new_zz/qzvm/
@@ -1548,13 +1545,11 @@ case $option in
            else
                 cp sig.root ./merge/qzmv_sig.root
                 hadd ./merge/qzmv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
-                hadd ./merge/qzmv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root
+                hadd ./merge/qzmv_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root bkg_qqh_ww.root
                 hadd ./merge/qzmv_tt.root bkg_e2e2h_e3e3.root bkg_qqh_e3e3.root
-                hadd ./merge/qzmv_az.root bkg_e2e2h_az.root bkg_qqh_az.root
-                hadd ./merge/qzmv_bb.root bkg_e2e2h_bb.root
+                hadd ./merge/qzmv_bb.root bkg_e2e2h_bb.root bkg_e3e3h_bb.root
                 hadd ./merge/qzmv_cc.root bkg_e2e2h_cc.root
-                hadd ./merge/qzmv_gg.root bkg_e2e2h_gg.root
-                hadd ./merge/qzmv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root
+                hadd ./merge/qzmv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root bkg_ww_sl0tauq.root 
 
                 cd ../..
                 cp -r root/channel_qq/merge/. calculate/workspace/data/new_zz/qzmv/

@@ -119,6 +119,9 @@ RooWorkspace *makespace(TString cname, int index, int lu)
     if (istautau)   poi.add(RooArgSet(mu_tt, mu_ww, mu_zz));
     if (cname=="mzvj") poi.add(RooArgSet(mu_tt, mu_ww, mu_zz, mu_zr));
     if (cname=="mzjv") poi.add(RooArgSet(mu_tt, mu_ww, mu_zz, mu_zr, mu_bb,  mu_cc, mu_gg));
+    if (cname=="vzjm") poi.add(RooArgSet(mu_tt, mu_ww, mu_zz, mu_zr, mu_bb));
+    if (cname=="qzvm") poi.add(RooArgSet(mu_tt, mu_ww, mu_zz, mu_zr, mu_bb));
+    if (cname=="qzmv") poi.add(RooArgSet(mu_tt, mu_ww, mu_zz, mu_zr, mu_bb, mu_cc));
     if (cname=="qqzy") poi.add(RooArgSet(mu_zr));
     if (isz)        poi.add(RooArgSet(mu_zz));
     if (isw)        poi.add(RooArgSet(mu_ww));
@@ -355,6 +358,31 @@ else
                 if (proc[i].Contains("bb")) b1+=", mu_bb)";
                 if (proc[i].Contains("cc")) b1+=", mu_cc)";
                 if (proc[i].Contains("gg")) b1+=", mu_gg)";
+            }
+            if (cname.Contains("vzjm"))
+            {
+                if (proc[i].Contains("s"))  b1 +=",mu_zz)";
+                if (proc[i].Contains("ww")) b1 +=",mu_ww)";
+                if (proc[i].Contains("zz")) b1 +=",mu_zz)";
+                if (proc[i].Contains("tt")) b1 +=",mu_tt)";
+                if (proc[i].Contains("bb")) b1+=", mu_bb)";
+            }
+            if (cname.Contains("qzvm"))
+            {
+                if (proc[i].Contains("s"))  b1 +=",mu_zz)";
+                if (proc[i].Contains("ww")) b1 +=",mu_ww)";
+                if (proc[i].Contains("zz")) b1 +=",mu_zz)";
+                if (proc[i].Contains("tt")) b1 +=",mu_tt)";
+                if (proc[i].Contains("bb")) b1+=", mu_bb)";
+            }
+            if (cname.Contains("qzmv"))
+            {
+                if (proc[i].Contains("s"))  b1 +=",mu_zz)";
+                if (proc[i].Contains("ww")) b1 +=",mu_ww)";
+                if (proc[i].Contains("zz")) b1 +=",mu_zz)";
+                if (proc[i].Contains("tt")) b1 +=",mu_tt)";
+                if (proc[i].Contains("bb")) b1+=", mu_bb)";
+                if (proc[i].Contains("cc")) b1+=", mu_cc)";
             }
             else if (isinvi)  b1 += ",mu_in)";
             else if (isz)     b1 += ",mu_zz)";

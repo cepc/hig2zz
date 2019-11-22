@@ -21,6 +21,9 @@ TString part="part";
   const TString CN[ch] = {
     "mzjv",
     //"mzvj"
+    //"vzjm"
+    //"qzvm"
+    //"qzmv"
   };
 
 void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n) 
@@ -98,6 +101,16 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
 
     else if ( cname.Contains("mzjv") )
         wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"),Components(RooArgSet( (*wchannel->pdf("pdf_zz_" + cname)), (*wchannel->pdf("pdf_ww_" + cname)),(*wchannel->pdf("pdf_tt_" + cname)),(*wchannel->pdf("pdf_zy_" + cname)),(*wchannel->pdf("pdf_bb_" + cname)), (*wchannel->pdf("pdf_cc_" + cname)), (*wchannel->pdf("pdf_gg_" + cname)),(*wchannel->pdf("pdf_b_" + cname)) )),LineColor(kGreen),LineWidth(2),LineStyle(2)); 
+
+    else if ( cname.Contains("vzjm") )
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"),Components(RooArgSet( (*wchannel->pdf("pdf_zz_" + cname)), (*wchannel->pdf("pdf_ww_" + cname)),(*wchannel->pdf("pdf_tt_" + cname)),(*wchannel->pdf("pdf_bb_" + cname)), (*wchannel->pdf("pdf_b_" + cname)) )),LineColor(kGreen),LineWidth(2),LineStyle(2));
+
+    else if ( cname.Contains("qzvm") )
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"),Components(RooArgSet( (*wchannel->pdf("pdf_zz_" + cname)), (*wchannel->pdf("pdf_ww_" + cname)),(*wchannel->pdf("pdf_tt_" + cname)),(*wchannel->pdf("pdf_bb_" + cname)), (*wchannel->pdf("pdf_b_" + cname)) )),LineColor(kGreen),LineWidth(2),LineStyle(2));
+
+    else if ( cname.Contains("qzmv") )
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"),Components(RooArgSet( (*wchannel->pdf("pdf_zz_" + cname)), (*wchannel->pdf("pdf_ww_" + cname)),(*wchannel->pdf("pdf_tt_" + cname)),(*wchannel->pdf("pdf_bb_" + cname)), (*wchannel->pdf("pdf_cc_" + cname)),(*wchannel->pdf("pdf_b_" + cname)) )),LineColor(kGreen),LineWidth(2),LineStyle(2));
+
     }   // modified.  09/20/2019
     else if (cname.Contains("cos"))
     { //cos
@@ -193,7 +206,8 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
          if (cname.Contains("ez4v")  )  lymin=0.3; 
     }
     if (cname.Contains("eeqq") ||cname.Contains("mmqq") ||cname.Contains("qqqq") ||cname.Contains("vvqq")) { lymin= 0.66; n_ent=6; } 
-    if (cname.Contains("mw") || cname.Contains("minc") || cname.Contains("ew") || cname=="mmtt" || cname=="eett"  || cname.Contains("mzvj") || cname.Contains("mzjv") || cname=="mmqq" || cname=="eeqq_inv" )
+    if (cname.Contains("mw") || cname.Contains("minc") || cname.Contains("ew") || cname=="mmtt" || cname=="eett"  || cname.Contains("mzvj") || cname.Contains("mzjv") || cname.Contains("vzjm") || cname.Contains("qzmv") || cname.Contains("qzvm") || cname=="mmqq" || cname=="eeqq_inv" )
+
     {
         lxmin= 0.6; lymin=0.4; 
         
