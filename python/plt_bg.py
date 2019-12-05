@@ -22,7 +22,7 @@ def main():
 #        draw_signal_bg('h_vis_all_pt_raw', 0, 100, 'Transverse momentum (GeV)',1)
 #        draw_signal_bg('h_min_angle_raw',0, 120, 'Muon-jet angle (degree)',1)
 #        draw_signal_bg('h_single_jet_theta',0,180, 'Two jet angle (degree)',1)  
-        draw_signal_bg('h_mrec_dimuon_final',110,150, 'Dimuon rec mass (GeV)',1) 
+        draw_signal_bg('h_mrec_dimuon_final',100,150, 'Dimuon rec mass (GeV)',1) 
 #        draw_2d('h_2D_dijet_missing_raw',1)
 #        draw_2d('h_2D_dijet_missing_final',1)  
 
@@ -43,12 +43,12 @@ def main():
 #            draw_signal_bg('h_single_jet2_e',0,120, 'Energy (GeV)',1)
 
     if (combine_opt==2):
-        draw_signal_bg('h_vis_all_m_final',115,135,'vis_all_m_final(GeV)',2)
+        draw_signal_bg('h_vis_all_m_final',100,150,'vis_all_m_final(GeV)',2)
 
     if (combine_opt==3):
 #        draw_signal_bg('h_m_dimuon_final',0,100,'Dimuon mass(GeV)')
 #        draw_signal_bg('h_m_dijet_final',10,100,'Dijet mass(GeV)')
-        draw_signal_bg('h_mrec_dijet_final',110,220,'Dijet rec mass(GeV)',3)
+        draw_signal_bg('h_mrec_dijet_final',100,150,'Dijet rec mass(GeV)',3)
 #        draw_signal_bg('h_mrec_dimuon_final',110,220, 'Dimuon rec mass (GeV)')
 #        draw_signal_bg('h_m_visible_final',10,100,'visible_mass_final(GeV)')
 #        draw_signal_bg('h_m_missing_final',65,105,'missing_mass_final(GeV)')

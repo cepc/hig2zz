@@ -46,7 +46,7 @@ void Make2DCorrelationPlot(TString CHANNEL, TString outputPath,TString outputNam
 //			if (100*fabs(temp)<1) tex->DrawLatex(reco_truth_2d->GetXaxis()->GetBinCenter(x),reco_truth_2d->GetYaxis()->GetBinCenter(y),"<1%");
 //			else 
 //tex->DrawLatex(reco_truth_2d->GetXaxis()->GetBinCenter(x),reco_truth_2d->GetYaxis()->GetBinCenter(y),Form("%.0f%%",100*reco_truth_2d->GetBinContent(x,y)));
-tex->DrawLatex(reco_truth_2d->GetXaxis()->GetBinCenter(x),reco_truth_2d->GetYaxis()->GetBinCenter(y),Form("%.3f%%",100*temp));
+tex->DrawLatex(reco_truth_2d->GetXaxis()->GetBinCenter(x),reco_truth_2d->GetYaxis()->GetBinCenter(y),Form("%.0f%%",100*temp));
 cout<<setw(10)<<setiosflags(ios::fixed)<<setprecision(3)<<100*temp<<" ";
         } 
     }	

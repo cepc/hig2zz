@@ -26,7 +26,7 @@ void mzvj()
     mm_ntuple("mzvj_sm.root"  ,   "new_mzvj_sm.root");
     mm_ntuple("mzvj_tt.root"  ,   "new_mzvj_tt.root");
     mm_ntuple("mzvj_ww.root"  ,   "new_mzvj_ww.root");
-    mm_ntuple("mzvj_zz.root"  , "new_mzvj_zz.root");
+    mm_ntuple("mzvj_zz.root"  ,   "new_mzvj_zz.root");
     mm_ntuple("mzvj_sig.root"  ,  "new_mzvj_sig.root");
 
 }

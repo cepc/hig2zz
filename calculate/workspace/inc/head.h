@@ -1,5 +1,6 @@
 #ifndef HEAD_H
 #define HEAD_H
+using namespace std;
 #include "RooAbsData.h"
 #include "RooAbsMoment.h"
 #include "RooAbsPdf.h"
@@ -42,7 +43,7 @@
 #include "TF1.h"
 #include "TFile.h"
 #include "TGaxis.h"
-#include "TGaxis.h"
+#include "TAxis.h"
 #include "TH2.h"
 #include "TLatex.h"
 #include "TLegend.h"
