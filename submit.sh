@@ -687,11 +687,6 @@ case $option in
 	   mkdir -p ./bin
 	   mkdir -p ./lib
 	   make clean
-           if [ ${channel_opt_ll} = 1 ]; then
-               cp -p ./inc/shapeFit_HZZ_vvjj.h ./inc/shapeFit.h
-           else
-               cp -p ./inc/shapeFit_HZZ_jjvv.h ./inc/shapeFit.h
-           fi
            ./job/run.sh
            ./job/plot.sh
            echo "Please check the output under ./calculate/workspace/out/ " 
@@ -1143,9 +1138,6 @@ case $option in
            mkdir -p ./bin
            mkdir -p ./lib
            make clean
-           if [ ${channel_opt_nn} = 1 ]; then
-               cp -p ./inc/shapeFit_HZZ_vzjm.h ./inc/shapeFit.h
-           fi
            ./job/run.sh
            ./job/plot.sh
            echo "Please check the output under ./calculate/workspace/out/ " 
@@ -1568,11 +1560,6 @@ case $option in
            mkdir -p ./bin
            mkdir -p ./lib
            make clean
-           if [ ${channel_opt_qq} = 1 ]; then
-               cp -p ./inc/shapeFit_HZZ_qzvm.h ./inc/shapeFit.h
-           else
-               cp -p ./inc/shapeFit_HZZ_qzmv.h ./inc/shapeFit.h
-           fi
            ./job/run.sh
            ./job/plot.sh
            echo "Please check the output under ./calculate/workspace/out/ " 
