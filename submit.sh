@@ -1115,17 +1115,17 @@ case $option in
 
            cd ./root/channel_nn
            if [ ${channel_opt_nn} = 1 ]; then
-                cp sig.root ./merge/vzjm_sig.root
-                hadd ./merge/vzjm_zz.root bkg_e2e2h_zz.root bkg_qqh_zz.root
-                hadd ./merge/vzjm_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root bkg_qqh_ww.root
-                hadd ./merge/vzjm_tt.root bkg_qqh_e3e3.root
-                hadd ./merge/vzjm_bb.root bkg_e2e2h_bb.root
-                hadd ./merge/vzjm_sm.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root bkg_ww_sl0tauq.root
+                cp sig.root ./merge/vzmj_sig.root
+                hadd ./merge/vzmj_zz.root bkg_e2e2h_zz.root bkg_qqh_zz.root
+                hadd ./merge/vzmj_ww.root bkg_e2e2h_ww.root bkg_e3e3h_ww.root bkg_qqh_ww.root
+                hadd ./merge/vzmj_tt.root bkg_qqh_e3e3.root
+                hadd ./merge/vzmj_bb.root bkg_e2e2h_bb.root
+                hadd ./merge/vzmj_sm.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root bkg_ww_sl0tauq.root
 
                 cd ../..
-                cp -r root/channel_nn/merge/. calculate/workspace/data/new_zz/vzjm/
-                cd calculate/workspace/data/new_zz/vzjm/
-                root -l -q vzjm.cxx
+                cp -r root/channel_nn/merge/. calculate/workspace/data/new_zz/vzmj/
+                cd calculate/workspace/data/new_zz/vzmj/
+                root -l -q vzmj.cxx
             fi
            ;;
 
