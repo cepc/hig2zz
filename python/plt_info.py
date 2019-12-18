@@ -19,11 +19,11 @@ def main():
     tabs = sys.argv[3:]
 
     if (combine_opt==1):
-        signal_sample =  ROOT.TFile('./run/channel_ll/llh2zz/hist/ana_File_merged_1.root')
+        signal_sample =  ROOT.TFile('./run/channel_ll_%s/llh2zz/hist/ana_File_merged_1.root'%ZZ_Selection)
     if (combine_opt==2):
         signal_sample =  ROOT.TFile('./run/channel_nn/nnh2zz/hist/ana_File_merged_1.root')
     if (combine_opt==3):
-        signal_sample =  ROOT.TFile('./run/channel_qq/qqh2zz/hist/ana_File_merged_1.root')
+        signal_sample =  ROOT.TFile('./run/channel_qq_%s/qqh2zz/hist/ana_File_merged_1.root'%ZZ_Selection)
 
     sh = signal_sample.Get('hevtflw_pre')
     eva = sh.GetBinContent(1)  #number of e2e2h
@@ -74,11 +74,11 @@ def main():
     print("%-25s%-25s%-25s"%('name','scale','final'))
 
     if (combine_opt==1):
-        outname = './table/channel_ll/cut_info.txt'
+        outname = './table/channel_ll_%s/cut_info.txt'%ZZ_Selection
     if (combine_opt==2):
         outname = './table/channel_nn/cut_info.txt'
     if (combine_opt==3):
-        outname = './table/channel_qq/cut_info.txt'
+        outname = './table/channel_qq_%s/cut_info.txt'%ZZ_Selection
 
     fout_script = open(outname,'w')
 
@@ -98,11 +98,11 @@ def main():
                 event_exp = 5600.0/5050.0 * float(l[3])
 
                 if (combine_opt==1):
-                    sample = ROOT.TFile('./run/channel_ll/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
+                    sample = ROOT.TFile('./run/channel_ll_%s/'%ZZ_Selection + path + '/hist/' + dname + '/ana_File_merged_1.root')
                 if (combine_opt==2):
                     sample = ROOT.TFile('./run/channel_nn/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
                 if (combine_opt==3):
-                    sample = ROOT.TFile('./run/channel_qq/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
+                    sample = ROOT.TFile('./run/channel_qq_%s/'%ZZ_Selection + path + '/hist/' + dname + '/ana_File_merged_1.root')
 
                 h=sample.Get('hevtflw_pre')
                 event_ana = h.GetBinContent(1)
@@ -119,7 +119,7 @@ def main():
                     if (combine_opt==3):
                         evt = tep.GetBinContent(18) * scb
 
-                    if int(evt) > 10:
+                    if int(evt) > 0:
                         print("%-25s%-25s%-25s"%(dname,scb,int(evt)))
                         tname = dname.replace('_',r'\_')
                         fout_script.write("%-25s&%-25s&%-25s%-25s\n"%(tname,scb,int(evt),r'\\'))
