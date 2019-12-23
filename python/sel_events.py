@@ -519,13 +519,13 @@ def select_higgs_to_zz(t,combine_opt):
         if not ( t.dimuon_m[index] > 80.0 and t.dimuon_m[index] < 100.0 ):
             return False
         h_evtflw.Fill(3)
-    
-        if not ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 150.0 ):
+
+        if not ( t.dimuon_rec_m[index] > 120.0 and t.dimuon_rec_m[index] < 142.0 ):
             return False
         h_evtflw.Fill(4)
     
         if ( ZZ_Selection == 1 ):
-            if not ( t.n_col_reco > 15 and t.n_col_reco < 70 ):
+            if not ( t.n_col_reco > 20 and t.n_col_reco < 67 ):
                 return False
         if ( ZZ_Selection == 2 ):
             if not ( t.n_col_reco > 30 and t.n_col_reco < 100 ):
@@ -536,7 +536,7 @@ def select_higgs_to_zz(t,combine_opt):
             if not ( t.vis_all_pt > 10 ):
                 return False
         if ( ZZ_Selection == 2 ):
-            if not ( t.vis_all_pt > 10 and t.vis_all_pt < 50 ):
+            if not ( t.vis_all_pt > 12 and t.vis_all_pt < 50 ):
                 return False
         h_evtflw.Fill(6)
     
@@ -549,10 +549,10 @@ def select_higgs_to_zz(t,combine_opt):
         h_evtflw.Fill(7)
     
         if ( ZZ_Selection == 1 ):
-            if not ( t.vis_all_rec_m > 80 and t.dijet_m[0] < 35 ):
+            if not ( t.vis_all_rec_m > 80 and t.vis_all_rec_m < 105 and t.dijet_m[0] > 10 and t.dijet_m[0] < 43 ):
                 return False
         if ( ZZ_Selection == 2 ):
-            if not ( t.vis_all_rec_m < 50 and t.dijet_m[0] < 101 and 12 * t.dijet_m[0] + 7 * t.vis_all_rec_m > 1160 ): 
+            if not ( 4 < t.vis_all_rec_m and t.vis_all_rec_m < 59 and 58 < t.dijet_m[0] and t.dijet_m[0] < 100 and 12 * t.dijet_m[0] + 7 * t.vis_all_rec_m > 1160 ): 
                 return False
         h_evtflw.Fill(8)
         
@@ -586,15 +586,15 @@ def select_higgs_to_zz(t,combine_opt):
             return False
         h_evtflw.Fill(4)
 
-        if not ( 104 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 214 ):
+        if not ( (104 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 162) or (190 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 214) ):
             return False
         h_evtflw.Fill(5)
 
-        if not ( 40 < t.vis_all_p and t.vis_all_p < 70 ):
+        if not ( 43 < t.vis_all_p and t.vis_all_p < 60 ):
             return False
         h_evtflw.Fill(6)
 
-        if not ( 14 < t.dijet_m[0] and t.dijet_m[0] < 99 ):
+        if not ( (14 < t.dijet_m[0] and t.dijet_m[0] < 55) or (81 < t.dijet_m[0] and t.dijet_m[0] < 99) ):
             return False
         h_evtflw.Fill(7)
 
@@ -606,11 +606,11 @@ def select_higgs_to_zz(t,combine_opt):
             return False
         h_evtflw.Fill(9)
 
-        if not (20 < t.lj_angle and t.lj_angle < 142):
+        if not (t.lj_angle < 142):
             return False
         h_evtflw.Fill(10)
 
-        if not ( 12 < t.dimuon_m[index] and t.dimuon_m[index] < 96 ):
+        if not ( 14 < t.dimuon_m[index] and t.dimuon_m[index] < 94 ):
             return False
         h_evtflw.Fill(11)
 
@@ -618,7 +618,7 @@ def select_higgs_to_zz(t,combine_opt):
             return False
         h_evtflw.Fill(12)
 
-        if not ( 69 < t.vis_all_rec_m and t.vis_all_rec_m < 101 ):
+        if not ( 78 < t.vis_all_rec_m and t.vis_all_rec_m < 100 ):
             return False
         h_evtflw.Fill(13)
 
@@ -642,7 +642,7 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
             h_evtflw.Fill(3)
  
-            if not ( 103 < t.vis_all_m and t.vis_all_m < 179 ):
+            if not ( 114 < t.vis_all_m and t.vis_all_m < 154 ):
                 return False
             h_evtflw.Fill(4)
 
@@ -650,23 +650,23 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
             h_evtflw.Fill(5)
 
-            if not ( 155 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 217):
+            if not ( 193 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 212):
                 return False
             h_evtflw.Fill(6)
 
-            if not ( 7 < t.vis_all_p and t.vis_all_p < 76 ):
+            if not ( 16 < t.vis_all_p and t.vis_all_p < 72 ):
                 return False
             h_evtflw.Fill(7)
 
-            if not ( 60 < t.dijet_m[0] and t.dijet_m[0] < 111 ):
+            if not ( 76 < t.dijet_m[0] and t.dijet_m[0] < 104 ):
                 return False
             h_evtflw.Fill(8)
 
-            if not ( 34 < t.jet_lead_e[0] and t.jet_lead_e[0] < 88 ):
+            if not ( 47 < t.jet_lead_e[0] and t.jet_lead_e[0] < 83 ):
                 return False
             h_evtflw.Fill(9)
 
-            if not ( 13 < t.jet_sub_e[0] and t.jet_sub_e[0] < 57 ):
+            if not ( 23 < t.jet_sub_e[0] and t.jet_sub_e[0] < 55 ):
                 return False
             h_evtflw.Fill(10)
 
@@ -674,7 +674,7 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
             h_evtflw.Fill(11)
  
-            if not ( 8 < t.dimuon_m[index] and t.dimuon_m[index] < 59 ):
+            if not ( 12 < t.dimuon_m[index] and t.dimuon_m[index] < 43 ):
                 return False
             h_evtflw.Fill(12)
 
@@ -682,11 +682,11 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
             h_evtflw.Fill(13)
 
-            if not ( 43 < t.vis_all_rec_m and t.vis_all_rec_m < 125 ):
+            if not ( 69 < t.vis_all_rec_m and t.vis_all_rec_m < 111 ):
                 return False
             h_evtflw.Fill(14)
 
-            if not ( 10 < t.vis_all_pt and t.vis_all_pt < 74):
+            if not ( 10 < t.vis_all_pt and t.vis_all_pt < 71):
                 return False
             h_evtflw.Fill(15)
  
@@ -705,11 +705,11 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
             h_evtflw.Fill(2)
 
-            if not ( 29 < t.n_col_reco and t.n_col_reco < 105 ):
+            if not ( 35 < t.n_col_reco and t.n_col_reco < 105 ):
                 return False
             h_evtflw.Fill(3)
 
-            if not ( 164 < t.vis_all_m and t.vis_all_m < 222 ):
+            if not ( 179 < t.vis_all_m and t.vis_all_m < 214 ):
                 return False
             h_evtflw.Fill(4)
 
@@ -717,31 +717,31 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
             h_evtflw.Fill(5)
 
-            if not ( 114 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 161):
+            if not ( 130 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 157):
                 return False
             h_evtflw.Fill(6)
 
-            if not ( 4 < t.vis_all_p and t.vis_all_p < 62 ):
+            if not ( 8 < t.vis_all_p and t.vis_all_p < 45 ):
                 return False
             h_evtflw.Fill(7)
 
-            if not ( 69 < t.dijet_m[0] and t.dijet_m[0] < 110 ):
+            if not ( 76 < t.dijet_m[0] and t.dijet_m[0] < 104 ):
                 return False
             h_evtflw.Fill(8)
 
-            if not ( 44 < t.jet_lead_e[0] and t.jet_lead_e[0] < 83 ):
+            if not ( 49 < t.jet_lead_e[0] and t.jet_lead_e[0] < 82 ):
                 return False
             h_evtflw.Fill(9)
 
-            if not ( 22 < t.jet_sub_e[0] and t.jet_sub_e[0] < 58 ):
+            if not ( 22 < t.jet_sub_e[0] and t.jet_sub_e[0] < 56 ):
                 return False
             h_evtflw.Fill(10)
 
-            if not ( 95 < t.lj_angle and t.lj_angle < 171):
+            if not ( 118 < t.lj_angle and t.lj_angle < 177):
                 return False
             h_evtflw.Fill(11)
 
-            if not ( 57 < t.dimuon_m[index] and t.dimuon_m[index] < 95 ):
+            if not ( 77 < t.dimuon_m[index] and t.dimuon_m[index] < 95 ):
                 return False
             h_evtflw.Fill(12)
 
@@ -749,11 +749,11 @@ def select_higgs_to_zz(t,combine_opt):
                 return False
             h_evtflw.Fill(13)
 
-            if not ( 15 < t.vis_all_rec_m and t.vis_all_rec_m < 61 ):
+            if not ( 7 < t.vis_all_rec_m and t.vis_all_rec_m < 56 ):
                 return False
             h_evtflw.Fill(14)
 
-            if not ( 8 < t.vis_all_pt and t.vis_all_pt < 48):
+            if not ( 8 < t.vis_all_pt and t.vis_all_pt < 45):
                 return False
             h_evtflw.Fill(15)
 

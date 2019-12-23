@@ -20,13 +20,16 @@ RooWorkspace *makespace(TString cname, int index, int lu)
     
     for (int i=0;i<n_sig;i++) { proc[i]  =  c.name_sig[i]; }
 
-    cout << "Makeing workspace for channel " << cname << endl;  
-    
+    cout << "Making workspace for channel " << cname << endl;  
+
     TString ECM="250"; 
     if (!is250) ECM="240";
     if (DEBUG && (index==0) )  cerr << "Begin "<<ECM<<" workspace building"<<endl;
     
-    cerr << "Makeing workspace for channel " << cname << endl; //direnctly to screen
+    cerr << "--------------------------------------------------------------------" << endl;
+    cerr << "Making workspace for channel " << cname << endl; //direnctly to screen
+    cerr << "--------------------------------------------------------------------" << endl;
+
     RooWorkspace wspace("wspace");
     RooArgSet poi,nuispara,globobs,observable,un,constraints;
 
@@ -56,12 +59,12 @@ RooWorkspace *makespace(TString cname, int index, int lu)
     wspace.import(u_c);
 
     // Declare data path, number of signals, pois per channel
-    if (cname=="mzvj") poi.add(RooArgSet(mu_tt, mu_ww, mu_zz));
-    if (cname=="mzjv") poi.add(RooArgSet(mu_tt, mu_ww, mu_zz, mu_bb));
-    if (cname=="vzmj") poi.add(RooArgSet(mu_tt, mu_ww, mu_zz, mu_bb));
-    if (cname=="qzmv") poi.add(RooArgSet(mu_tt, mu_ww, mu_zz, mu_bb, mu_cc));
-    if (cname=="qzvm") poi.add(RooArgSet(mu_tt, mu_ww, mu_zz, mu_bb));
-    if (isz)        poi.add(RooArgSet(mu_zz));
+    if (cname=="mzvj") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr));
+    if (cname=="mzjv") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr, mu_bb, mu_cc, mu_gg, mu_mu));
+    if (cname=="vzmj") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr, mu_bb, mu_cc, mu_mu));
+    if (cname=="qzvm") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr, mu_bb, mu_cc, mu_gg));
+    if (cname=="qzmv") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr, mu_bb, mu_cc, mu_gg, mu_mu));
+    if (isz)        poi.add(RooArgSet(mu_s));
 
     wspace.import(poi);
 
@@ -95,9 +98,7 @@ RooWorkspace *makespace(TString cname, int index, int lu)
 
         b1 = "prod::" + a1 + "(" + ns_str + "," + kcom;
         
-        if (proc[i].Contains("zh"))      b1 += ")";
-        if (proc[i].Contains("ZH"))      b1 += ")";
-        else 
+        if (true)
         {
             TString cnamex;
             if (n_sig==1) cnamex=cname;
@@ -107,18 +108,21 @@ RooWorkspace *makespace(TString cname, int index, int lu)
             poi.add(*wspace.var(cnamex));
             b1 += ","+cnamex;
             // "vzmj", "mzvj","mzjv","qzmv","qzvm"
-            if (cname.Contains("mzvj") || cname.Contains("tzvj") || cname.Contains("vzmj") || cname.Contains("mzjv") || cname.Contains("qzmv") || cname.Contains("qzvm"))
+            if (cname.Contains("mzvj") || cname.Contains("mzjv") || cname.Contains("vzmj") || cname.Contains("qzvm") || cname.Contains("qzmv"))
             {
-                if (proc[i].Contains("s"))  b1 +=",mu_zz)";
+                if (proc[i].Contains("s"))  b1 +=",mu_s)";
                 if (proc[i].Contains("ww")) b1 +=",mu_ww)";
                 if (proc[i].Contains("zz")) b1 +=",mu_zz)";
                 if (proc[i].Contains("tt")) b1 +=",mu_tt)";
                 if (proc[i].Contains("zy")) b1 +=",mu_zr)";
                 if (proc[i].Contains("bb")) b1 +=",mu_bb)";
                 if (proc[i].Contains("cc")) b1 +=",mu_cc)";
+		if (proc[i].Contains("gg")) b1 +=",mu_gg)";
+		if (proc[i].Contains("mm")) b1 +=",mu_mu)";
             }
-            else if (isz)     b1 += ",mu_zz)";
+	    else if (isz) b1 += ", mu_zz)";
         }
+	cerr << "b1: " << b1 << endl;
         wspace.factory(b1);
     }
     if (n_bkg != 0)
@@ -127,22 +131,23 @@ RooWorkspace *makespace(TString cname, int index, int lu)
         nbkg = pdfShape(wspace, c, "b" , func);
 
         nbkg_str=(TString)to_string(nbkg);
+	cerr << "n_b: " << nbkg_str << endl;
         wspace.factory("n_b[" + nbkg_str + "]");
         modelname += "n_b*pdf_b)";
     }
 
-    if (!(cname.Contains("qqzy"))) wspace.import(*d_tot);
+    wspace.import(*d_tot);
     wspace.factory(modelname);
     wspace.factory("RooUniform::Uniform(Uni[1])");
 
     wspace.defineSet("Pois", poi, kTRUE);
     wspace.Print("v");
     wspace.writeToFile("out/workspace/part/ws_"+cname+"_"+lu_n+".root");
-
+    
     if (index == 0) wspace.factory("PROD::model(modelSB,constraint)");
     else            wspace.factory("PROD::model(modelSB,Uniform)");
 
-    TString correlated = "Uni, Uniform, sigma_cx, sigma_lumi, zhbb, vvhbb, vvbb, mu_bb, mu_cc, mu_gg, mu_zz, mu_yy, mu_zr, mu_ww, mu_tt, mu_in, mu_mu,";
+    TString correlated = "Uni, Uniform, sigma_cx, sigma_lumi, mu_s, mu_bb, mu_cc, mu_gg, mu_zz, mu_zr, mu_ww, mu_tt, mu_mu, ";
     correlated+=cname_collect;
 
     TIterator  *iter_nui = nuispara.createIterator();
@@ -151,14 +156,14 @@ RooWorkspace *makespace(TString cname, int index, int lu)
     {
         correlated =correlated + "," + parg_nui->GetName()+ ", global_"+ parg_nui->GetName();
     }
-
+    
     RooWorkspace *wchannel = new RooWorkspace("wchannel_" + cname);
     wchannel->import(poi, RooFit::RecycleConflictNodes());
     wchannel->import(*wspace.pdf("model"), RooFit::RenameAllNodes(cname),
                     RooFit::RenameAllVariablesExcept(cname, correlated),
                     RooFit::RecycleConflictNodes());
     wchannel->import(constraint);
-
+    
     RooArgSet *nuisance_wchannel = new RooArgSet();
     iter_nui->Reset();
     while ((parg_nui = (RooRealVar *)iter_nui->Next())) nuisance_wchannel->add(*(RooRealVar *)wchannel->obj(parg_nui->GetName()));
@@ -272,7 +277,7 @@ Float_t pdfShape(RooWorkspace &ws, channel c, TString proc, TString func)
     
     TString fun=funcsetting(cname, proc, 1);
     if ((fun!="") && (!cname.Contains("_"))) func=fun;
-    if (nentries<28) func="keys";
+    if (nentries<20) func="keys";
     cerr << "primez_label=" << proc << "," << cname <<", 1st func="<<func<< endl;
 
     if (cname.Contains("rec")) test_mass = 91.19;
@@ -295,7 +300,7 @@ Float_t pdfShape(RooWorkspace &ws, channel c, TString proc, TString func)
     {
         ws.factory("Voigtian::pdf_" + proc + "(invMass, mH_" + proc + "[" + p0 + "], width_" + proc + "[" + p1 + "], sigma_"+ proc +"["+ p2 +"])");
     }
-    else if ( func.Contains("BifurGuassian") )
+    else if ( func.Contains("BifurGaussian") )
     {
         ws.factory("BifurGauss::pdf_" + proc + "(invMass, mH_" + proc + "[" + p0 + "], sigL_" + proc + "[" + p1 + "], sigR_"+ proc +"["+ p2 +"])");
     }
@@ -384,7 +389,7 @@ RooAbsPdf* pdffit(TString cname, RooRealVar &var, RooDataSet &data, TString func
         p1=(TString)to_string(width.getVal());
         p2=(TString)to_string(sigma.getVal());
     }
-    if ( func.Contains("BifurGuassian") )
+    if ( func.Contains("BifurGaussian") )
     {
         pdf =new RooBifurGauss("bifurPdf", "bifur", var, mH, sigL, sigR);
         result_mu = Minimize(pdf,  data);
@@ -423,7 +428,6 @@ RooAbsPdf* pdffit(TString cname, RooRealVar &var, RooDataSet &data, TString func
           ||cname.Contains("ewevev")||cname.Contains("ewevmv")||cname.Contains("ewmvmv")||cname.Contains("mwevev")||cname.Contains("mwevmv")||cname.Contains("mwmvmv"))
               rho=3;
         pdf = new RooKeysPdf("pdf", "pdf", var, data, RooKeysPdf::MirrorAsymBoth, rho); // special for the Z peak
-        cerr<<"Kaili 0708"<<endl;
     }
     return pdf;
  }

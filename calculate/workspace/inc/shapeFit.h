@@ -3,7 +3,7 @@
 bool is250=false;
 bool isuseexistingpdf=false;
 const int Nch = 5;
-const TString m_CN[Nch] = {"mzvj","mzjv","vzmj","qzmv","qzvm"};
+const TString m_CN[Nch] = {"mzvj","mzjv","vzmj","qzvm","qzmv"};
 
 typedef struct
 {
@@ -19,71 +19,73 @@ typedef struct
 
 const channel c[150]=
 {
- {"vzej", 2, 1, 115, 135,
-  "data/new_zz/vveejj/sm.root",
-  {"s", "zh"},
-  {
-   {"s",   "data/new_zz/vveejj/sig.root"},
-   {"zh",  "data/new_zz/vveejj/ZH_bkg.root"}
-  }
- },
- {"mzvj", 4, 1, 120, 140,
+ {"mzvj", 5, 1, 120, 140,
   "data/new_zz/mzvj/new_mzvj_sm.root",
-  {"s", "zz", "ww", "tt" },
+  {"s", "zz", "ww", "tt", "zy"},
   {
    {"s",   "data/new_zz/mzvj/new_mzvj_sig.root"},
    {"zz",  "data/new_zz/mzvj/new_mzvj_zz.root"},
    {"ww",  "data/new_zz/mzvj/new_mzvj_ww.root"},
    {"tt",  "data/new_zz/mzvj/new_mzvj_tt.root"},
-// {"zy",  "data/new_zz/mzvj/new_mzvj_az.root"}
+   {"zy",  "data/new_zz/mzjv/new_mzjv_az.root"},
   }
  },
- {"mzjv", 5, 1, 120, 140,
+ {"mzjv", 9, 1, 120, 140,
   "data/new_zz/mzjv/new_mzjv_sm.root",
-  {"s", "zz", "ww", "tt", "bb" },
+  {"s", "zz", "ww", "tt", "bb", "cc", "mm", "gg", "zy"},
   {
    {"s",   "data/new_zz/mzjv/new_mzjv_sig.root"},
    {"zz",  "data/new_zz/mzjv/new_mzjv_zz.root"},
    {"ww",  "data/new_zz/mzjv/new_mzjv_ww.root"},
    {"tt",  "data/new_zz/mzjv/new_mzjv_tt.root"},
    {"bb",  "data/new_zz/mzjv/new_mzjv_bb.root"},
-//   {"cc",  "data/new_zz/mzjv/new_mzjv_cc.root"}
-//   {"zy",  "data/new_zz/mzvj/new_mzvj_az.root"}
+   {"cc",  "data/new_zz/mzjv/new_mzjv_cc.root"},
+   {"mm",  "data/new_zz/mzjv/new_mzjv_mm.root"},
+   {"gg",  "data/new_zz/mzjv/new_mzjv_gg.root"},
+   {"zy",  "data/new_zz/mzjv/new_mzjv_az.root"},
   }
  },
- {"vzmj", 5, 1, 100, 140,
+ {"vzmj", 8, 1, 110, 140,
   "data/new_zz/vzmj/new_vzmj_sm.root",
-  {"s", "zz", "ww", "tt","bb"},
+  {"s", "zz", "ww", "tt", "bb", "cc", "mm", "zy"},
   {
    {"s",   "data/new_zz/vzmj/new_vzmj_sig.root"},
    {"zz",  "data/new_zz/vzmj/new_vzmj_zz.root"},
    {"ww",  "data/new_zz/vzmj/new_vzmj_ww.root"},
    {"tt",  "data/new_zz/vzmj/new_vzmj_tt.root"},
-   {"bb",  "data/new_zz/vzmj/new_vzmj_bb.root"}
-//   {"zy",  "data/new_zz/mzvj/new_mzvj_az.root"}
+   {"bb",  "data/new_zz/vzmj/new_vzmj_bb.root"},
+   {"cc",  "data/new_zz/vzmj/new_vzmj_cc.root"},
+   {"mm",  "data/new_zz/vzmj/new_vzmj_mm.root"},
+   {"zy",  "data/new_zz/vzmj/new_vzmj_az.root"},
   }
  },
- {"qzmv", 6, 1, 110, 160,
-  "data/new_zz/qzmv/new_qzmv_sm.root",
-  {"s", "zz", "ww", "tt","bb","cc"},
-  {
-   {"s",   "data/new_zz/qzmv/new_qzmv_sig.root"},
-   {"zz",  "data/new_zz/qzmv/new_qzmv_zz.root"},
-   {"ww",  "data/new_zz/qzmv/new_qzmv_ww.root"},
-   {"tt",  "data/new_zz/qzmv/new_qzmv_tt.root"},
-   {"bb",  "data/new_zz/qzmv/new_qzmv_bb.root"},
-   {"cc",  "data/new_zz/qzmv/new_qzmv_cc.root"}
-  }
- },
- {"qzvm", 5, 1, 110, 160,
+ {"qzvm", 8, 1, 110, 160,
   "data/new_zz/qzvm/new_qzvm_sm.root",
-  {"s", "zz", "ww", "tt","bb"},
+  {"s", "zz", "ww", "tt", "bb", "cc", "gg", "zy"},
   {
    {"s",   "data/new_zz/qzvm/new_qzvm_sig.root"},
    {"zz",  "data/new_zz/qzvm/new_qzvm_zz.root"},
    {"ww",  "data/new_zz/qzvm/new_qzvm_ww.root"},
    {"tt",  "data/new_zz/qzvm/new_qzvm_tt.root"},
    {"bb",  "data/new_zz/qzvm/new_qzvm_bb.root"},
+   {"cc",  "data/new_zz/qzvm/new_qzvm_cc.root"},
+   {"gg",  "data/new_zz/qzvm/new_qzvm_gg.root"},
+   {"zy",  "data/new_zz/qzvm/new_qzvm_az.root"},
+  }
+ },
+ {"qzmv", 9, 1, 110, 160,
+  "data/new_zz/qzmv/new_qzmv_sm.root",
+  {"s", "zz", "ww", "tt", "bb", "cc", "gg", "zy", "mm"},
+  {
+   {"s",   "data/new_zz/qzmv/new_qzmv_sig.root"},
+   {"zz",  "data/new_zz/qzmv/new_qzmv_zz.root"},
+   {"ww",  "data/new_zz/qzmv/new_qzmv_ww.root"},
+   {"tt",  "data/new_zz/qzmv/new_qzmv_tt.root"},
+   {"bb",  "data/new_zz/qzmv/new_qzmv_bb.root"},
+   {"cc",  "data/new_zz/qzmv/new_qzmv_cc.root"},
+   {"gg",  "data/new_zz/qzmv/new_qzmv_gg.root"},
+   {"zy",  "data/new_zz/qzmv/new_qzmv_az.root"},
+   {"mm",  "data/new_zz/qzmv/new_qzmv_mm.root"}
   }
  }
 };
@@ -115,37 +117,59 @@ channel channelbyname(TString cname)
         if (c[i].name==cname) return c[i];
     return c[0];
 }
-//如果pdf没选好 大概率在拟合信号强度时崩
+
 TString funcsetting(TString cname, TString proc, Int_t index=1)
 {
-    TString f="";
-if (index==1)
-{
+  TString f="";
+  if (index==1)
+  {
     if (proc=="b")
     {
+	f="keys";
     }
     else
-    {           //signal
-        if (  
-             cname.Contains("vzej")  
-         )
-            f="keys";
-        if (cname.Contains("vzmj") ) f="keys";
+    { //signal
+      if (cname.Contains("mzvj"))
+      {
+	if (proc=="zz") f="Voigtian";
+      }
+      if (cname.Contains("mzjv"))
+      {
+        if (proc=="zz") f="Voigtian";
+	if (proc=="tt") f="keys";
+      }
+      if (cname.Contains("vzmj"))
+      {
+	if (proc=="s")  f="Voigtian";
+        if (proc=="zz") f="keys";
+        if (proc=="ww") f="keys";
+        if (proc=="tt") f="keys";
+      }
+      if (cname.Contains("qzvm"))
+      {
+	if (proc=="s")  f="Voigtian";
+        if (proc=="zz") f="Voigtian";
+	if (proc=="bb") f="Voigtian";
+	if (proc=="tt") f="Voigtian";
+        if (proc=="ww") f="keys";
+        if (proc=="cc") f="keys";
+	if (proc=="gg") f="keys";
+	if (proc=="zy") f="keys";
+      }
+      if (cname.Contains("qzmv"))
+      {
+        if (proc=="s")  f="Voigtian";
+        if (proc=="zz") f="Voigtian";
+        if (proc=="bb") f="Voigtian";
+	if (proc=="tt") f="Voigtian";
+        if (proc=="ww") f="keys";
+        if (proc=="cc") f="keys";
+        if (proc=="gg") f="keys";
+        if (proc=="zy") f="keys";
+      }
     }
-    if (cname.Contains("vzej") || cname.Contains("qzmv") || cname.Contains("qzvm"))
-            f="keys";
-    if (cname.Contains("vw4q_rec") && proc=="b") f="cheb";
-    if (cname.Contains("tzvj") && proc=="zz") f="cheb";
-}
-else 
-{ // for 2d fit
-    // if ()
-    if ( istautau ) f= "binned";
-    if (cname.Contains("vw4q") && proc=="b") f="cheb";
-    if (cname.Contains("yy") && proc=="s")   f="DSCB";
-    if (cname.Contains("yy") && proc=="b")   f="keys";
-}
- return f;
+  }
+  return f;
 }
 
 Float_t lum=1; // 5 ab-1 to 5.6 ab-1
@@ -209,6 +233,7 @@ Float_t m_low, m_high;
 Float_t v2_high, v2_low;
 TString proc[10];
 
+    RooRealVar mu_s ("mu_s",  "mu_s",  1, -1, 5);
     RooRealVar mu_bb("mu_bb", "mu_bb", 1, -1, 5);
     RooRealVar mu_cc("mu_cc", "mu_cc", 1, -1, 5);
     RooRealVar mu_gg("mu_gg", "mu_gg", 1, -1, 5);
@@ -217,7 +242,6 @@ TString proc[10];
     RooRealVar mu_ww("mu_ww", "mu_ww", 1, -1, 5);
     RooRealVar mu_tt("mu_tt", "mu_tt", 1, -1, 5);
     RooRealVar mu_mu("mu_mu", "mu_mu", 1, -1, 5);
-    RooRealVar mu_in("mu_in", "mu_in", 1, -1, 5);
     RooRealVar mu_zr("mu_zr", "mu_zr", 1, -1, 5);
 
     RooRealVar zhbb("zhbb", "zhbb", 1, -1, 5);

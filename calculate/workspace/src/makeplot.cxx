@@ -9,7 +9,7 @@ string time_str;
 TString part="part";
 bool import=true;
 const int ch = 5;
-const TString CN[ch] = {"vzmj", "mzvj","mzjv","qzmv","qzvm"};
+const TString CN[ch] = {"mzvj","mzjv","vzmj","qzvm","qzmv"};
 
 void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n) 
 {
@@ -25,21 +25,30 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
     cout<<"begin to plot "<<cname<<" "<<endl;
     TString e_proc=proc;
     if (proc=="s") e_proc="Signal";
-    if (proc=="b") e_proc="Background";
-//    if (proc=="other") e_proc="Other Higgs processes";
-
+    if (proc=="b") e_proc="SM Background";
+    
     TCanvas *canvas = new TCanvas("c1", "c1", 800, 800);
     canvas->SetMargin(0.16, 0.04, 0.11, 0.02); // left, right, bottom, top
     gPad->SetTicks(1,1);
     RooPlot *frame;
 
     frame = (*wchannel->var("invMass_" + cname)).frame(25);
-    
+   
     wchannel->data("AsimovSB")->plotOn(frame,DataError(RooAbsData::Poisson),XErrorSize(0),MarkerSize(2));          
     wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("Fit"), LineColor(4));
-    wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name(proc),  Components((*wchannel->pdf("pdf_"+proc+"_" + cname))), LineColor(kRed),LineStyle(2));//s
-    wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((*wchannel->pdf("pdf_b_" + cname))), LineColor(kGreen), LineStyle(2));
-    
+    wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name(proc),  Components((*wchannel->pdf("pdf_"+proc+"_" + cname))), LineColor(kRed), LineStyle(2));//s
+    wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((*wchannel->pdf("pdf_b_" + cname))), LineColor(kGreen), LineStyle(2));//sm bkg
+    if (cname.Contains("mzvj"))
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("zh"), Components((RooArgSet(*wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_zy_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_tt_" + cname)))), LineColor(kOrange), LineStyle(2));//zh bkg
+    if (cname.Contains("mzjv"))
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("zh"), Components((RooArgSet(*wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_mm_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname), *wchannel->pdf("pdf_gg_" + cname), *wchannel->pdf("pdf_zy_" + cname)))), LineColor(kOrange), LineStyle(2));    
+    if (cname.Contains("vzmj"))
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("zh"), Components((RooArgSet(*wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_mm_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname), *wchannel->pdf("pdf_zy_" + cname)))), LineColor(kOrange), LineStyle(2));
+    if (cname.Contains("qzvm"))
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("zh"), Components((RooArgSet(*wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname), *wchannel->pdf("pdf_gg_" + cname), *wchannel->pdf("pdf_zy_" + cname)))), LineColor(kOrange), LineStyle(2));
+    if (cname.Contains("qzmv"))
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("zh"), Components((RooArgSet(*wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname), *wchannel->pdf("pdf_gg_" + cname), *wchannel->pdf("pdf_zy_" + cname), *wchannel->pdf("pdf_mm_" + cname)))), LineColor(kOrange), LineStyle(2));
+
     frame->SetTitle(""); 
 
     TString ytitle=frame->GetYaxis()->GetTitle();
@@ -83,8 +92,9 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
         legend->AddEntry("MCdata","CEPC Simulation","P");
         legend->AddEntry("Fit","S+B Fit","L");
 
-        legend->AddEntry(proc , e_proc,         "L"); 
-        legend->AddEntry("bkg", "Background",       "L"); //always be last
+        legend->AddEntry(proc , e_proc,          "L"); 
+        legend->AddEntry("bkg", "SM Background", "L"); //always be last
+	legend->AddEntry("zh",  "ZH Background", "L");
     legend->Draw("same");
 
     TLatex *tex = new TLatex();
@@ -117,7 +127,6 @@ void plotImport(RooWorkspace *wspace, channel c, TString proc, TString lu_n)
     TString e_proc=proc;
     if (proc=="s") e_proc="Signal";
     if (proc=="b") e_proc="SM background";
-//    if (proc=="other") e_proc="Other Higgs process";
 
     TPad *pad1 = new TPad("pad1", "pad1", 0, 0.3, 1, 1.0); //xlow,ylow,xup,yup
     pad1->SetMargin(0.10, 0.02, 0, 0.02);  // left, right, bottom, top
@@ -135,9 +144,8 @@ void plotImport(RooWorkspace *wspace, channel c, TString proc, TString lu_n)
     ent+=ent_str;
 
     d_mass->plotOn(frame, Name(proc+"_hist"), DataError(RooAbsData::SumW2),MarkerColor(kBlack), XErrorSize(0)); 
-    if (proc=="b")      (*wspace->pdf("pdf_b")    ).plotOn(frame, Name(proc), LineColor(kGreen));
-    else  (*wspace->pdf("pdf_"+proc)).plotOn(frame, Name(proc), LineColor(kBlue));
-//    else if (proc=="other") (*wspace->pdf("pdf_"+
+    if (proc=="b")  (*wspace->pdf("pdf_b")    ).plotOn(frame, Name(proc), LineColor(kGreen));
+    else            (*wspace->pdf("pdf_"+proc)).plotOn(frame, Name(proc), LineColor(kBlue));
     TLegend *legend = new TLegend(0.7, 0.6, 0.92, 0.88);
     
     FormatLegend(legend);
@@ -212,8 +220,11 @@ int main(int argc, char **argv)
   RooMsgService::instance().setGlobalKillBelow(RooFit::FATAL);
 
 for (int i=0; i<ch; i++)
+//for (int i = 0; i<4; i++)
 {
+    //if (i==2) continue;
     TString cname=CN[i];
+    cerr<<"cname: " << cname<< endl;
     if(argc>1) 
     {
         cname=argv[1];
@@ -229,12 +240,12 @@ for (int i=0; i<ch; i++)
     if (!gSystem->AccessPathName(wsname)) 
     ws=      (RooWorkspace*)      fs.Open(wsname,"READ")->Get("wspace");
     else continue;
-    if (!gSystem->AccessPathName(wcname)) 
+    if (!gSystem->AccessPathName(wcname))
     wchannel=(RooWorkspace*)      fchannel.Open(wcname,"READ")->Get("wchannel_"+cname);
     else continue;
 
     plotFit(wchannel,  c, "s" , "5");
-    if (import && !(cname.Contains("vvhbb")) )
+    if (import)
     {
         for (int j=0; j<n_sig; j++)
         {
