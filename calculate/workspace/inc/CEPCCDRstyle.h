@@ -1,16 +1,27 @@
+
+#ifndef CEPC_STYLE_H
+#define CEPC_STYLE_H
+using namespace ROOT;
+
+#include "TStyle.h"
+#include "TVirtualPad.h"
+#include "TLegend.h"
+#include "TLatex.h"
+#include "TAxis.h"
+#include "TH1.h"
 /* 
 CEPC CDR style guide 
-Version: 1.0 
+Version: 1.1
 Author:  Zhang Kaili
 Mail: zhangkl@ihep.ac.cn
-Date: 2018.08.12
+Date: 2019.01.06
 
 To use this script, include and use SetCEPCCDRStyle() before you plot. If you use several styles in the same time, you'd better know what you are doing. (Though harmless……)
 Also, FormatLatex(), FormatLegend() should be used.
 
 Some general standards for this style:
 0. Root 6 recommended. May meet unexpected behavior in root 5.
-1. 800*800px, No global title and stats box, no x axis error bar;
+1. 800*800px, No global title and stats/fit box, no x axis error bar if the bin is uniform; 
 2. sans-serif font with absolute font size font(43), Axis title size 36, label size 34, caption size 28.
 3. Fix canvas box position and use left margin 0.16. So if for Y axis the label is long, change the Y axis title offset, do not edit the margin or label size.
 4. If you need transparent color, you may set CEPCCDRStyle->SetCanvasPreferGL(kTRUE); But make sure your root support it. This option is defaultly on for Mac and lxslc6. See more in https://root.cern.ch/doc/master/classTColor.html
@@ -32,12 +43,12 @@ Other tips:
 2. Sometimes the first X axis label and Y axis label would overlap. Try frame->GetYaxis()->ChangeLabel(1, -1, 0); //after ROOT 6
 3. Use #kern[-0.8] to fine tune some space.
 4. Enjoy you plots!
+
+
+Change Log:
+2019.01.06 v1.1: Turn to .h file
+2018.08.12 v1.0: Initial 
  */
-
-
-
-#include "TStyle.h"
-#include "TVirtualPad.h"
 
 void SetCEPCCDRStyle() {
 	TStyle *CEPCCDRStyle = new TStyle("CEPCCDRStyle","Style for CEPC CDR by Kaili");
@@ -69,10 +80,10 @@ void SetCEPCCDRStyle() {
 	// For the histo:
 	// CEPCCDRStyle->SetHistFillColor(1);
 	// CEPCCDRStyle->SetHistFillStyle(0);
-	CEPCCDRStyle->SetHistLineColor(1);
+	// CEPCCDRStyle->SetHistLineColor(1);
 	CEPCCDRStyle->SetHistLineStyle(0);
-	CEPCCDRStyle->SetHistLineWidth(2);
-	// CEPCCDRStyle->SetLegoInnerR(Float_t rad = 0.5);
+	// CEPCCDRStyle->SetHistLineWidth(2);
+	// CEPCCDRStyle->SetLegoInnerR(0.8);
 	// CEPCCDRStyle->SetNumberContours(Int_t number = 20);
 
 	CEPCCDRStyle->SetEndErrorSize(2);
@@ -82,7 +93,7 @@ void SetCEPCCDRStyle() {
 	CEPCCDRStyle->SetMarkerStyle(20);
 
 	//For the fit/function:
-	CEPCCDRStyle->SetOptFit(1);
+	CEPCCDRStyle->SetOptFit(0);
 	CEPCCDRStyle->SetFitFormat("5.4g");
 	CEPCCDRStyle->SetFuncColor(2);
 	CEPCCDRStyle->SetFuncStyle(1);
@@ -232,10 +243,15 @@ void FormatLegend(TLegend *legend)
 
 void FormatH1(TH1* H1,int n){
 	H1->SetTitle("");
-	// if(n==1) H1->SetFillColorAlpha(kBlue,0.15);
-	if(n==1) H1->SetFillColor(kCyan);
-	if(n==1) H1->SetLineColor(kCyan);
-	if(n==1) H1->SetFillStyle(3060);
+	// if(n==1) H1->SetFillColorAlpha(kBlue,0.35);
+	H1->SetFillColor(n);
+
+        // if(n==1) H1->SetFillColor(kCyan);
+        // if(n==1) H1->SetLineColor(kCyan);
+		//         if(n==1) H1->SetFillColor(kBlack);
+        // if(n==1) H1->SetLineColor(kBlack);
+        if(n==1) H1->SetFillStyle(1001);
+
 
 }
 
@@ -248,3 +264,5 @@ g->SetMarkerColor(color[n]);
 g->SetLineColor(color[n]);
 g->SetMarkerStyle(style[n]);
 }
+
+#endif

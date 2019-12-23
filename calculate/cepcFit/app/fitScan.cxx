@@ -314,7 +314,7 @@ int main( int argc, char** argv )
   cout << "------------------------------------------------" << endl;
   for (RooLinkedListIter it = fitPOIs.iterator(); RooRealVar* POI = dynamic_cast<RooRealVar*>(it.Next());) {
     if (POI->isConstant()) continue;
-    Float_t err= (fabs(POI->getAsymErrorHi()) + fabs(POI->getAsymErrorHi()))/2;
+    Float_t err= (fabs(POI->getAsymErrorHi()) + fabs(POI->getAsymErrorLo()))/2;
     cout<<POI->GetName()<<" : "<<err*100<<endl;
   }
   TDatime time;

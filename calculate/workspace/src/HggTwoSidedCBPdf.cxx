@@ -1,8 +1,8 @@
 // class declaration include file below retrieved from workspace code storage
 // class declaration include file below retrieved from workspace code storage
-#include "../inc/HggTwoSidedCBPdf.h"
+#include "HggTwoSidedCBPdf.h"
 
-// ClassImp(HggTwoSidedCBPdf);
+ClassImp(HggTwoSidedCBPdf);
 
 //_____________________________________________________________________________
 HggTwoSidedCBPdf:: HggTwoSidedCBPdf() {

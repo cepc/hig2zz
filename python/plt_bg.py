@@ -22,7 +22,7 @@ def main():
 #        draw_signal_bg('h_vis_all_pt_raw', 0, 100, 'Transverse momentum (GeV)',1)
 #        draw_signal_bg('h_min_angle_raw',0, 120, 'Muon-jet angle (degree)',1)
 #        draw_signal_bg('h_single_jet_theta',0,180, 'Two jet angle (degree)',1)  
-        draw_signal_bg('h_mrec_dimuon_final',110,150, 'Dimuon rec mass (GeV)',1) 
+        draw_signal_bg('h_mrec_dimuon_final',100,150, 'Dimuon rec mass (GeV)',1, opt) 
 #        draw_2d('h_2D_dijet_missing_raw',1)
 #        draw_2d('h_2D_dijet_missing_final',1)  
 
@@ -43,23 +43,23 @@ def main():
 #            draw_signal_bg('h_single_jet2_e',0,120, 'Energy (GeV)',1)
 
     if (combine_opt==2):
-        draw_signal_bg('h_vis_all_m_final',115,135,'vis_all_m_final(GeV)',2)
+        draw_signal_bg('h_vis_all_m_final',100,150,'vis_all_m_final(GeV)',2, opt)
 
     if (combine_opt==3):
 #        draw_signal_bg('h_m_dimuon_final',0,100,'Dimuon mass(GeV)')
 #        draw_signal_bg('h_m_dijet_final',10,100,'Dijet mass(GeV)')
-        draw_signal_bg('h_mrec_dijet_final',110,220,'Dijet rec mass(GeV)',3)
+        draw_signal_bg('h_mrec_dijet_final',100,150,'Dijet rec mass(GeV)',3, opt)
 #        draw_signal_bg('h_mrec_dimuon_final',110,220, 'Dimuon rec mass (GeV)')
 #        draw_signal_bg('h_m_visible_final',10,100,'visible_mass_final(GeV)')
 #        draw_signal_bg('h_m_missing_final',65,105,'missing_mass_final(GeV)')
 #        draw_signal_bg('h_vis_all_pt_final',20,70,'vis_all_pt_final(GeV)')
-#        draw_signal_bg('h_vis_all_m_final',115,135,'vis_all_m_final(GeV)')
-#        draw_signal_bg('h_vis_all_p_final',10,50,'vis_all_p_final(GeV)')
-#        draw_signal_bg('h_vis_all_rec_m_final',65,105,'vis_all_rec_m_final((GeV)')
-#        draw_signal_bg('h_vis_all_cos_final',-1,1,'vis_all_cos_final(GeV)')
-#        draw_signal_bg('h_cos_final',-1,1,'cos_final(GeV)')
+        draw_signal_bg('h_vis_all_m_final',115,135,'vis_all_m_final(GeV)',3, opt)
+        draw_signal_bg('h_vis_all_p_final',10,50,'vis_all_p_final(GeV)',3, opt)
+        draw_signal_bg('h_vis_all_rec_m_final',65,105,'vis_all_rec_m_final((GeV)',3, opt)
+        draw_signal_bg('h_vis_all_cos_final',-1,1,'vis_all_cos_final(GeV)',3 ,opt)
+        draw_signal_bg('h_cos_final',-1,1,'cos_final(GeV)',3, opt)
 #        draw_signal_bg('h_npfo', 0, 200, 'Particle flow object(GeV)')
-#        draw_signal_bg('h_npfo_final', 0, 200, 'Particle flow object(GeV)')
+        draw_signal_bg('h_npfo_final', 0, 100, 'Particle flow object(GeV)',3,opt)
 #        draw_signal_bg('h_npfo_raw', 0, 200, 'Particle flow object(GeV)')
 #        draw_signal_bg('h_vis_all_m',0,240,'vis_all_m(GeV)')
 #        draw_signal_bg('h_cos',-1,1,'cos')
@@ -84,7 +84,7 @@ def main():
 #        draw_2d('h_2D_dijet_missing_raw',1)
 #        draw_2d('h_2D_dijet_missing_final',1)
 
-def draw_signal_bg(pic, x1, x2, title, combine_opt):
+def draw_signal_bg(pic, x1, x2, title, combine_opt, opt):
 
     tabs = sys.argv[3:]
 
@@ -97,14 +97,14 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
     leg.SetTextSize(0.02)
 
     if (combine_opt==1):
-        figfile = './fig/channel_ll/sbg_%s.pdf'%pic
-        signal_sample =  ROOT.TFile('./run/channel_ll/llh2zz/hist/ana_File_merged_1.root')
+        figfile = './fig/channel_ll_%s/sbg_%s.pdf'%(opt,pic)
+        signal_sample =  ROOT.TFile('./run/channel_ll_%s/llh2zz/hist/ana_File_merged_1.root'%opt)
     if (combine_opt==2):
         figfile = './fig/channel_nn/sbg_%s.pdf'%pic
         signal_sample =  ROOT.TFile('./run/channel_nn/nnh2zz/hist/ana_File_merged_1.root')
     if (combine_opt==3):
-        figfile = './fig/channel_qq/sbg_%s.pdf'%pic
-        signal_sample =  ROOT.TFile('./run/channel_qq/qqh2zz/hist/ana_File_merged_1.root')
+        figfile = './fig/channel_qq_%s/sbg_%s.pdf'%(opt,pic)
+        signal_sample =  ROOT.TFile('./run/channel_qq_%s/qqh2zz/hist/ana_File_merged_1.root'%opt)
 
     check_outfile_path(figfile)
 
@@ -134,11 +134,11 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
                 dname = l[0]
                 event_exp = 5600.0/5050.0 * float(l[3]) # 5050 fb-1 to 5600 fb-1
                 if (combine_opt==1): 
-                    sample = ROOT.TFile('./run/channel_ll/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
+                    sample = ROOT.TFile('./run/channel_ll_%s/'%opt + path + '/hist/' + dname + '/ana_File_merged_1.root')
                 if (combine_opt==2):
                     sample = ROOT.TFile('./run/channel_nn/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
                 if (combine_opt==3):
-                    sample = ROOT.TFile('./run/channel_qq/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
+                    sample = ROOT.TFile('./run/channel_qq_%s/'%opt + path + '/hist/' + dname + '/ana_File_merged_1.root')
  
                 h=sample.Get('hevtflw_pre')
                 event_ana = h.GetBinContent(1)
@@ -177,7 +177,7 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
 #    ROOT.gPad.SetLogy(1)
 #    b0.SetMinimum(0.1)
 #    b0.SetMaximum(10 * max)
-    s.SetMaximum(max*1.15)
+    s.SetMaximum(max*1.9)
     s.GetXaxis().SetRangeUser(x1, x2)
     s.SetXTitle(title)
 
@@ -194,7 +194,7 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
     s.GetXaxis().SetLabelFont(50)
     s.GetXaxis().SetLabelSize(0.034)
     s.SetLineColor(2)
-    s.Draw('')
+    s.Draw('Hist')
     leg.AddEntry(s, "signal")
    
     b0.SetFillColor(6)
@@ -210,24 +210,24 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt):
     leg.AddEntry(b2, 'ZH background')
 
     leg.Draw()
-    stack.Draw('sameH')
-    s.Draw('same')
+    stack.Draw('Hist same')
+    s.Draw('Hist same')
 
     c.SaveAs(figfile)
 
-def draw_2d(pic, combine_opt):
+def draw_2d(pic, combine_opt, opt):
 
     c = ROOT.TCanvas('c', 'c', 1600, 1600)
 
     if (combine_opt==1):
-        figfile = './fig/channel_ll/2d_%s.pdf'%pic
-        sample =  ROOT.TFile('./run/channel_ll/llh2zz/hist/ana_File_merged_1.root')
+        figfile = './fig/channel_ll_%s/2d_%s.pdf'%(opt,pic)
+        sample =  ROOT.TFile('./run/channel_ll_%s/llh2zz/hist/ana_File_merged_1.root'%opt)
     if (combine_opt==2):
         figfile = './fig/channel_nn/2d_%s.pdf'%pic
         sample =  ROOT.TFile('./run/channel_nn/nnh2zz/hist/ana_File_merged_1.root')
     if (combine_opt==3):
-        figfile = './fig/channel_qq/2d_%s.pdf'%pic
-        sample =  ROOT.TFile('./run/channel_qq/qqh2zz/hist/ana_File_merged_1.root')
+        figfile = './fig/channel_qq_%s/2d_%s.pdf'%(opt,pic)
+        sample =  ROOT.TFile('./run/channel_qq_%s/qqh2zz/hist/ana_File_merged_1.root'%opt)
 
     check_outfile_path(figfile)
 
