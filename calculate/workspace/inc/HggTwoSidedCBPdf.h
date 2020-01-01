@@ -51,7 +51,7 @@ class HggTwoSidedCBPdf : public RooAbsPdf {
   
  private:
   
-//  ClassDef(HggTwoSidedCBPdf,1); // Crystal Ball lineshape PDF
+ ClassDef(HggTwoSidedCBPdf,1); // Crystal Ball lineshape PDF
     
 };
   

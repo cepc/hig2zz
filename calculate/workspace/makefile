@@ -28,10 +28,12 @@ VPATH  = ./lib / ./bin ./src ./inc
 ############################################################################
 %.o : %.cxx %.h
 	@echo "compiling $<"
-	@$(CC) $(CFLAGS) -c $< 
+	@$(CC) $(CFLAGS) -c $<
 
 %.o : %.cxx
 	@echo "compiling $<"
+#	@echo "CFLAGS: $(CFLAGS)" 
+#	@echo "RLIBS: $(RLIBS)"
 	@$(CC) $(CFLAGS) -c $< 
 
 %    : %.o
@@ -41,7 +43,8 @@ VPATH  = ./lib / ./bin ./src ./inc
 	@if [ `ls | grep "\.o"$  | wc -l` != 0 ]; then mv *.o  $(LDIR)/; fi
 	@mv $@ $(BDIR)
 
-MyDict.cxx: $(HEADERS) Linkdef.h
+
+MyDict.cxx: $(HEADERS) Linkdef.h 
 	@rootcling -f $@ -c $(CXXFLAGS) -p $^
  
 libMyLib.so: MyDict.cxx $(SOURCES)

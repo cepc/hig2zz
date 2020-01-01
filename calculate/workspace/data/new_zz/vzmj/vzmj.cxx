@@ -18,20 +18,17 @@
 // #endif
 
 void vv_ntuple(TString a,TString b);
-void vz()
+void vzmj()
 {
-
-
-    vv_ntuple("vz_az.root"  ,   "new_vz_az.root");
-    vv_ntuple("vz_sm.root"  ,   "new_vz_sm.root");
-    vv_ntuple("vz_tt.root"  ,   "new_vz_tt.root");
-    vv_ntuple("vz_ww.root"  ,   "new_vz_ww.root");
-    vv_ntuple("vz_zz.root"  ,   "new_vz_zz.root");
-    vv_ntuple("vz_bb.root"  ,   "new_vz_bb.root");
-    vv_ntuple("vz_cc.root"  ,   "new_vz_cc.root");
-    vv_ntuple("vz_gg.root"  ,   "new_vz_gg.root");
-    vv_ntuple("vz_sig.root"  ,  "new_vz_sig.root");
-
+    vv_ntuple("vzmj_cc.root"  ,   "new_vzmj_cc.root");
+    vv_ntuple("vzmj_mm.root"  ,   "new_vzmj_mm.root");
+    vv_ntuple("vzmj_az.root"  ,   "new_vzmj_az.root");
+    vv_ntuple("vzmj_bb.root"  ,   "new_vzmj_bb.root");
+    vv_ntuple("vzmj_sm.root"  ,   "new_vzmj_sm.root");
+    vv_ntuple("vzmj_tt.root"  ,   "new_vzmj_tt.root");
+    vv_ntuple("vzmj_ww.root"  ,   "new_vzmj_ww.root");
+    vv_ntuple("vzmj_zz.root"  ,   "new_vzmj_zz.root");
+    vv_ntuple("vzmj_sig.root"  ,  "new_vzmj_sig.root");
 }
 
 void vv_ntuple(TString a,TString b)
@@ -69,7 +66,7 @@ void vv_ntuple(TString a,TString b)
    Double_t BDTs, BDTb, recoEs, recoEb, invmass, recmass, type;
    Ts->SetBranchAddress("scale",   &weight);
   //  Tb->SetBranchAddress("BDT",   &BDTb);
-   Ts->SetBranchAddress("dimuon_rec_m",  &invmass);
+   Ts->SetBranchAddress("vis_all_m",  &invmass);
 //    Ts->SetBranchAddress("higtype",    &type);
 //    Ts->SetBranchAddress("invmass",   &invmass);
 //    Ts->SetBranchAddress("recoilmass",   &recmass);

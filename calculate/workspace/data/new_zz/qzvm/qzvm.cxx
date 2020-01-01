@@ -20,15 +20,15 @@
 void qq_ntuple(TString a,TString b);
 void qzvm()
 {
-
-
+    qq_ntuple("qzvm_cc.root"  ,   "new_qzvm_cc.root");
+    qq_ntuple("qzvm_gg.root"  ,   "new_qzvm_gg.root");
     qq_ntuple("qzvm_az.root"  ,   "new_qzvm_az.root");
+    qq_ntuple("qzvm_bb.root"  ,   "new_qzvm_bb.root");
     qq_ntuple("qzvm_sm.root"  ,   "new_qzvm_sm.root");
     qq_ntuple("qzvm_tt.root"  ,   "new_qzvm_tt.root");
     qq_ntuple("qzvm_ww.root"  ,   "new_qzvm_ww.root");
-    qq_ntuple("qzvm_zz.root"  , "new_qzvm_zz.root");
+    qq_ntuple("qzvm_zz.root"  ,   "new_qzvm_zz.root");
     qq_ntuple("qzvm_sig.root"  ,  "new_qzvm_sig.root");
-
 }
 
 void qq_ntuple(TString a,TString b)

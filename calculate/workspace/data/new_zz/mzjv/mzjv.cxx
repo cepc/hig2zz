@@ -20,18 +20,16 @@
 void mm_ntuple(TString a,TString b);
 void mzjv()
 {
-
-
+    mm_ntuple("mzjv_cc.root"  ,   "new_mzjv_cc.root");
+    mm_ntuple("mzjv_gg.root"  ,   "new_mzjv_gg.root");
+    mm_ntuple("mzjv_mm.root"  ,   "new_mzjv_mm.root");
     mm_ntuple("mzjv_az.root"  ,   "new_mzjv_az.root");
+    mm_ntuple("mzjv_bb.root"  ,   "new_mzjv_bb.root");
     mm_ntuple("mzjv_sm.root"  ,   "new_mzjv_sm.root");
     mm_ntuple("mzjv_tt.root"  ,   "new_mzjv_tt.root");
     mm_ntuple("mzjv_ww.root"  ,   "new_mzjv_ww.root");
     mm_ntuple("mzjv_zz.root"  ,   "new_mzjv_zz.root");
-    mm_ntuple("mzjv_bb.root"  ,   "new_mzjv_bb.root");
-    mm_ntuple("mzjv_cc.root"  ,   "new_mzjv_cc.root");
-    mm_ntuple("mzjv_gg.root"  ,   "new_mzjv_gg.root");
     mm_ntuple("mzjv_sig.root"  ,  "new_mzjv_sig.root");
-
 }
 
 void mm_ntuple(TString a,TString b)

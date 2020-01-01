@@ -3,14 +3,15 @@ import os
 
 def main():
 
-    tabs = sys.argv[2:]
-    combine_opt = int(sys.argv[1])
+    opt = sys.argv[1]
+    tabs = sys.argv[3:]
+    combine_opt = int(sys.argv[2])
     if (combine_opt==1):
-        outname = './table/channel_ll/tex_bg.txt'
+        outname = './table/channel_ll_%s/tex_bg.txt'%opt
     if (combine_opt==2):
         outname = './table/channel_nn/tex_bg.txt'    
     if (combine_opt==3):
-        outname = './table/channel_qq/tex_bg.txt'
+        outname = './table/channel_qq_%s/tex_bg.txt'%opt
 
     fout_script = open(outname,'w')
 
