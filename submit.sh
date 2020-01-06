@@ -2,7 +2,7 @@
 
 # Main driver to submit jobs 
 # Author Ryuta Kiuchi <kiuchi@ihep.ac.cn> and Konglingteng <konglingteng15@mails.ucas.ac.cn>
-# Created [2018-06-16 Sat 16:00] 
+# Created [2018-06-16 Sat 16:00]
 
 usage() {
 	printf "NAME\n\tsubmit.sh - Main driver to submit jobs\n"
@@ -361,10 +361,6 @@ case $option in
     1.2.6) echo "Submit Condor jobs for pre-selection on background sample..."
 	   echo " ---- "
            if [ ${channel_opt_ll} = 1 ]; then
-               cd ./run/channel_ll_${channel_opt_ll}/llh2zz/condor
-               mkdir -p log
-               ./condor_submit.sh
-
                echo "Please enter the number of jobs for each ZH sample (default: 120)" 
                read njob
                if [ -z $njob ]; then
