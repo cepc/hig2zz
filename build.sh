@@ -12,7 +12,7 @@ make install
 cd ../../
 
 
-# IsolatedLepton && Higgs2zz
+# IsolatedLeptonFinder && Higgs2zz
 
 rm -fr build
 mkdir build
