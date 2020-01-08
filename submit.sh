@@ -796,7 +796,7 @@ case $option in
 
     2.2.6) echo "Copy the same zh ntuple as mmHzz channel..."
            rm -r run/channel_nn/zh/ana
-           cp -r run/channel_ll/zh/ana run/channel_nn/zh/
+           cp -r run/channel_ll_1/zh/ana run/channel_nn/zh/
            ;;
 
     2.2.7) echo "Select events on background (with a small sample)..."
@@ -925,7 +925,7 @@ case $option in
 
     2.3.6) echo "Copy the same bg ntuple as mmHzz channel..."
            rm -r run/channel_nn/bg/ana
-           cp -r run/channel_ll/bg/ana run/channel_nn/bg 
+           cp -r run/channel_ll_1/bg/ana run/channel_nn/bg 
            ;;
 
     2.3.7) echo "Select events on background (with a small sample)..."  
