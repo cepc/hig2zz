@@ -69,6 +69,7 @@ private:
   int    OverWrite;       // tree overwrite option: 1(re-create)=default or 0(update) 
   int    EcmsOption;
   int    JetAlgorithm;
+  int    TagLeptonID;
   double Ecms;
   double LeptonEMax;
   double LeptonEMin;
@@ -160,6 +161,20 @@ private:
   std::vector<double> m_dimuon_dphi;
   std::vector<double> m_dimuon_dang;
 
+  // lepton cone info
+  std::vector<int> m_cone_lp_npfo;
+  std::vector<double> m_cone_lp_track_energy;
+  std::vector<double> m_cone_lp_cone_energy;
+  std::vector<double> m_cone_lp_energy_ratio;
+  std::vector<double> m_cone_lp_simple_averaged_angle;
+  std::vector<double> m_cone_lp_weight_averaged_angle;
+
+  std::vector<int> m_cone_lm_npfo;
+  std::vector<double> m_cone_lm_track_energy;
+  std::vector<double> m_cone_lm_cone_energy;
+  std::vector<double> m_cone_lm_energy_ratio;
+  std::vector<double> m_cone_lm_simple_averaged_angle;
+  std::vector<double> m_cone_lm_weight_averaged_angle;
 
   // jet info
   int m_fastjet_flag;
@@ -350,6 +365,9 @@ private:
   void selectLeptons( LCCollection* col_IsoLeps );
   void saveLeptonInfo( std::vector<TLorentzVector> p4_muon_plus, std::vector<TLorentzVector> p4_muon_minus );
 
+  void saveLeptonConeInfo( std::vector<TLorentzVector> p4_muon_plus, std::vector<TLorentzVector> p4_muon_minus,
+			   LCCollection* col_PFOs );
+
   void selectJets( LCCollection* col_Jets, LCCollection* col_rec1 , LCCollection* col_rec2 );
   void saveJetInfo( std::vector<TLorentzVector> p4_jet );
   void saveFastJet( LCCollection* col_Jets , LCCollection* col_rec1 , LCCollection* col_rec2 );
@@ -396,6 +414,8 @@ Higgs2zz::Higgs2zz() : Processor("Higgs2zz") {
   registerProcessorParameter( "EcmsOption" , "Use ECMS (1) or with Gaussian Blur (0)." , EcmsOption , 1);
 
   registerProcessorParameter( "OverwriteFile" , "Re-create (1) or Update (0)" , OverWrite , 1 );
+
+  registerProcessorParameter( "LeptonFlavorID" , "Tagging lepton flavor ID" , TagLeptonID, 13);
 
   registerProcessorParameter( "LeptonEMax" , "Maximum energy of leptons in GeV" , LeptonEMax , 1e+20);
 
@@ -454,6 +474,9 @@ void Higgs2zz::processEvent( LCEvent * evt ) {
 	savePhotons( Col_Reco );
 	selectCharged( Col_Reco );
 	
+	// Save information related to its "cone" for selected leptons
+	saveLeptonConeInfo( P4_MuonPlus, P4_MuonMinus, Col_Reco );
+
 	saveLeptonInfo( P4_MuonPlus, P4_MuonMinus );
 	saveJetInfo( P4_Jet );
 	saveVariables();
@@ -599,6 +622,22 @@ void Higgs2zz::book_tree() {
   m_tree->Branch("dimuon_dphi", &m_dimuon_dphi);
   m_tree->Branch("dimuon_dang", &m_dimuon_dang);
   
+
+  // Lepton Cone Info.
+  m_tree->Branch("cone_lp_npfo", &m_cone_lp_npfo);
+  m_tree->Branch("cone_lp_track_energy", &m_cone_lp_track_energy);
+  m_tree->Branch("cone_lp_cone_energy", &m_cone_lp_cone_energy);
+  m_tree->Branch("cone_lp_energy_ratio", &m_cone_lp_energy_ratio);
+  m_tree->Branch("cone_lp_simple_averaged_angle", &m_cone_lp_simple_averaged_angle);
+  m_tree->Branch("cone_lp_weight_averaged_angle", &m_cone_lp_weight_averaged_angle);
+
+  m_tree->Branch("cone_lm_npfo", &m_cone_lm_npfo);
+  m_tree->Branch("cone_lm_track_energy", &m_cone_lm_track_energy);
+  m_tree->Branch("cone_lm_cone_energy", &m_cone_lm_cone_energy);
+  m_tree->Branch("cone_lm_energy_ratio", &m_cone_lm_energy_ratio);
+  m_tree->Branch("cone_lm_simple_averaged_angle", &m_cone_lm_simple_averaged_angle);
+  m_tree->Branch("cone_lm_weight_averaged_angle", &m_cone_lm_weight_averaged_angle);
+
 
   // Jets
   m_tree->Branch("n_jet",  &m_n_jet,  "m_n_jet/I");
@@ -836,6 +875,20 @@ void Higgs2zz::clearVariables() {
   m_dimuon_dphi.clear();
   m_dimuon_dang.clear();
   
+  // Lepton Cone Info.
+  m_cone_lp_npfo.clear();
+  m_cone_lp_track_energy.clear();
+  m_cone_lp_cone_energy.clear();
+  m_cone_lp_energy_ratio.clear();
+  m_cone_lp_simple_averaged_angle.clear();
+  m_cone_lp_weight_averaged_angle.clear();
+
+  m_cone_lm_npfo.clear();
+  m_cone_lm_track_energy.clear();
+  m_cone_lm_cone_energy.clear();
+  m_cone_lm_energy_ratio.clear();
+  m_cone_lm_simple_averaged_angle.clear();
+  m_cone_lm_weight_averaged_angle.clear();
   
   // Jet info.
   P4_Jet.clear();
@@ -1016,7 +1069,8 @@ void Higgs2zz::selectLeptons( LCCollection* col_Leps ) {
 	nlep++;
       }
 
-      if( lepton_pid ==  MUON_PID ) {
+      if( lepton_pid == TagLeptonID ) { // Either Muon or Electron
+
 	if( lepton_charge >  0.1 )P4_MuonPlus.push_back( p4vec );
 	if( lepton_charge < -0.1 )P4_MuonMinus.push_back( p4vec );
       }
@@ -1052,6 +1106,108 @@ void Higgs2zz::selectLeptons( LCCollection* col_Leps ) {
 
 }
 
+void Higgs2zz::saveLeptonConeInfo(std::vector<TLorentzVector> p4_lepton_plus,
+				  std::vector<TLorentzVector> p4_lepton_minus,
+				  LCCollection* col_PFOs ) {
+
+  std::vector<int> nlep; 
+  nlep.push_back(p4_lepton_plus.size()); 
+  nlep.push_back(p4_lepton_minus.size());
+
+  std::vector< std::vector<TLorentzVector> > p4;
+  p4.push_back(p4_lepton_plus);
+  p4.push_back(p4_lepton_minus);
+
+  // Loop for lepton plus & lepton minus.
+  // Now assuming that there is at least one lepton plus and one lepton minus
+  for(int i = 0; i < static_cast<int>(nlep.size()); i++) {
+  
+    int nlepton   = nlep[i];
+    std::vector<TLorentzVector> p4_lepton = p4[i];  
+
+    // Loop inside lepton plus (lepton minus)
+    for(int j = 0; j < nlepton; j++) {
+  
+      int npfo_within_cone=0;
+      double coneE=0;
+      double simple_averaged_angle=0.0;
+      double weight_averaged_angle=0.0;
+
+      TVector3 P_lepton( p4_lepton[j].Vect() );
+      double E_lepton = p4_lepton[j].E();
+
+      // Loop fpr PFOs 
+      int npfo = col_PFOs->getNumberOfElements();
+      for ( int k = 0; k < npfo; k++ ) {
+      
+	ReconstructedParticle *a_Reco = dynamic_cast<ReconstructedParticle*>(col_PFOs->getElementAt(k)); 
+	TVector3 P( a_Reco->getMomentum() );   
+	double E = a_Reco->getEnergy();
+
+	// Skip the pfo, if it is the lepton. It was better to use leptons'pfo directly !
+	if( E_lepton == E && P_lepton == P ){ continue; }
+
+	double cosTheta = P_lepton.Dot(P) / ( P_lepton.Mag() * P.Mag() );
+
+	// Count the values inside of the "Cone" 
+	if ( cosTheta >= 0.98 ){ // The value 0.98 should be the same as the number in IsolatedLeptonFinder
+
+	  npfo_within_cone++;
+	  coneE += E; 
+
+	  double angle = std::acos( cosTheta )* 180.0/M_PI; // convert to unit of degree
+	  simple_averaged_angle += angle;
+	  weight_averaged_angle += angle * E;
+	}
+      }
+    
+      if( npfo_within_cone > 0 ) {
+	
+	if( i==0 ) { // For lepton plus. 
+	  
+	  m_cone_lp_npfo.push_back( npfo_within_cone );
+	  m_cone_lp_track_energy.push_back( E_lepton );
+	  m_cone_lp_cone_energy.push_back( coneE );
+	  m_cone_lp_energy_ratio.push_back( coneE / E_lepton );
+	  m_cone_lp_simple_averaged_angle.push_back( simple_averaged_angle /= static_cast<double>(npfo_within_cone) );
+	  m_cone_lp_weight_averaged_angle.push_back( weight_averaged_angle /= coneE );
+	}
+	else { // For lepton minus. 
+	  
+	  m_cone_lm_npfo.push_back( npfo_within_cone );
+	  m_cone_lm_track_energy.push_back( E_lepton );
+	  m_cone_lm_cone_energy.push_back( coneE );
+	  m_cone_lm_energy_ratio.push_back( coneE / E_lepton );
+	  m_cone_lm_simple_averaged_angle.push_back( simple_averaged_angle /= static_cast<double>(npfo_within_cone) );
+	  m_cone_lm_weight_averaged_angle.push_back( weight_averaged_angle /= coneE );
+	}
+      }
+      else { // push null value
+	
+	if( i==0 ) { // For lepton plus. 
+	  
+	  m_cone_lp_npfo.push_back( 0 );
+	  m_cone_lp_track_energy.push_back( E_lepton ); 
+	  m_cone_lp_cone_energy.push_back( 0.0 );
+	  m_cone_lp_energy_ratio.push_back( 0.0 );
+	  m_cone_lp_simple_averaged_angle.push_back( 0.0 );
+	  m_cone_lp_weight_averaged_angle.push_back( 0.0 );
+	}
+	else { // For lepton minus. 
+	  
+	  m_cone_lm_npfo.push_back( 0 );
+	  m_cone_lm_track_energy.push_back( E_lepton );
+	  m_cone_lm_cone_energy.push_back( 0.0 );
+	  m_cone_lm_energy_ratio.push_back( 0.0 );
+	  m_cone_lm_simple_averaged_angle.push_back( 0.0 );
+	  m_cone_lm_weight_averaged_angle.push_back( 0.0 );
+	}
+      }
+    
+    } // End of for(int j = 0; j < nlepton; ...
+  } // End of for(int i; i < nlep.size(); ...
+
+}
 
 void Higgs2zz::saveLeptonInfo(std::vector<TLorentzVector> p4_muon_plus, std::vector<TLorentzVector> p4_muon_minus) {
 
