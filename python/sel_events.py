@@ -53,6 +53,7 @@ h_angle_mj_raw = ROOT.TH1D('h_angle_mj_raw','h_angle_mj_raw',180,0,180);
 
 h_2D_visible_missing_raw =  ROOT.TH2D('h_2D_visible_missing_raw', '2D_visible_missing_raw', 240, -20, 220, 240, -40, 200)
 h_2D_dijet_missing_raw =  ROOT.TH2D('h_2D_dijet_missing_raw', '2D_dijet_missing_raw', 240, -20, 220, 240, -40, 200)
+h_2D_dimuon_missing_raw =  ROOT.TH2D('h_2D_dimuon_missing_raw', '2D_dimuon_missing_raw', 240, -20, 220, 240, -40, 200)
 
 ## After All of Cuts
 h_m_dimuon_final = ROOT.TH1D('h_m_dimuon_final', 'm_dimuon_final', 260, 0, 260)
@@ -74,6 +75,7 @@ h_angle_mj_final = ROOT.TH1D('h_angle_mj_final','h_angle_mj_final',180,0,180)
 h_m_lljj = ROOT.TH1D('h_m_lljj', 'm_lljj', 260, 0, 260)
 h_2D_visible_missing_final =  ROOT.TH2D('h_2D_visible_missing_final', '2D_visible_missing_final', 240, -20, 220, 240, -40, 200)
 h_2D_dijet_missing_final =  ROOT.TH2D('h_2D_dijet_missing_final', '2D_dijet_missing_final', 240, -20, 220, 240, -40, 200)
+h_2D_dimuon_missing_final =  ROOT.TH2D('h_2D_dimuon_missing_final', '2D_dimuon_missing_final', 240, -20, 220, 240, -40, 200)
 
 h_y12 = ROOT.TH1D('h_y12', 'y12', 4000, -2, 2)
 h_y23 = ROOT.TH1D('h_y23', 'y23', 4000, -2, 2)
@@ -170,7 +172,7 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
             h_evtflw.GetXaxis().SetBinLabel(3,'M(miss)>M(dijet)')
             h_evtflw.GetXaxis().SetBinLabel(4,'80GeV<M(dimuon)<100GeV')
-            h_evtflw.GetXaxis().SetBinLabel(5,'120GeV<RecM(dimuon)<150GeV')
+            h_evtflw.GetXaxis().SetBinLabel(5,'120GeV<RecM(dimuon)<142GeV')
             h_evtflw.GetXaxis().SetBinLabel(6,'15<Npfo<70')
             h_evtflw.GetXaxis().SetBinLabel(7,'visible PT>10GeV')
             h_evtflw.GetXaxis().SetBinLabel(8,'Mininum angle>17.2')
@@ -184,7 +186,7 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
             h_evtflw.GetXaxis().SetBinLabel(3,'M(miss)<M(dijet)')
             h_evtflw.GetXaxis().SetBinLabel(4,'80GeV<M(dimuon)<100GeV')
-            h_evtflw.GetXaxis().SetBinLabel(5,'120GeV<RecM(dimuon)<150GeV')
+            h_evtflw.GetXaxis().SetBinLabel(5,'120GeV<RecM(dimuon)<142GeV')
             h_evtflw.GetXaxis().SetBinLabel(6,'30<Npfo<100')
             h_evtflw.GetXaxis().SetBinLabel(7,'10GeV<visible PT<50GeV')
             h_evtflw.GetXaxis().SetBinLabel(8,'17.2<Mininum angle<90')
@@ -294,6 +296,7 @@ def main():
                 h_angle_mj_final.Fill( t_in.lj_angle )
                 h_2D_visible_missing_final.Fill( t_in.vis_ex_dimuon_m, t_in.vis_all_rec_m )
                 h_2D_dijet_missing_final.Fill( t_in.dijet_m[0], t_in.vis_all_rec_m )
+                h_2D_dimuon_missing_final.Fill( t_in.dimuon_m[0], t_in.vis_all_rec_m )
 
                 # h_m_lljj.Fill( t_in.lljj_m )
 
@@ -442,6 +445,7 @@ def fill_histograms(t,num,combine_opt):
         h_angle_mj_raw.Fill( t.lj_angle )
         h_2D_visible_missing_raw.Fill( t.vis_ex_dimuon_m, t.vis_all_rec_m )
         h_2D_dijet_missing_raw.Fill( t.dijet_m[0], t.vis_all_rec_m )
+        h_2D_dimuon_missing_raw.Fill( t.dimuon_m[0], t.vis_all_rec_m )
 
 def write_histograms():
 	
@@ -468,6 +472,7 @@ def write_histograms():
     h_angle_mj_raw.Write()
     h_2D_visible_missing_raw.Write()
     h_2D_dijet_missing_raw.Write()
+    h_2D_dimuon_missing_raw.Write()
 
 # After All of Cuts
     h_m_dimuon_final.Write()
@@ -488,6 +493,7 @@ def write_histograms():
     h_angle_mj_final.Write()
     h_2D_visible_missing_final.Write()
     h_2D_dijet_missing_final.Write()
+    h_2D_dimuon_missing_final.Write()
 
     h_m_lljj.Write()
 
