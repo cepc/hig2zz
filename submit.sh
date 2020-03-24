@@ -2,7 +2,7 @@
 
 # Main driver to submit jobs 
 # Author Ryuta Kiuchi <kiuchi@ihep.ac.cn> and Konglingteng <konglingteng15@mails.ucas.ac.cn>
-# Created [2018-06-16 Sat 16:00] 
+# Created [2018-06-16 Sat 16:00]
 
 usage() {
 	printf "NAME\n\tsubmit.sh - Main driver to submit jobs\n"
@@ -361,10 +361,6 @@ case $option in
     1.2.6) echo "Submit Condor jobs for pre-selection on background sample..."
 	   echo " ---- "
            if [ ${channel_opt_ll} = 1 ]; then
-               cd ./run/channel_ll_${channel_opt_ll}/llh2zz/condor
-               mkdir -p log
-               ./condor_submit.sh
-
                echo "Please enter the number of jobs for each ZH sample (default: 120)" 
                read njob
                if [ -z $njob ]; then
@@ -800,7 +796,7 @@ case $option in
 
     2.2.6) echo "Copy the same zh ntuple as mmHzz channel..."
            rm -r run/channel_nn/zh/ana
-           cp -r run/channel_ll/zh/ana run/channel_nn/zh/
+           cp -r run/channel_ll_1/zh/ana run/channel_nn/zh/
            ;;
 
     2.2.7) echo "Select events on background (with a small sample)..."
@@ -929,7 +925,7 @@ case $option in
 
     2.3.6) echo "Copy the same bg ntuple as mmHzz channel..."
            rm -r run/channel_nn/bg/ana
-           cp -r run/channel_ll/bg/ana run/channel_nn/bg 
+           cp -r run/channel_ll_1/bg/ana run/channel_nn/bg 
            ;;
 
     2.3.7) echo "Select events on background (with a small sample)..."  
