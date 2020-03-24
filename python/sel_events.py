@@ -173,7 +173,7 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(3,'M(miss)>M(dijet)')
             h_evtflw.GetXaxis().SetBinLabel(4,'80GeV<M(dimuon)<100GeV')
             h_evtflw.GetXaxis().SetBinLabel(5,'120GeV<RecM(dimuon)<142GeV')
-            h_evtflw.GetXaxis().SetBinLabel(6,'15<Npfo<70')
+            h_evtflw.GetXaxis().SetBinLabel(6,'20<Npfo<67')
             h_evtflw.GetXaxis().SetBinLabel(7,'visible PT>10GeV')
             h_evtflw.GetXaxis().SetBinLabel(8,'Mininum angle>17.2')
             h_evtflw.GetXaxis().SetBinLabel(9,'80GeV<M(miss)<105GeV, 10GeV<M(dijet)<43GeV')
