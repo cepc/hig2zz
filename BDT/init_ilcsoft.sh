@@ -107,7 +107,7 @@ export MARLIN_DLL="/afs/ihep.ac.cn/soft/common/gcc/v01-17-05/MarlinReco/v01-09/l
 #     LCCD
 #--------------------------------------------------------------------------------
 export LCCD="/afs/ihep.ac.cn/soft/common/gcc/v01-17-05/lccd/v01-03"
-export LD_LIBRARY_PATH="$LCCD/lib:$LD_LIBRARY_PATH"
+
 
 #--------------------------------------------------------------------------------
 #     CondDBMySQL
@@ -122,7 +122,6 @@ export LD_LIBRARY_PATH="$CondDBMySQL/lib:$LD_LIBRARY_PATH"
 #--------------------------------------------------------------------------------
 export RAIDA_HOME="/afs/ihep.ac.cn/soft/common/gcc/v01-17-05/RAIDA/v01-06-02"
 export PATH="$RAIDA_HOME/bin:$PATH"
-export LD_LIBRARY_PATH="$RAIDA_HOME/lib:$LD_LIBRARY_PATH"
 
 
 #--------------------------------------------------------------------------------

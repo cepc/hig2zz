@@ -179,51 +179,94 @@ ISOlatedLeptonFinderProcessor::ISOlatedLeptonFinderProcessor()
 				_maxR0Sig,
 				double(1e20));
 
+		// Rectangular Isolation
 		registerProcessorParameter( "UseRectangularIsolation",
 				"Use rectangular cuts on track and cone energy",
 				_useRectangularIsolation,
 				bool(true));
-
-		registerProcessorParameter( "IsolationMinimumTrackEnergy",
-				"Minimum track energy for isolation requirement",
-				_isoMinTrackEnergy,
+		
+		// Electron
+		registerProcessorParameter( "ElectronIsolationMinimumTrackEnergy",
+				"Electron: Minimum track energy for isolation requirement",
+				_isoMinTrackEnergyElectron,
 				double(15));
 
-		registerProcessorParameter( "IsolationMaximumTrackEnergy",
-				"Maximum track energy for isolation requirement",
-				_isoMaxTrackEnergy,
+		registerProcessorParameter( "ElectronIsolationMaximumTrackEnergy",
+				"Electron: Maximum track energy for isolation requirement",
+				_isoMaxTrackEnergyElectron,
 				double(1e20));
 
-		registerProcessorParameter( "IsolationMinimumConeEnergy",
-				"Minimum cone energy for isolation requirement",
-				_isoMinConeEnergy,
+		registerProcessorParameter( "ElectronIsolationMinimumConeEnergy",
+				"Electron: Minimum cone energy for isolation requirement",
+				_isoMinConeEnergyElectron,
 				double(0));
 
-		registerProcessorParameter( "IsolationMaximumConeEnergy",
-				"Maximum cone energy for isolation requirement",
-				_isoMaxConeEnergy,
+		registerProcessorParameter( "ElectronIsolationMaximumConeEnergy",
+				"Electron: Maximum cone energy for isolation requirement",
+				_isoMaxConeEnergyElectron,
 				double(1e20));
 
+		// Muon
+		registerProcessorParameter( "MuonIsolationMinimumTrackEnergy",
+				"Muon: Minimum track energy for isolation requirement",
+				_isoMinTrackEnergyMuon,
+				double(15));
+
+		registerProcessorParameter( "MuonIsolationMaximumTrackEnergy",
+				"Muon: Maximum track energy for isolation requirement",
+				_isoMaxTrackEnergyMuon,
+				double(1e20));
+
+		registerProcessorParameter( "MuonIsolationMinimumConeEnergy",
+				"Muon: Minimum cone energy for isolation requirement",
+				_isoMinConeEnergyMuon,
+				double(0));
+
+		registerProcessorParameter( "MuonIsolationMaximumConeEnergy",
+				"Muon: Maximum cone energy for isolation requirement",
+				_isoMaxConeEnergyMuon,
+				double(1e20));
+
+
+		// Polynomial Isolation
 		registerProcessorParameter( "UsePolynomialIsolation",
 				"Use polynomial cuts on track and cone energy",
 				_usePolynomialIsolation,
 				bool(true));
 
-		registerProcessorParameter( "IsolationPolynomialCutA",
-				"Polynomial cut (A) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C",
-				_isoPolynomialA,
+		// Electron
+		registerProcessorParameter( "ElectronIsolationPolynomialCutA",
+				"Electron: Polynomial cut (A) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C",
+				_isoPolynomialElectronA,
 				double(0));
 
-		registerProcessorParameter( "IsolationPolynomialCutB",
-				"Polynomial cut (B) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C",
-				_isoPolynomialB,
+		registerProcessorParameter( "ElectronIsolationPolynomialCutB",
+				"Electron: Polynomial cut (B) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C",
+				_isoPolynomialElectronB,
 				double(20));
 
-		registerProcessorParameter( "IsolationPolynomialCutC",
-				"Polynomial cut (C) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C",
-				_isoPolynomialC,
+		registerProcessorParameter( "ElectronIsolationPolynomialCutC",
+				"Electron: Polynomial cut (C) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C",
+				_isoPolynomialElectronC,
 				double(-300));
 
+		// Muon
+		registerProcessorParameter( "MuonIsolationPolynomialCutA",
+				"Muon: Polynomial cut (A) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C",
+				_isoPolynomialMuonA,
+				double(0));
+
+		registerProcessorParameter( "MuonIsolationPolynomialCutB",
+				"Muon: Polynomial cut (B) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C",
+				_isoPolynomialMuonB,
+				double(20));
+
+		registerProcessorParameter( "MuonIsolationPolynomialCutC",
+				"Muon: Polynomial cut (C) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C",
+				_isoPolynomialMuonC,
+				double(-300));
+
+		//
 		registerProcessorParameter( "UseJetIsolation",
 				"Use jet-based isolation",
 				_useJetIsolation,
@@ -254,6 +297,16 @@ ISOlatedLeptonFinderProcessor::ISOlatedLeptonFinderProcessor()
 				"Maximum Z in jet-based isolation",
 				_jetIsoVetoMaxZ,
 				double(0.6));
+
+		registerProcessorParameter( "UseLeptonConeProtection",
+				"Use lepton cone protection fot neutral particles",
+				 _useLeptonConeProtection,
+				bool(false));
+
+		registerProcessorParameter( "CosLeptonAssociatedConeAngle",
+				"Cosine of the half-angle of the cone used in lepton associated particle identification criteria",
+				_cosLeptonAssociatedAngle,
+				double(0.998));
 	}
 
 
@@ -298,6 +351,8 @@ void ISOlatedLeptonFinderProcessor::processEvent( LCEvent * evt ) {
 	}
 
 	// PFO loop
+
+	/* Original code for splitting the pfos into two categories, aggregation of isolated leptons and the opposite
 	int npfo = _pfoCol->getNumberOfElements();
 	for (int i = 0; i < npfo; i++ ) {
 		ReconstructedParticle* pfo = dynamic_cast<ReconstructedParticle*>( _pfoCol->getElementAt(i) );
@@ -314,6 +369,58 @@ void ISOlatedLeptonFinderProcessor::processEvent( LCEvent * evt ) {
 			//std::cout << "IsISOLatedLepton = no" << std::endl;
 		}
 	}
+	*/
+	
+	// Select "Isolated" Leptons
+	int npfo = _pfoCol->getNumberOfElements();
+	std::vector<ReconstructedParticle*> isolated_lepton_vec;
+	for (int i = 0; i < npfo; i++ ) {
+	  
+	  ReconstructedParticle* pfo = dynamic_cast<ReconstructedParticle*>( _pfoCol->getElementAt(i) );
+
+	  if ( IsISOlatedLepton( pfo ) ) {
+
+	    otIsoLepCol->addElement( pfo );
+	    isolated_lepton_vec.push_back( pfo );   
+	  }
+	}
+	
+	// Register the other particles to the output collection which is to be clustered later.
+	// With "cone protectrion" ON,  preventing neutral particles around the "isolated" leptons 
+        // to be included in this collection
+	for (int i = 0; i < npfo; i++ ) {
+	  
+	  ReconstructedParticle* pfo = dynamic_cast<ReconstructedParticle*>( _pfoCol->getElementAt(i) );
+	  
+	  if ( ! IsISOlatedLepton( pfo ) ) {  // if it is not isolated lepton
+
+	    if ( IsCharged( pfo ) ) {  // If it is a charged particle, the pfo is simply added to the collection for jet clustering
+
+	      otPFOsRemovedIsoLepCol->addElement( pfo );
+	    }
+	    else {                    //  If it is a neutral particle, further judgement is applied 
+	      
+	      if (  _useLeptonConeProtection ) { // If the "cone protection" is ON
+		
+		//int pid = pfo->getType();
+		if ( IsInsideLeptonAssociatedCone( pfo, isolated_lepton_vec ) ) { // Added to the "isolated lepton" collection
+		    
+		  otIsoLepCol->addElement( pfo );
+		}
+		else {  // If it is outside of the lepton cone, the pfo is added to the collection for jet clustering.
+
+		  otPFOsRemovedIsoLepCol->addElement( pfo );
+		}
+	      }
+	      else { // If "cone protection" is OFF, just add the pfo to the collection for jet clustering
+
+		otPFOsRemovedIsoLepCol->addElement( pfo );
+	      }
+	    }
+	  }  
+
+	}
+
 
 	// Lepton loop
 	int nlep = otIsoLepCol->getNumberOfElements();
@@ -408,6 +515,32 @@ vector<ReconstructedParticle*> ISOlatedLeptonFinderProcessor::getZLeptonPair( LC
 	return ret;
 }
 
+bool ISOlatedLeptonFinderProcessor::IsInsideLeptonAssociatedCone( ReconstructedParticle* pfo, 
+								  const std::vector<ReconstructedParticle*>& isolated_lepton_pfo ) {
+
+  TVector3 P( pfo->getMomentum() );
+
+  bool isInside = false;
+
+  // Loop for isolated leptons
+  int npfo = isolated_lepton_pfo.size();
+  for (int i = 0; i < npfo; i++ ) {
+
+    ReconstructedParticle* pfo_i = isolated_lepton_pfo[i];
+
+    TVector3 P_i( pfo_i->getMomentum() );
+    double cosTheta = P.Dot( P_i )/(P.Mag()*P_i.Mag());
+
+    if ( cosTheta >= _cosLeptonAssociatedAngle ) {
+
+      isInside = true;
+    }
+  }
+
+  return isInside;
+}
+
+
 bool ISOlatedLeptonFinderProcessor::IsCharged( ReconstructedParticle* pfo ) {
 	if ( pfo->getCharge() == 0 ) return false;
 	return true;
@@ -473,12 +606,22 @@ bool ISOlatedLeptonFinderProcessor::IsISOlatedLepton( ReconstructedParticle* pfo
 
 bool ISOlatedLeptonFinderProcessor::IsISOlatedRectangular( ReconstructedParticle* pfo ) {
 	double E     = pfo->getEnergy() ;
-	double coneE = getConeEnergy( pfo )/E;
+	double coneE = getConeEnergy( pfo )/E;	
+	int pid      = abs(pfo->getType());
 
-	if (E < _isoMinTrackEnergy) return false;
-	if (E > _isoMaxTrackEnergy) return false;
-	if (coneE < _isoMinConeEnergy) return false;
-	if (coneE > _isoMaxConeEnergy) return false;
+	// If it is neither electron nor muon, return false.
+	if( pid!=11 && pid!=13 ) return false;
+
+	double minTrackE = (pid==11) ? _isoMinTrackEnergyElectron : _isoMinTrackEnergyMuon ;
+	double maxTrackE = (pid==11) ? _isoMaxTrackEnergyElectron : _isoMaxTrackEnergyMuon ;
+	
+	double minConeE  = (pid==11) ? _isoMinConeEnergyElectron : _isoMinConeEnergyMuon ;
+	double maxConeE  = (pid==11) ? _isoMaxConeEnergyElectron : _isoMaxConeEnergyMuon ;
+
+	if (E < minTrackE) return false;
+	if (E > maxTrackE) return false;
+	if (coneE < minConeE) return false;
+	if (coneE > maxConeE) return false;
 
 	return true;
 }
@@ -486,9 +629,18 @@ bool ISOlatedLeptonFinderProcessor::IsISOlatedRectangular( ReconstructedParticle
 bool ISOlatedLeptonFinderProcessor::IsISOlatedPolynomial( ReconstructedParticle* pfo ) {
 	double E     = pfo->getEnergy() ;
 	double coneE = getConeEnergy( pfo );
+	int pid      = abs(pfo->getType());
 
-	if ( coneE*coneE <= _isoPolynomialA*E*E + _isoPolynomialB*E + _isoPolynomialC )
-		return true ;
+	// If it is neither electron nor muon, return false.
+	if( pid!=11 && pid!=13 ) return false;
+
+	double polynomialA = (pid==11) ? _isoPolynomialElectronA : _isoPolynomialMuonA ;
+	double polynomialB = (pid==11) ? _isoPolynomialElectronB : _isoPolynomialMuonB ;
+	double polynomialC = (pid==11) ? _isoPolynomialElectronC : _isoPolynomialMuonC ;
+
+	if ( coneE*coneE <= polynomialA*E*E + polynomialB*E + polynomialC )
+	  return true ;
+
 	return false;
 }
 
