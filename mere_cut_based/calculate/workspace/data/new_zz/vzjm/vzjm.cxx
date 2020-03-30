@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+
 #include "TFile.h"
 #include "TTree.h"
 #include "TString.h"
@@ -11,12 +12,14 @@
 #include "TStopwatch.h"
 
 void vv_ntuple(TString a,TString b);
-void vzmj()
+void vzjm()
 {
-    vv_ntuple("vzmj_sm.root"  ,   "new_vzmj_sm.root");
-    vv_ntuple("vzmj_ww.root"  ,   "new_vzmj_ww.root");
-    vv_ntuple("vzmj_zz.root"  ,   "new_vzmj_zz.root");
-    vv_ntuple("vzmj_sig.root"  ,  "new_vzmj_sig.root");
+    vv_ntuple("vzjm_bb.root"  ,   "new_vzjm_bb.root");
+    vv_ntuple("vzjm_sm.root"  ,   "new_vzjm_sm.root");
+    vv_ntuple("vzjm_tt.root"  ,   "new_vzjm_tt.root");
+    vv_ntuple("vzjm_ww.root"  ,   "new_vzjm_ww.root");
+    vv_ntuple("vzjm_zz.root"  ,   "new_vzjm_zz.root");
+    vv_ntuple("vzjm_sig.root"  ,  "new_vzjm_sig.root");
 }
 
 void vv_ntuple(TString a,TString b)
@@ -25,7 +28,6 @@ void vv_ntuple(TString a,TString b)
   TFile *f       = new TFile(a);
   TFile *target  = new TFile(b,"RECREATE");
   TTree *Ts = (TTree *)f->Get("Higgs Tree");
- 
   Double_t VisMass,  MisMass;
   Float_t  VisMassf, MisMassf, VisMassf2, MisMassf2, mZ, mH, mjj, rjj;
   Double_t      weight;

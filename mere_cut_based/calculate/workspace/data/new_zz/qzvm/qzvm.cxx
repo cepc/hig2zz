@@ -3,7 +3,6 @@
 #include <iostream>
 #include <map>
 #include <string>
-
 #include "TFile.h"
 #include "TTree.h"
 #include "TString.h"
@@ -11,18 +10,9 @@
 #include "TROOT.h"
 #include "TStopwatch.h"
 
-// #if not defined(__CINT__) || defined(__MAKECINT__)
-// #include "TMVA/Tools.h"
-// #include "TMVA/Reader.h"
-// #include "TMVA/MethodCuts.h"
-// #endif
-
 void qq_ntuple(TString a,TString b);
 void qzvm()
 {
-    qq_ntuple("qzvm_cc.root"  ,   "new_qzvm_cc.root");
-    qq_ntuple("qzvm_gg.root"  ,   "new_qzvm_gg.root");
-    qq_ntuple("qzvm_az.root"  ,   "new_qzvm_az.root");
     qq_ntuple("qzvm_bb.root"  ,   "new_qzvm_bb.root");
     qq_ntuple("qzvm_sm.root"  ,   "new_qzvm_sm.root");
     qq_ntuple("qzvm_tt.root"  ,   "new_qzvm_tt.root");
@@ -49,24 +39,16 @@ void qq_ntuple(TString a,TString b)
   Float_t g1CosPolar,g2CosPolar, g1E, g2E, g1rcCos, g2rcCos, ggE, ggM, rcM, g1PTrans, g2PTrans, ggPTrans, rcCosPolar, g1g2cos;
   Float_t LD0, LZ0, NLD0, NLZ0, weightf;
 
-//    data->SetBranchAddress("ggM",          &ggM); // For recoil M, recoilM is MCtruth.
-  //  data->SetBranchAddress("KMass34",   &mH);
-  //  data->SetBranchAddress("KReco34",   &mZ);
-  //  data->SetBranchAddress("KMass12",   &mjj);
-  //  data->SetBranchAddress("KReco12",   &rjj);
-
   Long64_t nentries = Ts->GetEntries();
 
   cout<<nentries<<endl;
    Double_t BDTs, BDTb, recoEs, recoEb, invmass, recmass, type;
    Ts->SetBranchAddress("scale",   &weight);
-  //  Tb->SetBranchAddress("BDT",   &BDTb);
    Ts->SetBranchAddress("dijet_rec_m",  &invmass);
 
   TTree *output=new TTree("HiggsTree",  "HiggsTree");
   output->Branch("Mass_H", &mH, "Mass_H/F"); 
   output->Branch("weight", &weightf, "weight/F");
-//   output->Branch("BDT"      ,&BDTs,    "BDT/F");
 
      for (Long64_t i=0; i<nentries;i++)
     {
