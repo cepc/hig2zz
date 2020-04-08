@@ -117,7 +117,7 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
 
     TLatex *tex = new TLatex();
     FormatLatex(tex);
-        tex->DrawLatexNDC(tx, ty+0.14, "#bf{CEPC 2019}");
+        tex->DrawLatexNDC(tx, ty+0.14, "#bf{CEPC Preliminary}");
         if ( cname.Contains("zhaoh")) tex->DrawLatexNDC(tx, ty+0.09, "CEPC-v4, "+ECM+" GeV");
         else tex->DrawLatexNDC(tx, ty+0.09, "5.6 ab^{-1}, "+ECM+" GeV");
         tex->DrawLatexNDC(tx, ty+0.04, e_cname);
