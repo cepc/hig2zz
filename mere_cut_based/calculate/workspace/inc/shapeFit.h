@@ -73,9 +73,9 @@ const channel c[150]=
    {"bb",  "data/new_zz/qzvm/new_qzvm_bb.root"},
   }
  },
- {"qzmv", 7, 1, 110, 140,
+ {"qzmv", 6, 1, 110, 140,
   "data/new_zz/qzmv/new_qzmv_sm.root",
-  {"s", "zz", "ww", "tt", "bb", "cc", "gg"},
+  {"s", "zz", "ww", "tt", "bb", "cc"},
   {
    {"s",   "data/new_zz/qzmv/new_qzmv_sig.root"},
    {"zz",  "data/new_zz/qzmv/new_qzmv_zz.root"},
@@ -83,7 +83,6 @@ const channel c[150]=
    {"tt",  "data/new_zz/qzmv/new_qzmv_tt.root"},
    {"bb",  "data/new_zz/qzmv/new_qzmv_bb.root"},
    {"cc",  "data/new_zz/qzmv/new_qzmv_cc.root"},
-   {"gg",  "data/new_zz/qzmv/new_qzmv_gg.root"},
   }
  }
 };

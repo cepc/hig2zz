@@ -64,7 +64,7 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
     if (cname.Contains("qzvm"))
         wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname)))), LineColor(kGreen), LineStyle(2));
     if (cname.Contains("qzmv"))
-        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname), *wchannel->pdf("pdf_gg_" + cname)))), LineColor(kGreen), LineStyle(2));
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname)))), LineColor(kGreen), LineStyle(2));
 
     frame->SetTitle(""); 
 

@@ -768,7 +768,7 @@ def select_higgs_to_zz(t,combine_opt):
             h_evtflw.Fill(8)
             h_angle_mj_cut.Fill( t.lj_angle )
 
-            if not ( 120 < t.lj_angle and t.lj_angle < 170):
+            if not ( 60 < t.lj_angle and t.lj_angle < 170):
                 return False
             h_evtflw.Fill(9)
 	    h_mrec_dimuon_cut.Fill( t.dimuon_rec_m[index] )
@@ -959,13 +959,13 @@ def select_higgs_to_zz(t,combine_opt):
             h_evtflw.Fill(8)
             h_angle_mj_cut.Fill( t.lj_angle )
 
-            if not ( t.lj_angle < 130):
+            if not ( t.lj_angle < 135):
                 return False
             h_evtflw.Fill(9)
 	    h_mrec_dimuon_cut.Fill( t.dimuon_rec_m[index] )
 
-            if not ( 165 < t.dimuon_rec_m[0] and t.dimuon_rec_m[0] < 215):
-                return False
+            #if not ( 165 < t.dimuon_rec_m[0] and t.dimuon_rec_m[0] < 215):
+            #    return False
             h_evtflw.Fill(10)
 	    h_mrec_dijet_cut.Fill( t.dijet_rec_m[0] )
 
@@ -1055,7 +1055,7 @@ def select_higgs_to_zz(t,combine_opt):
             h_evtflw.Fill(8)
             h_angle_mj_cut.Fill( t.lj_angle )
 
-#            if not ( 60 < t.lj_angle and t.lj_angle < 175):
+#            if not ( 120 < t.lj_angle and t.lj_angle < 170):
 #                return False
             h_evtflw.Fill(9)
 	    h_mrec_dimuon_cut.Fill( t.dimuon_rec_m[index] )
@@ -1120,12 +1120,12 @@ def select_higgs_to_zz(t,combine_opt):
             h_evtflw.Fill(2)
 	    h_npfo_cut.Fill( t.n_col_reco )
 
-            if not ( 35 < t.n_col_reco and t.n_col_reco < 100 ):
+            if not ( 40 < t.n_col_reco and t.n_col_reco < 95 ):
                 return False
             h_evtflw.Fill(3)
 	    h_m_dijet_cut.Fill( t.dijet_m[0] )
 
-            if not ( 75 < t.dijet_m[0] and t.dijet_m[0] < 110 ):
+            if not ( 75 < t.dijet_m[0] and t.dijet_m[0] < 105 ):
                 return False
             h_evtflw.Fill(4)
 	    h_m_dimuon_cut.Fill( t.dimuon_m[index] )

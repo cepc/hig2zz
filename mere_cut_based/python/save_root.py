@@ -24,8 +24,8 @@ def main():
         s_in = './run/channel_ll_%s/llh2zz/hist/ana_File_merged_1.root'%opt
         s_out = './root/channel_ll_%s/sig.root'%opt
     if (combine_opt==2):
-        s_in = './run/channel_nn/nnh2zz/hist/ana_File_merged_1.root'
-        s_out = './root/channel_nn/sig.root'
+        s_in = './run/channel_nn_%s/nnh2zz/hist/ana_File_merged_1.root'%opt
+        s_out = './root/channel_nn_%s/sig.root'%opt
     if (combine_opt==3):
         s_in = './run/channel_qq_%s/qqh2zz/hist/ana_File_merged_1.root'%opt
         s_out = './root/channel_qq_%s/sig.root'%opt
@@ -60,7 +60,7 @@ def main():
                 if (combine_opt==1):
                     b_in = './run/channel_ll_%s/'%opt + path + '/hist/' + dname + '/ana_File_merged_1.root'
                 if (combine_opt==2):
-                    b_in = './run/channel_nn/' + path + '/hist/' + dname + '/ana_File_merged_1.root'
+                    b_in = './run/channel_nn_%s/'%opt + path + '/hist/' + dname + '/ana_File_merged_1.root'
                 if (combine_opt==3):
                     b_in = './run/channel_qq_%s/'%opt + path + '/hist/' + dname + '/ana_File_merged_1.root'
                 sample = ROOT.TFile(b_in)
@@ -78,7 +78,7 @@ def main():
                             save_root(b_in, b_out, s, combine_opt)
                     if (combine_opt==2):
                      #   if tep.GetBinContent(16) != 0:
-                            b_out = './root/channel_nn/bkg_%s.root'%dname
+                            b_out = './root/channel_nn_%s/bkg_%s.root'%(opt,dname)
                             save_root(b_in, b_out, s, combine_opt)
                     if (combine_opt==3):
                      #   if tep.GetBinContent(18) != 0:
