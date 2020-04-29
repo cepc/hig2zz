@@ -214,9 +214,9 @@ signal_slcio_dir_qq=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pqqh_zz.e0.p0.
 sel_all=0
 sel_signal=1
 sel_bg=2
-channel_opt_ll=2  #1 for hvvjj, 2 for hjjvv
+channel_opt_ll=1  #1 for hvvjj, 2 for hjjvv
 channel_opt_nn=1  #1 for hmmjj, 2 for hjjmm
-channel_opt_qq=1  #1 for hvvmm, 2 for hmmvv
+channel_opt_qq=2  #1 for hvvmm, 2 for hmmvv
 llhzz=1
 nnhzz=2
 qqhzz=3
@@ -1418,12 +1418,11 @@ case $option in
                 root -l -q qzvm.cxx
            else
                 cp sig.root ./merge/qzmv_sig.root
-                hadd ./merge/qzmv_zz.root bkg_e2e2h_zz.root bkg_e3e3h_zz.root bkg_qqh_zz.root
+                hadd ./merge/qzmv_zz.root bkg_e2e2h_zz.root 
                 hadd ./merge/qzmv_ww.root bkg_e2e2h_ww.root bkg_qqh_ww.root
                 hadd ./merge/qzmv_tt.root bkg_qqh_e3e3.root
                 hadd ./merge/qzmv_bb.root bkg_e2e2h_bb.root
                 hadd ./merge/qzmv_cc.root bkg_e2e2h_cc.root
-                hadd ./merge/qzmv_gg.root bkg_e2e2h_gg.root
                 hadd ./merge/qzmv_sm.root bkg_zz_sl0mu_up.root bkg_zz_sl0mu_down.root bkg_zz_sl0tau_up.root bkg_zz_sl0tau_down.root bkg_ww_sl0muq.root 
 
                 cd ../..
