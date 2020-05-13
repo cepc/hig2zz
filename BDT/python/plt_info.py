@@ -8,6 +8,7 @@ __copyright__ = "Copyright (c) Kong Lingteng"
 __created__ = "[2019-01-11 Fri 01:39]" 
 
 import sys,os,copy
+import math
 import ROOT 
 from tools import check_outfile_path
 
@@ -106,7 +107,7 @@ def main():
                     if (combine_opt==1):
 		        evt = tep.GetBinContent(9) * scb
 		    if (combine_opt==2):
-			evt = tep.GetBinContent(7) * scb
+			evt = tep.GetBinContent(9) * scb
 		    if (combine_opt==3):
 			evt = tep.GetBinContent(9) * scb
 
@@ -137,76 +138,88 @@ def main():
                             exec ("ff%s += cut%s"%(i+1,i+1))
 
     print('\n')
-    print("%-25s%-15s%-15s%-15s%-15s"%('cut','signal','zh','2f','4f'))
+    print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Cut','llhzz','ZH','2f','4f','S/sqrt(S+B)'))
     print("%-25s%-15s%-15s%-15s%-15s"%('Expected',int(s_raw),int(z_raw),int(f_raw),int(ff_raw)))
     print("%-25s%-15s%-15s%-15s%-15s"%('Pre-selection',int(s2),int(z2),int(f2),int(ff2)))
     print("%-25s%-15s%-15s%-15s%-15s"%('Is signal',int(s3),int(z3),int(f3),int(ff3)))
 
     if (combine_opt == 1):
 	if (flag_zz == 1):
-	    print("%-25s%-15s%-15s%-15s%-15s"%('Miss Mass>Dijet Mass',int(s4),int(z4),int(f4),int(ff4)))
+	    print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Miss Mass>Dijet Mass',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4)))
 	if (flag_zz == 2):
-            print("%-25s%-15s%-15s%-15s%-15s"%('Miss Mass<Dijet Mass',int(s4),int(z4),int(f4),int(ff4)))
+            print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Miss Mass<Dijet Mass',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4)))
 
-	print("%-25s%-15s%-15s%-15s%-15s"%('Dimuon Mass',int(s5),int(z5),int(f5),int(ff5)))
-	print("%-25s%-15s%-15s%-15s%-15s"%('Dimuon Recoil Mass',int(s6),int(z6),int(f6),int(ff6)))
-	print("%-25s%-15s%-15s%-15s%-15s"%('Npfo ',int(s7),int(z7),int(f7),int(ff7)))
-	print("%-25s%-15s%-15s%-15s%-15s"%('Pt Visible ',int(s8),int(z8),int(f8),int(ff8)))
-	print("%-25s%-15s%-15s%-15s%-15s"%('BDT',int(s9),int(z9),int(f9),int(ff9)))
+	print("%-25s%-15s%-15s%-15s%-15s%-15s"%('N(pfo)',int(s5),int(z5),int(f5),int(ff5),round(s5/math.sqrt(s5+z5+f5+ff5),4)))
+	print("%-25s%-15s%-15s%-15s%-15s%-15s"%('M(dimuon)',int(s6),int(z6),int(f6),int(ff6),round(s6/math.sqrt(s6+z6+f6+ff6),4)))
+	print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Mrec(Dimuon)',int(s7),int(z7),int(f7),int(ff7),round(s7/math.sqrt(s7+z7+f7+ff7),4)))
+	print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Cos(visible)',int(s8),int(z8),int(f8),int(ff8),round(s8/math.sqrt(s8+z8+f8+ff8),4)))
+	print("%-25s%-15s%-15s%-15s%-15s%-15s"%('BDT',int(s9),int(z9),int(f9),int(ff9),round(s9/math.sqrt(s9+z9+f9+ff9),4)))
  
     if (combine_opt == 2):
-        print("%-25s%-15s%-15s%-15s%-15s"%('N(pfo)',int(s4),int(z4),int(f4),int(ff4)))
-        print("%-25s%-15s%-15s%-15s%-15s"%('Visible Mass',int(s5),int(z5),int(f5),int(ff5)))
-        print("%-25s%-15s%-15s%-15s%-15s"%('|cos theta|',int(s6),int(z6),int(f6),int(ff6)))
-        print("%-25s%-15s%-15s%-15s%-15s"%('BDT ',int(s7),int(z7),int(f7),int(ff7)))
+        if (flag_zz == 1):
+            print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Dimuon Mass>Dijet Mass',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4)))
+        if (flag_zz == 2):
+            print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Dimuon Mass<Dijet Mass',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4)))
+
+        print("%-25s%-15s%-15s%-15s%-15s%-15s"%('N(pfo)',int(s5),int(z5),int(f5),int(ff5),round(s5/math.sqrt(s5+z5+f5+ff5),4)))
+        print("%-25s%-15s%-15s%-15s%-15s%-15s"%('M(missing)',int(s6),int(z6),int(f6),int(ff6),round(s6/math.sqrt(s6+z6+f6+ff6),4)))
+        print("%-25s%-15s%-15s%-15s%-15s%-15s"%('M(visible)',int(s7),int(z7),int(f7),int(ff7),round(s7/math.sqrt(s7+z7+f7+ff7),4)))
+        print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Cos(visible)',int(s8),int(z8),int(f8),int(ff8),round(s8/math.sqrt(s8+z8+f8+ff8),4)))
+        print("%-25s%-15s%-15s%-15s%-15s%-15s"%('BDT',int(s9),int(z9),int(f9),int(ff9),round(s9/math.sqrt(s9+z9+f9+ff9),4)))
 
     if (combine_opt == 3):
-	if (flag_zz == 1):
-	    print("%-25s%-15s%-15s%-15s%-15s"%('Miss Mass>Dimuon Mass',int(s4),int(z4),int(f4),int(ff4)))
-	if (flag_zz == 2):
-            print("%-25s%-15s%-15s%-15s%-15s"%('Miss Mass<Dimuon Mass',int(s4),int(z4),int(f4),int(ff4)))
-	
-  	print("%-25s%-15s%-15s%-15s%-15s"%('N(pfo)',int(s5),int(z5),int(f5),int(ff5)))
-        print("%-25s%-15s%-15s%-15s%-15s"%('Dijet Mass',int(s6),int(z6),int(f6),int(ff6)))
-        print("%-25s%-15s%-15s%-15s%-15s"%('Cos theta ',int(s7),int(z7),int(f7),int(ff7)))
-        print("%-25s%-15s%-15s%-15s%-15s"%('Visible Mass ',int(s8),int(z8),int(f8),int(ff8)))
-        print("%-25s%-15s%-15s%-15s%-15s"%('BDT',int(s9),int(z9),int(f9),int(ff9)))
+        if (flag_zz == 1):
+            print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Missing Mass>Dimuon Mass',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4)))
+        if (flag_zz == 2):
+            print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Missing Mass<Dimuon Mass',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4)))
+
+        print("%-25s%-15s%-15s%-15s%-15s%-15s"%('N(pfo)',int(s5),int(z5),int(f5),int(ff5),round(s5/math.sqrt(s5+z5+f5+ff5),4)))
+        print("%-25s%-15s%-15s%-15s%-15s%-15s"%('M(dijet)',int(s6),int(z6),int(f6),int(ff6),round(s6/math.sqrt(s6+z6+f6+ff6),4)))
+        print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Mrec(dijet)',int(s7),int(z7),int(f7),int(ff7),round(s7/math.sqrt(s7+z7+f7+ff7),4)))
+        print("%-25s%-15s%-15s%-15s%-15s%-15s"%('Cos(visible)',int(s8),int(z8),int(f8),int(ff8),round(s8/math.sqrt(s8+z8+f8+ff8),4)))
+        print("%-25s%-15s%-15s%-15s%-15s%-15s"%('BDT',int(s9),int(z9),int(f9),int(ff9),round(s9/math.sqrt(s9+z9+f9+ff9),4)))
 
     fout_script.write('    \hline \hline \n')
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('Cut','Signal','ZH background','2f background','4f background',r'\\ \hline'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Expected$',int(s_raw),int(z_raw),int(f_raw),int(ff_raw),r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Pre-selection$',int(s2),int(z2),int(f2),int(ff2),r'\\'))
-    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Signal \ or \ not$',int(s3),int(z3),int(f3),int(ff3),r'\\'))
+    fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('Cut','Signal','ZH Background','2f Background','4f Background','$S\over\sqrt{S+B}$',r'\\ \hline'))
+    fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$Expected$',int(s_raw),int(z_raw),int(f_raw),int(ff_raw),'        ',r'\\'))
+    fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$Pre-selection$',int(s2),int(z2),int(f2),int(ff2),'        ',r'\\'))
+    fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$Signal \ or \ not$',int(s3),int(z3),int(f3),int(ff3),'        ',r'\\'))
 
     if (combine_opt == 1):
         if (flag_zz == 1):
-	    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$M_{missing}>M_{dijet}$',int(s4),int(z4),int(f4),int(ff4),r'\\'))
+            fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{missing}>M_{dijet}$',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4),r'\\'))
 	if (flag_zz == 2):
-            fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$M_{missing}<M_{dijet}$',int(s4),int(z4),int(f4),int(ff4),r'\\'))
+            fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{missing}<M_{dijet}$',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4),r'\\'))
 
-	fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$M_{dimuon}$',int(s5),int(z5),int(f5),int(ff5),r'\\'))
-	fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$M_{dimuon}^{rec}$',int(s6),int(z6),int(f6),int(ff6),r'\\'))
-	fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$N(pfo)$',int(s7),int(z7),int(f7),int(ff7),r'\\'))
-	fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$Pt_{visible}$',int(s8),int(z8),int(f8),int(ff8),r'\\'))
-	fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$BDT \ score$',int(s9),int(z9),int(f9),int(ff9),r'\\ \hline \hline'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$N(pfo)$',int(s5),int(z5),int(f5),int(ff5),round(s5/math.sqrt(s5+z5+f5+ff5),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{dimuon}$',int(s6),int(z6),int(f6),int(ff6),round(s6/math.sqrt(s6+z6+f6+ff6),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{dimuon}^{rec}$',int(s7),int(z7),int(f7),int(ff7),round(s7/math.sqrt(s7+z7+f7+ff7),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$cos \\theta_{visible}$',int(s8),int(z8),int(f8),int(ff8),round(s8/math.sqrt(s8+z8+f8+ff8),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$BDT \ score$ ',int(s9),int(z9),int(f9),int(ff9),round(s9/math.sqrt(s9+z9+f9+ff9),4),r'\\'))
 
     if (combine_opt == 2):
-        fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$N(pfo)$',int(s4),int(z4),int(f4),int(ff4),r'\\'))
-        fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$M_{visible}$',int(s5),int(z5),int(f5),int(ff5),r'\\'))
-        fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$cos \ \\theta$',int(s6),int(z6),int(f6),int(ff6),r'\\'))
-        fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$BDT \ score$',int(s7),int(z7),int(f7),int(ff7),r'\\ \hline \hline'))
+        if (flag_zz == 1):
+            fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{dimuon}>M_{dijet}$',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4),r'\\'))
+        if (flag_zz == 2):
+            fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{dimuon}<M_{dijet}$',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4),r'\\'))
+
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$N(pfo)$',int(s5),int(z5),int(f5),int(ff5),round(s5/math.sqrt(s5+z5+f5+ff5),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{missing}$',int(s6),int(z6),int(f6),int(ff6),round(s6/math.sqrt(s6+z6+f6+ff6),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{visible}$',int(s7),int(z7),int(f7),int(ff7),round(s7/math.sqrt(s7+z7+f7+ff7),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$cos \\theta_{visible}$',int(s8),int(z8),int(f8),int(ff8),round(s8/math.sqrt(s8+z8+f8+ff8),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$BDT \ score$ ',int(s9),int(z9),int(f9),int(ff9),round(s9/math.sqrt(s9+z9+f9+ff9),4),r'\\'))
 
     if (combine_opt == 3):
-	if (flag_zz == 1):
-	    fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$M_{missing}>M_{dimuon}$',int(s4),int(z4),int(f4),int(ff4),r'\\'))
-	if (flag_zz == 2):
-            fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$M_{missing}<M_{dimuon}$',int(s4),int(z4),int(f4),int(ff4),r'\\'))
+        if (flag_zz == 1):
+            fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{missing}>M_{dimuon}$',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4),r'\\'))
+        if (flag_zz == 2):
+            fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{missing}<M_{dimuon}$',int(s4),int(z4),int(f4),int(ff4),round(s4/math.sqrt(s4+z4+f4+ff4),4),r'\\'))
 
-        fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$N(pfo)$',int(s5),int(z5),int(f5),int(ff5),r'\\'))
-        fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$M_{dijet}$',int(s6),int(z6),int(f6),int(ff6),r'\\'))
-        fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$cos \ \\theta$',int(s7),int(z7),int(f7),int(ff7),r'\\'))
-        fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$M_{visible}$',int(s8),int(z8),int(f8),int(ff8),r'\\'))
-        fout_script.write('%-40s&%-25s&%-25s&%-25s&%-25s%-25s\n'%('$BDT \ score$',int(s9),int(z9),int(f9),int(ff9),r'\\ \hline \hline'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$N(pfo)$',int(s5),int(z5),int(f5),int(ff5),round(s5/math.sqrt(s5+z5+f5+ff5),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{dijet}$',int(s6),int(z6),int(f6),int(ff6),round(s6/math.sqrt(s6+z6+f6+ff6),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$M_{dijet}^{rec}$',int(s7),int(z7),int(f7),int(ff7),round(s7/math.sqrt(s7+z7+f7+ff7),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$cos \\theta_{visible}$',int(s8),int(z8),int(f8),int(ff8),round(s8/math.sqrt(s8+z8+f8+ff8),4),r'\\'))
+        fout_script.write('%-30s&%-15s&%-15s&%-15s&%-15s&%-15s%-5s\n'%('$BDT \ score$ ',int(s9),int(z9),int(f9),int(ff9),round(s9/math.sqrt(s9+z9+f9+ff9),4),r'\\'))
 
     fout_script.close()
     

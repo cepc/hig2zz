@@ -110,8 +110,8 @@ def main():
 	n_bg = 0
 
 	for ibin in range(i+1, 401, 1):
-	    n_sig += s.GetBinContent(ibin+1)
-	    n_bg += b.GetBinContent(ibin+1)
+	    n_sig += s.GetBinContent(ibin)
+	    n_bg += b.GetBinContent(ibin)
     
 	sig_n.SetBinContent(i+1, n_sig)
 
