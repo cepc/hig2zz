@@ -21,3 +21,7 @@ export PATH=/afs/ihep.ac.cn/soft/common/sysgroup/hep_job/bin:$PATH
 
 # PyROOT 
 export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
+
+# New environment
+source /cvmfs/cepc.ihep.ac.cn/software/cepcenv/setup.sh
+cepcenv -r /cvmfs/cepc.ihep.ac.cn/software/cepcsoft use 0.1.0-rc9
