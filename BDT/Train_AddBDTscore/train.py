@@ -29,7 +29,7 @@ NAME
 
 SYNOPSIS
 
-    ./BDT_pre.py infile outfile combine_opt (1: llhzz, 2: nnhzz, 3: qqhzz) flag_zz (1: vv jj/ll, 2: jj/ll vv)
+    ./BDT_pre.py infile outfile combine_opt (1: llhzz, 2: nnhzz, 3: qqhzz) flag_zz 
 
 AUTHOR
     Min Zhong <zmind@mail.ustc.edu.cn>
@@ -49,17 +49,17 @@ def main():
 
     # get root files and convert them to array
     if (combine_opt == 1):
-        branch_names = """dijet_rec_m,vis_all_p,vis_all_pt,vis_all_m,dijet_m,jet_lead_e,jet_sub_e,dimuon_dijet_angle,n_col_reco,dimuon_m,cos,vis_all_rec_m""".split(",")
+        branch_names = """dimuon_m,dijet_m,vis_all_rec_m,n_col_reco,cos,vis_all_cos,dimuon_dijet_angle,dijet_rec_m,vis_all_m,vis_all_p,vis_all_pt,jet_lead_e,jet_lead_pt,jet_sub_e,jet_sub_pt""".split(",")
         fin1 = ROOT.TFile("./sample/channel_ll_"+args[1]+"/Before/signal.root")
         fin2 = ROOT.TFile("./sample/channel_ll_"+args[1]+"/Before/bkg_all.root")
 
     if (combine_opt == 2):
-        branch_names = """dimuon_rec_m,dijet_rec_m,vis_all_p,vis_all_pt,dijet_m,jet_lead_e,jet_sub_e,dimuon_dijet_angle,n_col_reco,dimuon_m,cos,vis_all_rec_m""".split(",")
+        branch_names = """dimuon_m,dijet_m,vis_all_rec_m,n_col_reco,cos,vis_all_cos,dimuon_dijet_angle,dimuon_rec_m,dijet_rec_m,vis_all_p,vis_all_pt,jet_lead_e,jet_lead_pt,jet_sub_e,jet_sub_pt""".split(",")
         fin1 = ROOT.TFile("./sample/channel_nn_"+args[1]+"/Before/signal.root")
         fin2 = ROOT.TFile("./sample/channel_nn_"+args[1]+"/Before/bkg_all.root")
 
     if (combine_opt == 3):
-        branch_names = """dimuon_rec_m,vis_all_p,vis_all_pt,vis_all_m,dijet_m,jet_lead_e,jet_sub_e,dimuon_dijet_angle,n_col_reco,dimuon_m,cos,vis_all_rec_m""".split(",")
+        branch_names = """dimuon_m,dijet_m,vis_all_rec_m,n_col_reco,cos,vis_all_cos,dimuon_dijet_angle,dimuon_rec_m,vis_all_m,vis_all_p,vis_all_pt,jet_lead_e,jet_lead_pt,jet_sub_e,jet_sub_pt""".split(",")
         fin1 = ROOT.TFile("./sample/channel_qq_"+args[1]+"/Before/signal.root")
         fin2 = ROOT.TFile("./sample/channel_qq_"+args[1]+"/Before/bkg_all.root")
 
@@ -94,8 +94,20 @@ def main():
         print ('Number of events: ')
         print ('before: signal: ', len(y_raw[y_raw==1]), ' background: ', len(y_raw[y_raw==0]))
         print ('after: signal: ', len(y[y==1]), ' background: ', len(y[y==0]))
-    elif (sb_ratio < 0.1):
-        smote = SMOTE(ratio=0.15)
+    elif (sb_ratio < 0.1 and sb_ratio > 0.05):
+        smote = SMOTE(ratio=0.4)
+        X, y = smote.fit_sample(X_raw, y_raw)
+        print ('Number of events: ')
+        print ('before: signal: ', len(y_raw[y_raw==1]), ' background: ', len(y_raw[y_raw==0]))
+        print ('after: signal: ', len(y[y==1]), ' background: ', len(y[y==0]))
+    elif (sb_ratio < 0.05 and sb_ratio > 0.01):
+        smote = SMOTE(ratio=0.1)
+        X, y = smote.fit_sample(X_raw, y_raw)
+        print ('Number of events: ')
+        print ('before: signal: ', len(y_raw[y_raw==1]), ' background: ', len(y_raw[y_raw==0]))
+        print ('after: signal: ', len(y[y==1]), ' background: ', len(y[y==0]))
+    elif (sb_ratio < 0.01):
+        smote = SMOTE(ratio=0.03)
         X, y = smote.fit_sample(X_raw, y_raw)
         print ('Number of events: ')
         print ('before: signal: ', len(y_raw[y_raw==1]), ' background: ', len(y_raw[y_raw==0]))
@@ -103,20 +115,26 @@ def main():
     else:
         X = X_raw
         y = y_raw
+        print ('Number of events: ')
+        print ('signal: ', len(y[y==1]), ' background: ', len(y[y==0]))
+
 
     """
     Training Part
     """
     # Train and test
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.50, random_state=318)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.50, random_state=3443)
 
     if (combine_opt == 1):
         if (flag_zz == 1):
             dt = DecisionTreeClassifier(max_depth=1, min_samples_leaf=10, min_samples_split=20)
         if (flag_zz == 2):
-            dt = DecisionTreeClassifier(max_depth=2, min_samples_leaf=10, min_samples_split=20)
+            dt = DecisionTreeClassifier(max_depth=1, min_samples_leaf=10, min_samples_split=20)
     if (combine_opt == 2):
-        dt = DecisionTreeClassifier(max_depth=1, min_samples_leaf=10, min_samples_split=20)
+        if (flag_zz == 1):
+            dt = DecisionTreeClassifier(max_depth=1, min_samples_leaf=10, min_samples_split=20)
+        if (flag_zz == 2):
+            dt = DecisionTreeClassifier(max_depth=1, min_samples_leaf=10, min_samples_split=20)
     if (combine_opt == 3):
         if (flag_zz == 1):
             dt = DecisionTreeClassifier(max_depth=1, min_samples_leaf=10, min_samples_split=20)
@@ -127,7 +145,11 @@ def main():
     bdt.fit(X_train, y_train)
 
     importances = bdt.feature_importances_
-    print (importances)
+    f = open('output_importance.txt', 'w')
+    print("%-25s%-15s"%('Variable Name','Output Importance'), file=f)
+    for i in range(15):
+        print("%-25s%-15s"%(branch_names[i], importances[i]), file=f)
+    f.close 
 
     y_predicted = bdt.predict(X_train)
     print (classification_report(y_train, y_predicted, target_names=["background", "signal"]))
@@ -146,7 +168,10 @@ def main():
         if (flag_zz == 2):
             filepath = 'channel_ll_2'
     if (combine_opt == 2):
-        filepath = 'channel_nn_1'
+        if (flag_zz == 1):
+            filepath = 'channel_nn_1'
+        if (flag_zz == 2):
+            filepath = 'channel_nn_2'
     if (combine_opt == 3):
         if (flag_zz == 1):
             filepath = 'channel_qq_1'
