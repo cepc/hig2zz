@@ -63,6 +63,10 @@ class ISOlatedLeptonFinderProcessor : public Processor {
 		/** Returns true if it passes impact parameter significance cuts */
 		bool PassesImpactParameterSignificanceCuts( ReconstructedParticle* pfo ) ; 
 
+		/** Returns true if it is close to one of isolated lepton candidates */
+		bool IsInsideLeptonAssociatedCone( ReconstructedParticle* pfo, 
+						   const std::vector<ReconstructedParticle*>& isolated_lepton_pfo );
+		
 		/** Calculates the cone energy */
 		double getConeEnergy( ReconstructedParticle* pfo ) ;
 
@@ -117,16 +121,20 @@ class ISOlatedLeptonFinderProcessor : public Processor {
 
 		/** If set to true, uses rectangular cuts for isolation */
 		bool _useRectangularIsolation;
-		double _isoMinTrackEnergy;
-		double _isoMaxTrackEnergy;
-		double _isoMinConeEnergy;
-		double _isoMaxConeEnergy;
+		double _isoMinTrackEnergyElectron;
+		double _isoMaxTrackEnergyElectron;
+		double _isoMinConeEnergyElectron;
+		double _isoMaxConeEnergyElectron;
+		double _isoMinTrackEnergyMuon;
+		double _isoMaxTrackEnergyMuon;
+		double _isoMinConeEnergyMuon;
+		double _isoMaxConeEnergyMuon;
 
 		/** If set to true, uses polynomial cuts for isolation */
 		bool _usePolynomialIsolation;
-		double _isoPolynomialA;
-		double _isoPolynomialB;
-		double _isoPolynomialC;
+		double _isoPolynomialElectronA;
+		double _isoPolynomialElectronB;
+		double _isoPolynomialElectronC;
 		double _isoPolynomialMuonA;
 		double _isoPolynomialMuonB;
 		double _isoPolynomialMuonC;
@@ -139,6 +147,11 @@ class ISOlatedLeptonFinderProcessor : public Processor {
 		double _jetIsoVetoMaxXt;
 		double _jetIsoVetoMinZ;
 		double _jetIsoVetoMaxZ;
+
+		/** If set to true, uses protection for neutral particles around isolated leptons */
+		bool  _useLeptonConeProtection;
+		double _cosLeptonAssociatedAngle;
+
 } ;
 
 #endif
