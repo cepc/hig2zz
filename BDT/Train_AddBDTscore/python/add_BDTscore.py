@@ -66,34 +66,40 @@ def main():
     fout = ROOT.TFile(outfile, "RECREATE")
     t = ROOT.TTree('tree', 'tree')
 
+    dimuon_m =  array( 'd', [0] )
+    dijet_m =  array( 'd', [0] )
+    vis_all_rec_m =  array( 'd', [0] )
+    n_col_reco =  array( 'i', [0] )
+    cos =  array( 'd', [0] )
+    vis_all_cos =  array( 'd', [0] )
+    dimuon_dijet_angle =  array( 'd', [0] )
     dimuon_rec_m =  array( 'd', [0] )
     dijet_rec_m = array( 'd', [0] )
+    vis_all_m =  array( 'd', [0] )
     vis_all_p =  array( 'd', [0] )
     vis_all_pt = array( 'd', [0] )
-    vis_all_m =  array( 'd', [0] )
-    dijet_m =  array( 'd', [0] )
     jet_lead_e =  array( 'd', [0] )
+    jet_lead_pt =  array( 'd', [0] )
     jet_sub_e =  array( 'd', [0] )
-    dimuon_dijet_angle =  array( 'd', [0] )
-    n_col_reco =  array( 'i', [0] )
-    dimuon_m =  array( 'd', [0] )
-    cos =  array( 'd', [0] )
-    vis_all_rec_m =  array( 'd', [0] )
+    jet_sub_pt =  array( 'd', [0] )
     BDT_score = array( 'd', [0] )
 
+    t.Branch( 'dimuon_m', dimuon_m, 'dimuon_m/D')
+    t.Branch( 'dijet_m', dijet_m, 'dijet_m/D')
+    t.Branch( 'vis_all_rec_m', vis_all_rec_m, 'vis_all_rec_m/D')
+    t.Branch( 'n_col_reco', n_col_reco, 'n_col_reco/I')
+    t.Branch( 'cos', cos, 'cos/D')
+    t.Branch( 'vis_all_cos', vis_all_cos, 'vis_all_cos/D')
+    t.Branch( 'dimuon_dijet_angle', dimuon_dijet_angle, 'dimuon_dijet_angle/D')
     t.Branch( 'dimuon_rec_m', dimuon_rec_m, 'dimuon_rec_m/D')
     t.Branch( 'dijet_rec_m', dijet_rec_m, 'dijet_rec_m/D')
+    t.Branch( 'vis_all_m', vis_all_m, 'vis_all_m/D')
     t.Branch( 'vis_all_p', vis_all_p, 'vis_all_p/D')
     t.Branch( 'vis_all_pt', vis_all_pt, 'vis_all_pt/D')
-    t.Branch( 'vis_all_m', vis_all_m, 'vis_all_m/D')
-    t.Branch( 'dijet_m', dijet_m, 'dijet_m/D')
     t.Branch( 'jet_lead_e', jet_lead_e, 'jet_lead_e/D')
+    t.Branch( 'jet_lead_pt', jet_lead_pt, 'jet_lead_pt/D')
     t.Branch( 'jet_sub_e', jet_sub_e, 'jet_sub_e/D')
-    t.Branch( 'dimuon_dijet_angle', dimuon_dijet_angle, 'dimuon_dijet_angle/D')
-    t.Branch( 'n_col_reco', n_col_reco, 'n_col_reco/I')
-    t.Branch( 'dimuon_m', dimuon_m, 'dimuon_m/D')
-    t.Branch( 'cos', cos, 'cos/D')
-    t.Branch( 'vis_all_rec_m', vis_all_rec_m, 'vis_all_rec_m/D')
+    t.Branch( 'jet_sub_pt', jet_sub_pt, 'jet_sub_pt/D')
     t.Branch( 'BDT_score', BDT_score, 'BDT_score/D')
 
     # read trees
@@ -110,27 +116,30 @@ def main():
             continue
 
         # fill trees
+        dimuon_m[0] =  t_in.dimuon_m
+        dijet_m[0] = t_in.dijet_m
+        vis_all_rec_m[0] = t_in.vis_all_rec_m
+        n_col_reco[0] = t_in.n_col_reco
+        cos[0] = t_in.cos
+        vis_all_cos[0] = t_in.vis_all_cos
+        dimuon_dijet_angle[0] = t_in.dimuon_dijet_angle
         dimuon_rec_m[0] =  t_in.dimuon_rec_m
         dijet_rec_m[0] = t_in.dijet_rec_m
+        vis_all_m[0] = t_in.vis_all_m
         vis_all_p[0] = t_in.vis_all_p
         vis_all_pt[0] = t_in.vis_all_pt
-        vis_all_m[0] = t_in.vis_all_m
-        dijet_m[0] = t_in.dijet_m
         jet_lead_e[0] = t_in.jet_lead_e
+        jet_lead_pt[0] = t_in.jet_lead_pt
         jet_sub_e[0] =  t_in.jet_sub_e
-        dimuon_dijet_angle[0] = t_in.dimuon_dijet_angle
-        n_col_reco[0] = t_in.n_col_reco
-        dimuon_m[0] =  t_in.dimuon_m
-        cos[0] = t_in.cos
-        vis_all_rec_m[0] = t_in.vis_all_rec_m
+        jet_sub_pt[0] = t_in.jet_sub_pt
 
         # BDT score calculating
         if (combine_opt == 1):
-            X_event = np.array([[t_in.dijet_rec_m, t_in.vis_all_p, t_in.vis_all_pt, t_in.vis_all_m, t_in.dijet_m, t_in.jet_lead_e, t_in.jet_sub_e, t_in.dimuon_dijet_angle, t_in.n_col_reco, t_in.dimuon_m, t_in.cos, t_in.vis_all_rec_m]])
+            X_event = np.array([[t_in.dimuon_m, t_in.dijet_m, t_in.vis_all_rec_m, t_in.n_col_reco, t_in.cos, t_in.vis_all_cos, t_in.dimuon_dijet_angle, t_in.dijet_rec_m, t_in.vis_all_m, t_in.vis_all_p, t_in.vis_all_pt, t_in.jet_lead_e, t_in.jet_lead_pt, t_in.jet_sub_e, t_in.jet_sub_pt]])
         if (combine_opt == 2):
-            X_event = np.array([[t_in.dimuon_rec_m, t_in.dijet_rec_m, t_in.vis_all_p, t_in.vis_all_pt, t_in.dijet_m, t_in.jet_lead_e, t_in.jet_sub_e, t_in.dimuon_dijet_angle, t_in.n_col_reco, t_in.dimuon_m, t_in.cos, t_in.vis_all_rec_m]])
+            X_event = np.array([[t_in.dimuon_m, t_in.dijet_m, t_in.vis_all_rec_m, t_in.n_col_reco, t_in.cos, t_in.vis_all_cos, t_in.dimuon_dijet_angle, t_in.dimuon_rec_m, t_in.dijet_rec_m,  t_in.vis_all_p, t_in.vis_all_pt, t_in.jet_lead_e, t_in.jet_lead_pt, t_in.jet_sub_e, t_in.jet_sub_pt]])
         if (combine_opt == 3):
-            X_event = np.array([[t_in.dimuon_rec_m, t_in.vis_all_p, t_in.vis_all_pt, t_in.vis_all_m, t_in.dijet_m, t_in.jet_lead_e, t_in.jet_sub_e, t_in.dimuon_dijet_angle, t_in.n_col_reco, t_in.dimuon_m, t_in.cos, t_in.vis_all_rec_m]])
+            X_event = np.array([[t_in.dimuon_m, t_in.dijet_m, t_in.vis_all_rec_m, t_in.n_col_reco, t_in.cos, t_in.vis_all_cos, t_in.dimuon_dijet_angle, t_in.dimuon_rec_m, t_in.vis_all_m,  t_in.vis_all_p, t_in.vis_all_pt, t_in.jet_lead_e, t_in.jet_lead_pt, t_in.jet_sub_e, t_in.jet_sub_pt]])
 
         BDT_score[0] = bdt.decision_function(X_event) 
 
