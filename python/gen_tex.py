@@ -9,7 +9,7 @@ def main():
     if (combine_opt==1):
         outname = './table/channel_ll_%s/tex_bg.txt'%opt
     if (combine_opt==2):
-        outname = './table/channel_nn/tex_bg.txt'    
+        outname = './table/channel_nn_%s/tex_bg.txt'%opt    
     if (combine_opt==3):
         outname = './table/channel_qq_%s/tex_bg.txt'%opt
 
