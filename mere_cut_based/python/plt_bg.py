@@ -20,6 +20,15 @@ def main():
 
     log_opt_f = 1 # not log scale
     log_opt_r = 2 # log scale
+
+    draw_2d_sig_bg('h_2D_dimuonrec_vis_raw', combine_opt, opt, 1)
+    draw_2d_sig_bg('h_2D_dimuonrec_vis_final', combine_opt, opt, 1)
+    draw_2d_sig_bg('h_2D_dimuonrec_dijetrec_raw', combine_opt, opt, 2)
+    draw_2d_sig_bg('h_2D_dimuonrec_dijetrec_final', combine_opt, opt, 2)
+    draw_2d_sig_bg('h_2D_vis_dijetrec_raw', combine_opt, opt, 3)
+    draw_2d_sig_bg('h_2D_vis_dijetrec_final', combine_opt, opt, 3)
+
+'''
     if (combine_opt==1):
         if (opt==1): 
             draw_signal_bg('h_npfo_cut', 0, 140, 'Particle Flow Object',combine_opt,opt,log_opt_r,20,90)
@@ -133,6 +142,7 @@ def main():
             draw_signal_bg('h_jet_sub_e_cut',0,70,'Sub-leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
             draw_signal_bg('h_jet_sub_pt_cut',0,70,'Sub-leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
             draw_signal_bg('h_mrec_dijet_final',100,150,'Dijet Recoil Mass(GeV)',combine_opt,opt,log_opt_f,0,0)
+'''
 #        draw_signal_bg('h_mrec_dijet_raw',100,150,'Dijet rec mass(GeV)',combine_opt, opt,log_opt_f)
 #        draw_signal_bg('h_m_dimuon_raw',0,150,'Dimuon mass(GeV)',combine_opt, opt,log_opt_r)
 #        draw_signal_bg('h_m_dijet_raw',50,130,'Dijets mass(GeV)',combine_opt, opt,log_opt_r)
@@ -163,6 +173,43 @@ def main():
 
 #        draw_2d('h_2D_dimuon_missing_raw',combine_opt,opt,1)
 #        draw_2d('h_2D_dimuon_missing_final',combine_opt,opt,2)
+
+def draw_2d_sig_bg(pic, combine_opt, opt, fig_opt):
+
+    tabs = sys.argv[3:]
+
+    c = ROOT.TCanvas('c', 'c', 600, 600)
+
+    if (combine_opt==1):
+        figfile = './fig/channel_ll_%s/2d_%s.png'%(opt,pic)
+        sample =  ROOT.TFile('./run/channel_ll_%s/llh2zz/hist/ana_File_merged_1.root'%opt)
+    if (combine_opt==2):
+        figfile = './fig/channel_nn_%s/2d_%s.png'%(opt,pic)
+        sample =  ROOT.TFile('./run/channel_nn_%s/nnh2zz/hist/ana_File_merged_1.root'%opt)
+    if (combine_opt==3):
+        figfile = './fig/channel_qq_%s/2d_%s.png'%(opt,pic)
+        sample =  ROOT.TFile('./run/channel_qq_%s/qqh2zz/hist/ana_File_merged_1.root'%opt)
+
+    check_outfile_path(figfile)
+
+    s = sample.Get(pic)
+
+    if (fig_opt==1):
+        s.SetXTitle('Dimuon recoil mass (GeV)')
+        s.SetYTitle('Visible mass (GeV)')
+    if (fig_opt==2):
+        s.SetXTitle('Dimuon recoil mass (GeV)')
+        s.SetYTitle('Dijet recoil mass (GeV)')
+    if (fig_opt==3):
+        s.SetXTitle('Visible mass (GeV)')
+        s.SetYTitle('Dijet recoil mass (GeV)')
+
+    ROOT.gStyle.SetOptStat(000)
+
+    s.SetContour(99)
+    s.Draw("")
+
+    c.SaveAs(figfile)
 
 def draw_signal_bg(pic, x1, x2, title, combine_opt, opt, log_opt,left,right):
 
@@ -345,6 +392,7 @@ def draw_2d(pic, combine_opt, opt, draw_opt):
     if (draw_opt==2):
     	s.Draw("colz1")
     c.SaveAs(figfile)
+
 
 def SetCEPCCDRStyle():
 

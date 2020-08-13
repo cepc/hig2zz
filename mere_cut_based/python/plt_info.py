@@ -140,7 +140,8 @@ def main():
                     if (combine_opt==3):
                         evt = tep.GetBinContent(21) * scb
 
-                    if evt > 1:
+		    if evt>0:
+#                    if evt > 1:
                         print("%-25s%-25s%-25s"%(dname,scb,evt))
                         tname = dname.replace('_',r'\_')
                         fout_script.write("%-25s&%-25s&%-25s%-25s\n"%(tname,scb,int(evt),r'\\'))
