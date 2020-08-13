@@ -15,7 +15,9 @@ void vzmj()
 {
     vv_ntuple("vzmj_sm.root"  ,   "new_vzmj_sm.root");
     vv_ntuple("vzmj_ww.root"  ,   "new_vzmj_ww.root");
-    vv_ntuple("vzmj_zz.root"  ,   "new_vzmj_zz.root");
+    vv_ntuple("vzmj_mu.root"  ,   "new_vzmj_mu.root");
+    vv_ntuple("vzmj_tt.root"  ,   "new_vzmj_tt.root");
+    vv_ntuple("vzmj_sig_other.root"  ,   "new_vzmj_sig_other.root");
     vv_ntuple("vzmj_sig.root"  ,  "new_vzmj_sig.root");
 }
 

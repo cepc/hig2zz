@@ -26,8 +26,10 @@ void mzjv()
     mm_ntuple("mzjv_sm.root"  ,   "new_mzjv_sm.root");
     mm_ntuple("mzjv_tt.root"  ,   "new_mzjv_tt.root");
     mm_ntuple("mzjv_ww.root"  ,   "new_mzjv_ww.root");
-    mm_ntuple("mzjv_zz.root"  ,   "new_mzjv_zz.root");
+    mm_ntuple("mzjv_mu.root"  ,   "new_mzjv_mu.root");
+    mm_ntuple("mzjv_az.root"  ,   "new_mzjv_az.root");
     mm_ntuple("mzjv_sig.root"  ,  "new_mzjv_sig.root");
+    mm_ntuple("mzjv_sig_other.root"  ,  "new_mzjv_sig_other.root");
 }
 
 void mm_ntuple(TString a,TString b)

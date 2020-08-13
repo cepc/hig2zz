@@ -37,7 +37,9 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
    
     wchannel->data("AsimovSB")->plotOn(frame,DataError(RooAbsData::Poisson),XErrorSize(0),MarkerSize(2));          
     wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("Fit"), LineColor(4));
-    wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name(proc),  Components((*wchannel->pdf("pdf_"+proc+"_" + cname))), LineColor(kRed), LineStyle(2));//s
+//    wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name(proc),  Components((*wchannel->pdf("pdf_"+proc+"_" + cname))), LineColor(kRed), LineStyle(2));//s
+    wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name(proc),  Components((RooArgSet(*wchannel->pdf("pdf_s_" + cname), *wchannel->pdf("pdf_so_" + cname)))), LineColor(kRed), LineStyle(2));//s    
+
 /*    wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((*wchannel->pdf("pdf_b_" + cname))), LineColor(kGreen), LineStyle(2));//sm bkg
     if (cname.Contains("mzvj"))
         wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("zh"), Components((RooArgSet(*wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname)))), LineColor(kOrange), LineStyle(2));//zh bkg
@@ -54,17 +56,17 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
 */
 
     if (cname.Contains("mzvj"))
-        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname)))), LineColor(kGreen), LineStyle(2));// bkg
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname)))), LineColor(kGreen), LineStyle(2));// bkg
     if (cname.Contains("mzjv"))
-        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname), *wchannel->pdf("pdf_gg_" + cname)))), LineColor(kGreen), LineStyle(2));
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zy_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname), *wchannel->pdf("pdf_gg_" + cname), *wchannel->pdf("pdf_mm_" + cname)))), LineColor(kGreen), LineStyle(2));
     if (cname.Contains("vzmj"))
-        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_ww_" + cname)))), LineColor(kGreen), LineStyle(2));
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_mm_" + cname)))), LineColor(kGreen), LineStyle(2));
     if (cname.Contains("vzjm"))
-        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname)))), LineColor(kGreen), LineStyle(2));
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname), *wchannel->pdf("pdf_gg_" + cname), *wchannel->pdf("pdf_mm_" + cname), *wchannel->pdf("pdf_zy_" + cname)))), LineColor(kGreen), LineStyle(2));
     if (cname.Contains("qzvm"))
-        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname)))), LineColor(kGreen), LineStyle(2));
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_zy_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_gg_" + cname), *wchannel->pdf("pdf_cc_" + cname)))), LineColor(kGreen), LineStyle(2));
     if (cname.Contains("qzmv"))
-        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zz_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname)))), LineColor(kGreen), LineStyle(2));
+        wchannel->pdf("modelSB_" + cname)->plotOn(frame, Name("bkg"), Components((RooArgSet(*wchannel->pdf("pdf_b_" + cname), *wchannel->pdf("pdf_zy_" + cname), *wchannel->pdf("pdf_tt_" + cname), *wchannel->pdf("pdf_ww_" + cname), *wchannel->pdf("pdf_bb_" + cname), *wchannel->pdf("pdf_cc_" + cname), *wchannel->pdf("pdf_gg_" + cname)))), LineColor(kGreen), LineStyle(2));
 
     frame->SetTitle(""); 
 
@@ -127,6 +129,7 @@ void plotFit(RooWorkspace *wchannel,  channel c, TString proc, TString lu_n)
     delete canvas;
     delete frame;
     delete legend;
+    cout<<1111111<<endl;
 }
     
 void plotImport(RooWorkspace *wspace, channel c, TString proc, TString lu_n)
@@ -219,6 +222,7 @@ void plotImport(RooWorkspace *wspace, channel c, TString proc, TString lu_n)
     delete canvas;
     delete frame;
     delete legend;
+    cout<<2222222<<endl;
     }
     
 int main(int argc, char **argv)
@@ -236,6 +240,7 @@ int main(int argc, char **argv)
   system(str.c_str());
 
   RooMsgService::instance().setGlobalKillBelow(RooFit::FATAL);
+  cout<<333333<<endl;
 
 for (int i=0; i<ch; i++)
 //for (int i = 0; i<4; i++)
@@ -272,6 +277,7 @@ for (int i=0; i<ch; i++)
         if (c.nbkg!=0) plotImport(ws, c, "b", "5"); 
     }
 }
+    cout<<4444444<<endl;
     return 0;
 }
 
