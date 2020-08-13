@@ -28,7 +28,7 @@ def main():
     draw_2d_sig_bg('h_2D_vis_dijetrec_raw', combine_opt, opt, 3)
     draw_2d_sig_bg('h_2D_vis_dijetrec_final', combine_opt, opt, 3)
 
-'''
+
     if (combine_opt==1):
         if (opt==1): 
             draw_signal_bg('h_npfo_cut', 0, 140, 'Particle Flow Object',combine_opt,opt,log_opt_r,20,90)
@@ -142,7 +142,7 @@ def main():
             draw_signal_bg('h_jet_sub_e_cut',0,70,'Sub-leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
             draw_signal_bg('h_jet_sub_pt_cut',0,70,'Sub-leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
             draw_signal_bg('h_mrec_dijet_final',100,150,'Dijet Recoil Mass(GeV)',combine_opt,opt,log_opt_f,0,0)
-'''
+
 #        draw_signal_bg('h_mrec_dijet_raw',100,150,'Dijet rec mass(GeV)',combine_opt, opt,log_opt_f)
 #        draw_signal_bg('h_m_dimuon_raw',0,150,'Dimuon mass(GeV)',combine_opt, opt,log_opt_r)
 #        draw_signal_bg('h_m_dijet_raw',50,130,'Dijets mass(GeV)',combine_opt, opt,log_opt_r)
