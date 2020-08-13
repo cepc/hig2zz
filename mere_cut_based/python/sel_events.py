@@ -224,8 +224,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'vis_all_m<122GeV + 128GeV<vis_all_m')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2D not qqHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2D not nnHzz')
         if ZZ_Selection==2 :
             h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
             h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
@@ -246,8 +246,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'vis_all_m<122GeV + 128GeV<vis_all_m')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2d not qqHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2d not nnHzz')
 
     if combine_opt==2 :
         if ZZ_Selection==1 :
@@ -270,8 +270,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2d not mmHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2d not qqHzz')
         if ZZ_Selection==2 :
             h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
             h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
@@ -292,8 +292,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2d not mmHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2d not qqHzz')
 
     if combine_opt==3 :
         if ZZ_Selection==1:
@@ -316,8 +316,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'vis_all_m<122GeV + 128GeV<vis_all_m')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2d not mmHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2d not nnHzz')
         if ZZ_Selection==2:
             h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
             h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
@@ -338,8 +338,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'vis_all_m<122GeV + 128GeV<vis_all_m')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2d not mmHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2d not nnHzz')
 
     for jentry in xrange(entries):
         pbar.update(jentry+1)
