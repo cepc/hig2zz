@@ -59,11 +59,12 @@ RooWorkspace *makespace(TString cname, int index, int lu)
     wspace.import(u_c);
 
     // Declare data path, number of signals, pois per channel
-    if (cname=="mzvj") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr));
+    if (cname=="mzvj") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz));
     if (cname=="mzjv") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr, mu_bb, mu_cc, mu_gg));
-    if (cname=="vzmj") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr, mu_bb, mu_cc));
-    if (cname=="qzvm") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr, mu_bb, mu_cc, mu_gg, mu_mu));
-    if (cname=="qzmv") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr, mu_bb, mu_cc, mu_gg, mu_mu));
+    if (cname=="vzmj") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz));
+    if (cname=="vzjm") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_bb, mu_cc));
+    if (cname=="qzvm") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_bb, mu_cc));
+    if (cname=="qzmv") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_zr, mu_bb, mu_cc, mu_mu));
     if (isz)        poi.add(RooArgSet(mu_s));
 
     wspace.import(poi);
@@ -108,7 +109,7 @@ RooWorkspace *makespace(TString cname, int index, int lu)
             poi.add(*wspace.var(cnamex));
             b1 += ","+cnamex;
             // "vzmj", "mzvj","mzjv","qzmv","qzvm"
-            if (cname.Contains("mzvj") || cname.Contains("mzjv") || cname.Contains("vzmj") || cname.Contains("qzvm") || cname.Contains("qzmv"))
+            if (cname.Contains("mzvj") || cname.Contains("mzjv") || cname.Contains("vzmj") || cname.Contains("vzjm") || cname.Contains("qzvm") || cname.Contains("qzmv"))
             {
                 if (proc[i].Contains("s"))  b1 +=",mu_s)";
                 if (proc[i].Contains("ww")) b1 +=",mu_ww)";

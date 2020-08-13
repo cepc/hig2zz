@@ -74,7 +74,7 @@ sel_signal=0
 sel_zh=1
 sel_bg=2
 channel_opt_ll=2  #1 for hvvjj, 2 for hjjvv
-channel_opt_nn=1
+channel_opt_nn=2  #1 for hmmjj, 2 for hjjmm
 channel_opt_qq=2  #1 for hvvmm, 2 for hmmvv
 llhzz=1
 nnhzz=2
@@ -102,6 +102,7 @@ case $option in
     1.1.2) echo "BDT training..."
 	   ./train.py ${llhzz} ${channel_opt_ll} 
 	   echo "Training Finished!"
+	   mv output_importance.txt bdt_results/channel_ll_${channel_opt_ll}/
            ;;
 
     1.1.3) echo "Add BDT score branch to root files (signal)..."
@@ -198,6 +199,7 @@ case $option in
     2.1.2) echo "BDT training"
 	   ./train.py ${nnhzz} ${channel_opt_nn} 
 	   echo "Training Finished!"
+           mv output_importance.txt bdt_results/channel_nn_${channel_opt_nn}/
            ;;
 
     2.1.3) echo "Add BDT score branch to root files (signal)..."
@@ -295,6 +297,7 @@ case $option in
     3.1.2) echo "BDT training"
 	   ./train.py ${qqhzz} ${channel_opt_qq} 
 	   echo "Training Finished!"
+           mv output_importance.txt bdt_results/channel_qq_${channel_opt_qq}/
            ;;
 
     3.1.3) echo "Add BDT score branch to root files (signal)..."
