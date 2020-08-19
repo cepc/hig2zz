@@ -59,13 +59,13 @@ RooWorkspace *makespace(TString cname, int index, int lu)
     wspace.import(u_c);
 
     // Declare data path, number of signals, pois per channel
-    if (cname=="mzvj") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz));
-    if (cname=="mzjv") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_bb, mu_cc, mu_gg));
-    if (cname=="vzmj") poi.add(RooArgSet(mu_s, mu_ww, mu_zz));
-    if (cname=="vzjm") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_bb));
-    if (cname=="qzvm") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_bb));
-    if (cname=="qzmv") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_zz, mu_bb, mu_cc, mu_gg));
-    if (isz)        poi.add(RooArgSet(mu_s));
+    if (cname=="mzvj") poi.add(RooArgSet(mu_s, mu_tt, mu_ww));
+    if (cname=="mzjv") poi.add(RooArgSet(mu_s, mu_zr, mu_tt, mu_ww, mu_bb, mu_cc, mu_gg, mu_mu));
+    if (cname=="vzmj") poi.add(RooArgSet(mu_s, mu_ww, mu_tt, mu_mu));
+    if (cname=="vzjm") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_bb, mu_cc, mu_zr, mu_gg, mu_mu));
+    if (cname=="qzvm") poi.add(RooArgSet(mu_s, mu_tt, mu_ww, mu_bb, mu_cc, mu_zr, mu_gg));
+    if (cname=="qzmv") poi.add(RooArgSet(mu_s, mu_zr, mu_tt, mu_ww, mu_bb, mu_cc, mu_gg));
+    // if (isz)        poi.add(RooArgSet(mu_s));
 
     wspace.import(poi);
 
@@ -109,19 +109,21 @@ RooWorkspace *makespace(TString cname, int index, int lu)
             poi.add(*wspace.var(cnamex));
             b1 += ","+cnamex;
             // "vzmj","vzjm","mzvj","mzjv","qzmv","qzvm"
+//            if (cname.Contains("mzvj"))
             if (cname.Contains("mzvj") || cname.Contains("mzjv") || cname.Contains("vzmj") || cname.Contains("vzjm") || cname.Contains("qzvm") || cname.Contains("qzmv"))
             {
-                if (proc[i].Contains("s"))  b1 +=",mu_s)";
+                // if (proc[i].Contains("s"))  b1 +=",mu_s)";
+                if (proc[i]=="s" || proc[i]=="so") b1+=",mu_s)";
                 if (proc[i].Contains("ww")) b1 +=",mu_ww)";
                 if (proc[i].Contains("zz")) b1 +=",mu_zz)";
                 if (proc[i].Contains("tt")) b1 +=",mu_tt)";
                 if (proc[i].Contains("zy")) b1 +=",mu_zr)";
                 if (proc[i].Contains("bb")) b1 +=",mu_bb)";
                 if (proc[i].Contains("cc")) b1 +=",mu_cc)";
-		if (proc[i].Contains("gg")) b1 +=",mu_gg)";
+   		if (proc[i].Contains("gg")) b1 +=",mu_gg)";
 		if (proc[i].Contains("mm")) b1 +=",mu_mu)";
             }
-	    else if (isz) b1 += ", mu_zz)";
+	    // else if (isz) b1 += ", mu_zz)";
         }
 	cerr << "b1: " << b1 << endl;
         wspace.factory(b1);
@@ -149,6 +151,7 @@ RooWorkspace *makespace(TString cname, int index, int lu)
     else            wspace.factory("PROD::model(modelSB,Uniform)");
 
     TString correlated = "Uni, Uniform, sigma_cx, sigma_lumi, mu_s, mu_bb, mu_cc, mu_gg, mu_zz, mu_zr, mu_ww, mu_tt, mu_mu, ";
+//    TString correlated = "Uni, Uniform, sigma_cx, sigma_lumi, mu_s, mu_bb, mu_cc, mu_zz, mu_zr, mu_ww, mu_tt, mu_mu";//mzvj
     correlated+=cname_collect;
 
     TIterator  *iter_nui = nuispara.createIterator();

@@ -58,6 +58,10 @@ h_2D_dijet_missing_raw =  ROOT.TH2D('h_2D_dijet_missing_raw', '2D_dijet_missing_
 h_2D_dimuon_missing_raw =  ROOT.TH2D('h_2D_dimuon_missing_raw', '2D_dimuon_missing_raw', 240, -20, 220, 240, -40, 200)
 h_2D_dimuon_dijet_raw =  ROOT.TH2D('h_2D_dimuon_dijet_raw', '2D_dimuon_dijet_raw', 240, -20, 220, 240, -40, 200)
 
+h_2D_dimuonrec_vis_raw = ROOT.TH2D('h_2D_dimuonrec_vis_raw', 'h_2D_dimuonrec_vis_raw', 80, 100, 180, 80, 100, 180) 
+h_2D_dimuonrec_dijetrec_raw = ROOT.TH2D('h_2D_dimuonrec_dijetrec_raw', 'h_2D_dimuonrec_dijetrec_raw', 80, 100, 180, 80, 100, 180)
+h_2D_vis_dijetrec_raw = ROOT.TH2D('h_2D_vis_dijetrec_raw', 'h_2D_vis_dijetrec_raw', 80, 100, 180, 80, 100, 180)
+
 ## At Each Cut Stage
 h_m_dimuon_cut = ROOT.TH1D('h_m_dimuon_cut', 'm_dimuon_cut', 260, 0, 260)
 h_mrec_dimuon_cut = ROOT.TH1D('h_mrec_dimuon_cut', 'mrec_dimuon_cut', 260, 0, 260)
@@ -104,6 +108,10 @@ h_2D_visible_missing_final =  ROOT.TH2D('h_2D_visible_missing_final', '2D_visibl
 h_2D_dijet_missing_final =  ROOT.TH2D('h_2D_dijet_missing_final', '2D_dijet_missing_final', 240, -20, 220, 240, -40, 200)
 h_2D_dimuon_missing_final =  ROOT.TH2D('h_2D_dimuon_missing_final', '2D_dimuon_missing_final', 240, -20, 220, 240, -40, 200)
 h_2D_dimuon_dijet_final =  ROOT.TH2D('h_2D_dimuon_dijet_final', '2D_dimuon_dijet_final', 240, -20, 220, 240, -40, 200)
+
+h_2D_dimuonrec_vis_final = ROOT.TH2D('h_2D_dimuonrec_vis_final', 'h_2D_dimuonrec_vis_final', 80, 100, 180, 80, 100, 180)
+h_2D_dimuonrec_dijetrec_final = ROOT.TH2D('h_2D_dimuonrec_dijetrec_final', 'h_2D_dimuonrec_dijetrec_final', 80, 100, 180, 80, 100, 180)
+h_2D_vis_dijetrec_final = ROOT.TH2D('h_2D_vis_dijetrec_final', 'h_2D_vis_dijetrec_final', 80, 100, 180, 80, 100, 180)
 
 h_y12 = ROOT.TH1D('h_y12', 'y12', 4000, -2, 2)
 h_y23 = ROOT.TH1D('h_y23', 'y23', 4000, -2, 2)
@@ -216,8 +224,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'vis_all_m<122GeV + 128GeV<vis_all_m')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2D not qqHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2D not nnHzz')
         if ZZ_Selection==2 :
             h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
             h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
@@ -238,8 +246,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'vis_all_m<122GeV + 128GeV<vis_all_m')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2d not qqHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2d not nnHzz')
 
     if combine_opt==2 :
         if ZZ_Selection==1 :
@@ -262,8 +270,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2d not mmHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2d not qqHzz')
         if ZZ_Selection==2 :
             h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
             h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
@@ -284,8 +292,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'RecM(dijet)<122GeV + 128GeV<RecM(dijet)')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2d not mmHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2d not qqHzz')
 
     if combine_opt==3 :
         if ZZ_Selection==1:
@@ -308,8 +316,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'vis_all_m<122GeV + 128GeV<vis_all_m')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2d not mmHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2d not nnHzz')
         if ZZ_Selection==2:
             h_evtflw.GetXaxis().SetBinLabel(1,'pre-selection')
             h_evtflw.GetXaxis().SetBinLabel(2,'is signal')
@@ -330,8 +338,8 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(17,'* jet_lead_pt')
             h_evtflw.GetXaxis().SetBinLabel(18,'* jet_sub_e')
             h_evtflw.GetXaxis().SetBinLabel(19,'* jet_sub_pt')
-            h_evtflw.GetXaxis().SetBinLabel(20,'RecM(dimuon)<122GeV + 128GeV<RecM(dimuon)')
-            h_evtflw.GetXaxis().SetBinLabel(21,'vis_all_m<122GeV + 128GeV<vis_all_m')
+            h_evtflw.GetXaxis().SetBinLabel(20,'2d not mmHzz')
+            h_evtflw.GetXaxis().SetBinLabel(21,'2d not nnHzz')
 
     for jentry in xrange(entries):
         pbar.update(jentry+1)
@@ -383,6 +391,9 @@ def main():
                 h_2D_dijet_missing_final.Fill( t_in.dijet_m[0], t_in.vis_all_rec_m )
                 h_2D_dimuon_missing_final.Fill( t_in.dimuon_m[0], t_in.vis_all_rec_m )
                 h_2D_dimuon_dijet_final.Fill( t_in.dimuon_m[0], t_in.dijet_m[0] )
+	        h_2D_dimuonrec_vis_final.Fill( t_in.dimuon_rec_m[0], t_in.vis_all_m )
+	        h_2D_dimuonrec_dijetrec_final.Fill( t_in.dimuon_rec_m[0], t_in.dijet_rec_m[0] )
+		h_2D_vis_dijetrec_final.Fill( t_in.vis_all_m, t_in.dijet_rec_m[0] )
 
                 # h_m_lljj.Fill( t_in.lljj_m )
 
@@ -540,6 +551,11 @@ def fill_histograms(t,num,combine_opt):
         h_2D_dimuon_missing_raw.Fill( t.dimuon_m[0], t.vis_all_rec_m )
         h_2D_dimuon_dijet_raw.Fill( t.dimuon_m[0], t.dijet_m[0] )
 
+        h_2D_dimuonrec_vis_raw.Fill( t.dimuon_rec_m[0], t.vis_all_m )
+        h_2D_dimuonrec_dijetrec_raw.Fill( t.dimuon_rec_m[0], t.dijet_rec_m[0] )
+        h_2D_vis_dijetrec_raw.Fill( t.vis_all_m, t.dijet_rec_m[0] )
+
+
 def write_histograms():
 	
 ## Event Flow
@@ -569,6 +585,9 @@ def write_histograms():
     h_2D_dijet_missing_raw.Write()
     h_2D_dimuon_missing_raw.Write()
     h_2D_dimuon_dijet_raw.Write()
+    h_2D_dimuonrec_vis_raw.Write()
+    h_2D_dimuonrec_dijetrec_raw.Write()
+    h_2D_vis_dijetrec_raw.Write()
 
 # At Each Cut Stage
     h_m_dimuon_cut.Write()
@@ -613,6 +632,9 @@ def write_histograms():
     h_2D_dijet_missing_final.Write()
     h_2D_dimuon_missing_final.Write()
     h_2D_dimuon_dijet_final.Write()
+    h_2D_dimuonrec_vis_final.Write()
+    h_2D_dimuonrec_dijetrec_final.Write()
+    h_2D_vis_dijetrec_final.Write()
 
     h_y12.Write()
     h_y23.Write()
@@ -724,12 +746,22 @@ def select_higgs_to_zz(t,combine_opt):
 #                return False
             h_evtflw.Fill(18)
 
-            if ( 122 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 128 ):
-                return False
+#            if ( 122 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 128 ):
+            if (110 < t.dijet_rec_m[index] and t.dijet_rec_m[index] <125):
+                if ((t.dimuon_rec_m[index] < t.dijet_rec_m[index]) or (t.dimuon_rec_m[index] > (-t.dijet_rec_m[index]+250))):
+                    return False
+            if (125 < t.dijet_rec_m[index] and t.dijet_rec_m[index] <140):
+                if ((t.dimuon_rec_m[index] > t.dijet_rec_m[index]) or (t.dimuon_rec_m[index] < (-t.dijet_rec_m[index]+250))):
+                    return False
             h_evtflw.Fill(19)
 
-            if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
-                return False
+#            if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
+            if (110 < t.vis_all_m and t.vis_all_m <125):
+		if ((t.dimuon_rec_m[index] < t.vis_all_m) or (t.dimuon_rec_m[index] > (-t.vis_all_m+250))):
+	            return False
+            if (125 < t.vis_all_m and t.vis_all_m <140):
+                if ((t.dimuon_rec_m[index] > t.vis_all_m) or (t.dimuon_rec_m[index] < (-t.vis_all_m+250))):
+                    return False
             h_evtflw.Fill(20)
 	
 	if (ZZ_Selection==2):
@@ -817,12 +849,24 @@ def select_higgs_to_zz(t,combine_opt):
 #                return False
             h_evtflw.Fill(18)
 
-            if ( 122 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 128 ):
-                return False
+            if (110 < t.dijet_rec_m[index] and t.dijet_rec_m[index] <125):
+                if ((t.dimuon_rec_m[index] < t.dijet_rec_m[index]) or (t.dimuon_rec_m[index] > (-t.dijet_rec_m[index]+250))):
+                    return False
+            if (125 < t.dijet_rec_m[index] and t.dijet_rec_m[index] <140):
+                if ((t.dimuon_rec_m[index] > t.dijet_rec_m[index]) or (t.dimuon_rec_m[index] < (-t.dijet_rec_m[index]+250))):
+                    return False
+#            if ( 122 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 128 ):
+#                return False
             h_evtflw.Fill(19)
 
-            if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
-                return False
+            if (110 < t.vis_all_m and t.vis_all_m <125):
+                if ((t.dimuon_rec_m[index] < t.vis_all_m) or (t.dimuon_rec_m[index] > (-t.vis_all_m+250))):
+                    return False
+            if (125 < t.vis_all_m and t.vis_all_m <140):
+                if ((t.dimuon_rec_m[index] > t.vis_all_m) or (t.dimuon_rec_m[index] < (-t.vis_all_m+250))):
+                    return False
+#            if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
+#                return False
             h_evtflw.Fill(20)
 
     if ( combine_opt == 2 ):
@@ -913,12 +957,24 @@ def select_higgs_to_zz(t,combine_opt):
 #                return False
             h_evtflw.Fill(18)
 
-            if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
-               return False
+            if (110 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] <125):
+                if ((t.vis_all_m < t.dimuon_rec_m[index]) or (t.vis_all_m > (-t.dimuon_rec_m[index]+250))):
+                    return False
+            if (125 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] <140):
+                if ((t.vis_all_m > t.dimuon_rec_m[index]) or (t.vis_all_m < (-t.dimuon_rec_m[index]+250))):
+                    return False
+#            if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
+#               return False
             h_evtflw.Fill(19)
 
-            if ( 122 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 128 ):
-               return False
+            if (110 < t.dijet_rec_m[index] and t.dijet_rec_m[index] <125):
+                if ((t.vis_all_m < t.dijet_rec_m[index]) or (t.vis_all_m > (-t.dijet_rec_m[index]+250))):
+                    return False
+            if (125 < t.dijet_rec_m[index] and t.dijet_rec_m[index] <140):
+                if ((t.vis_all_m > t.dijet_rec_m[index]) or (t.vis_all_m < (-t.dijet_rec_m[index]+250))):
+                    return False
+#            if ( 122 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 128 ):
+#               return False
             h_evtflw.Fill(20)
 
         if (ZZ_Selection==2):
@@ -1008,12 +1064,24 @@ def select_higgs_to_zz(t,combine_opt):
 #                return False
             h_evtflw.Fill(18)
 
-            if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
-               return False
+            if (110 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] <125):
+                if ((t.vis_all_m < t.dimuon_rec_m[index]) or (t.vis_all_m > (-t.dimuon_rec_m[index]+250))):
+                    return False
+            if (125 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] <140):
+                if ((t.vis_all_m > t.dimuon_rec_m[index]) or (t.vis_all_m < (-t.dimuon_rec_m[index]+250))):
+                    return False
+#            if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
+#               return False
             h_evtflw.Fill(19)
 
-            if ( 122 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 128 ):
-               return False
+            if (110 < t.dijet_rec_m[index] and t.dijet_rec_m[index] <125):
+                if ((t.vis_all_m < t.dijet_rec_m[index]) or (t.vis_all_m > (-t.dijet_rec_m[index]+250))):
+                    return False
+            if (125 < t.dijet_rec_m[index] and t.dijet_rec_m[index] <140):
+                if ((t.vis_all_m > t.dijet_rec_m[index]) or (t.vis_all_m < (-t.dijet_rec_m[index]+250))):
+                    return False
+#            if ( 122 < t.dijet_rec_m[index] and t.dijet_rec_m[index] < 128 ):
+#               return False
             h_evtflw.Fill(20)
 
     if ( combine_opt == 3 ):
@@ -1104,12 +1172,24 @@ def select_higgs_to_zz(t,combine_opt):
 #                return False
             h_evtflw.Fill(18)
 
-            if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
-                return False
+            if (110 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] <125):
+                if ((t.dijet_rec_m[index] < t.dimuon_rec_m[index]) or (t.dijet_rec_m[index] > (-t.dimuon_rec_m[index]+250))):
+                    return False
+            if (125 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] <140):
+                if ((t.dijet_rec_m[index] > t.dimuon_rec_m[index]) or (t.dijet_rec_m[index] < (-t.dimuon_rec_m[index]+250))):
+                    return False
+#            if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
+#                return False
             h_evtflw.Fill(19)
 
-            if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
-                return False
+            if (110 < t.vis_all_m and t.vis_all_m <125):
+                if ((t.dijet_rec_m[index] < t.vis_all_m) or (t.dijet_rec_m[index] > (-t.vis_all_m+250))):
+                    return False
+            if (125 < t.vis_all_m and t.vis_all_m <140):
+                if ((t.dijet_rec_m[index] > t.vis_all_m) or (t.dijet_rec_m[index] < (-t.vis_all_m+250))):
+                    return False
+#            if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
+#                return False
             h_evtflw.Fill(20)
 
         if (ZZ_Selection==2):
@@ -1199,12 +1279,24 @@ def select_higgs_to_zz(t,combine_opt):
 #                return False
             h_evtflw.Fill(18)
 
-            if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
-                return False
+            if (110 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] <125):
+                if ((t.dijet_rec_m[index] < t.dimuon_rec_m[index]) or (t.dijet_rec_m[index] > (-t.dimuon_rec_m[index]+250))):
+                    return False
+            if (125 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] <140):
+                if ((t.dijet_rec_m[index] > t.dimuon_rec_m[index]) or (t.dijet_rec_m[index] < (-t.dimuon_rec_m[index]+250))):
+                    return False
+#            if ( 122 < t.dimuon_rec_m[index] and t.dimuon_rec_m[index] < 128 ):
+#                return False
             h_evtflw.Fill(19)
 
-            if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
-                return False
+            if (110 < t.vis_all_m and t.vis_all_m <125):
+                if ((t.dijet_rec_m[index] < t.vis_all_m) or (t.dijet_rec_m[index] > (-t.vis_all_m+250))):
+                    return False
+            if (125 < t.vis_all_m and t.vis_all_m <140):
+                if ((t.dijet_rec_m[index] > t.vis_all_m) or (t.dijet_rec_m[index] < (-t.vis_all_m+250))):
+                    return False
+#            if ( 122 < t.vis_all_m and t.vis_all_m < 128 ):
+#                return False
             h_evtflw.Fill(20)
 
     return True

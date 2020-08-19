@@ -14,7 +14,6 @@ std::string _inputFile = "";
 std::string _minAlgo  = "Minuit2";
 std::string _dataName = "AsimovSB";
 std::string _wsName = "combination";
-//std::string _wsName = "combination";
 std::string _mcName = "ModelConfig";
 
 std::string _poiStr = "";
@@ -310,7 +309,7 @@ int main( int argc, char** argv )
     // cout<<"aH:"<<POI->getAsymErrorHi()<<endl;
     // cout<<"aL:"<<POI->getAsymErrorLo()<<endl;
   }
-  cout << endl << "  Fit Summary of POIs,Kaili (" << STATMSG << ")" << endl;
+  cout << endl << "  Fit Summary of POIs, uncertainty (" << STATMSG << ")" << endl;
   cout << "------------------------------------------------" << endl;
   for (RooLinkedListIter it = fitPOIs.iterator(); RooRealVar* POI = dynamic_cast<RooRealVar*>(it.Next());) {
     if (POI->isConstant()) continue;

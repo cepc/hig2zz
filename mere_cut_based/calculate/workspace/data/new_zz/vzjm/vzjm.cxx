@@ -14,11 +14,15 @@
 void vv_ntuple(TString a,TString b);
 void vzjm()
 {
+    vv_ntuple("vzjm_az.root"  ,   "new_vzjm_az.root");
     vv_ntuple("vzjm_bb.root"  ,   "new_vzjm_bb.root");
+    vv_ntuple("vzjm_cc.root"  ,   "new_vzjm_cc.root");
+    vv_ntuple("vzjm_gg.root"  ,   "new_vzjm_gg.root");
     vv_ntuple("vzjm_sm.root"  ,   "new_vzjm_sm.root");
     vv_ntuple("vzjm_tt.root"  ,   "new_vzjm_tt.root");
     vv_ntuple("vzjm_ww.root"  ,   "new_vzjm_ww.root");
-    vv_ntuple("vzjm_zz.root"  ,   "new_vzjm_zz.root");
+    vv_ntuple("vzjm_mu.root"  ,   "new_vzjm_mu.root");
+    vv_ntuple("vzjm_sig_other.root"  ,   "new_vzjm_sig_other.root");
     vv_ntuple("vzjm_sig.root"  ,  "new_vzjm_sig.root");
 }
 
