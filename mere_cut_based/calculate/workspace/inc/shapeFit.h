@@ -3,7 +3,8 @@
 bool is250=false;
 bool isuseexistingpdf=false;
 const int Nch = 6;
-const TString m_CN[Nch] = {"mzvj","mzjv","vzmj","vzjm","qzvm","qzmv"};
+//const TString m_CN[Nch] = {"mzvj","mzjv","vzmj","vzjm","qzvm","qzmv"};
+const TString m_CN[Nch] = {"mzvj", "mzjv", "vzmj", "vzjm", "qzvm", "qzmv"};
 
 typedef struct
 {
@@ -21,68 +22,82 @@ const channel c[150]=
 {
  {"mzvj", 4, 1, 110, 140,
   "data/new_zz/mzvj/new_mzvj_sm.root",
-  {"s", "zz", "ww", "tt"},
+  {"s", "so", "ww", "tt"},
   {
    {"s",   "data/new_zz/mzvj/new_mzvj_sig.root"},
-   {"zz",  "data/new_zz/mzvj/new_mzvj_zz.root"},
+   {"so",  "data/new_zz/mzvj/new_mzvj_sig_other.root"},
    {"ww",  "data/new_zz/mzvj/new_mzvj_ww.root"},
    {"tt",  "data/new_zz/mzvj/new_mzvj_tt.root"},
+//   {"zy",  "data/new_zz/mzvj/new_mzvj_az.root"},
   }
  },
- {"mzjv", 7, 1, 110, 140,
+ {"mzjv", 9, 1, 110, 140,
   "data/new_zz/mzjv/new_mzjv_sm.root",
-  {"s", "zz", "ww", "tt", "bb", "cc", "gg"},
+  {"s", "so", "ww", "tt", "bb", "cc", "gg", "mm", "zy"},
   {
    {"s",   "data/new_zz/mzjv/new_mzjv_sig.root"},
-   {"zz",  "data/new_zz/mzjv/new_mzjv_zz.root"},
+   {"so",  "data/new_zz/mzjv/new_mzjv_sig_other.root"},
    {"ww",  "data/new_zz/mzjv/new_mzjv_ww.root"},
    {"tt",  "data/new_zz/mzjv/new_mzjv_tt.root"},
    {"bb",  "data/new_zz/mzjv/new_mzjv_bb.root"},
    {"cc",  "data/new_zz/mzjv/new_mzjv_cc.root"},
    {"gg",  "data/new_zz/mzjv/new_mzjv_gg.root"},
+   {"mm",  "data/new_zz/mzjv/new_mzjv_mu.root"},
+   {"zy",  "data/new_zz/mzjv/new_mzjv_az.root"},
   }
  },
- {"vzmj", 3, 1, 110, 140,
+ {"vzmj", 5, 1, 110, 140,
   "data/new_zz/vzmj/new_vzmj_sm.root",
-  {"s", "zz", "ww"},
+  {"s", "so", "ww", "tt", "mm"},
   {
    {"s",   "data/new_zz/vzmj/new_vzmj_sig.root"},
-   {"zz",  "data/new_zz/vzmj/new_vzmj_zz.root"},
+   {"so",  "data/new_zz/vzmj/new_vzmj_sig_other.root"},
    {"ww",  "data/new_zz/vzmj/new_vzmj_ww.root"},
+   {"tt",  "data/new_zz/vzmj/new_vzmj_tt.root"},
+   {"mm",  "data/new_zz/vzmj/new_vzmj_mu.root"},
   }
  },
- {"vzjm", 5, 1, 110, 140,
+ {"vzjm", 9, 1, 110, 140,
   "data/new_zz/vzjm/new_vzjm_sm.root",
-  {"s", "zz", "ww", "tt", "bb"},
+  {"s", "so", "ww", "tt", "bb", "cc", "gg", "zy", "mm"},
   {
    {"s",   "data/new_zz/vzjm/new_vzjm_sig.root"},
-   {"zz",  "data/new_zz/vzjm/new_vzjm_zz.root"},
+   {"so",  "data/new_zz/vzjm/new_vzjm_sig_other.root"},
    {"ww",  "data/new_zz/vzjm/new_vzjm_ww.root"},
    {"tt",  "data/new_zz/vzjm/new_vzjm_tt.root"},
    {"bb",  "data/new_zz/vzjm/new_vzjm_bb.root"},
+   {"cc",  "data/new_zz/vzjm/new_vzjm_cc.root"},
+   {"gg",  "data/new_zz/vzjm/new_vzjm_gg.root"},
+   {"zy",  "data/new_zz/vzjm/new_vzjm_az.root"},
+   {"mm",  "data/new_zz/vzjm/new_vzjm_mu.root"},
   }
  },
- {"qzvm", 5, 1, 110, 140,
+ {"qzvm", 8, 1, 110, 140,
   "data/new_zz/qzvm/new_qzvm_sm.root",
-  {"s", "zz", "ww", "tt", "bb"},
+  {"s", "so", "ww", "tt", "bb","zy","gg","cc"},
   {
    {"s",   "data/new_zz/qzvm/new_qzvm_sig.root"},
-   {"zz",  "data/new_zz/qzvm/new_qzvm_zz.root"},
+   {"so",  "data/new_zz/qzvm/new_qzvm_sig_other.root"},
    {"ww",  "data/new_zz/qzvm/new_qzvm_ww.root"},
    {"tt",  "data/new_zz/qzvm/new_qzvm_tt.root"},
    {"bb",  "data/new_zz/qzvm/new_qzvm_bb.root"},
+   {"zy",  "data/new_zz/qzvm/new_qzvm_az.root"},
+   {"gg",  "data/new_zz/qzvm/new_qzvm_gg.root"},
+   {"cc",  "data/new_zz/qzvm/new_qzvm_cc.root"},
   }
  },
- {"qzmv", 6, 1, 110, 140,
+ {"qzmv", 8, 1, 110, 140,
   "data/new_zz/qzmv/new_qzmv_sm.root",
-  {"s", "zz", "ww", "tt", "bb", "cc"},
+  {"s", "so", "zy", "ww", "tt", "bb", "cc","gg"},
   {
    {"s",   "data/new_zz/qzmv/new_qzmv_sig.root"},
-   {"zz",  "data/new_zz/qzmv/new_qzmv_zz.root"},
+   {"so",  "data/new_zz/qzmv/new_qzmv_sig_other.root"},
+   {"zy",  "data/new_zz/qzmv/new_qzmv_az.root"},
    {"ww",  "data/new_zz/qzmv/new_qzmv_ww.root"},
    {"tt",  "data/new_zz/qzmv/new_qzmv_tt.root"},
    {"bb",  "data/new_zz/qzmv/new_qzmv_bb.root"},
    {"cc",  "data/new_zz/qzmv/new_qzmv_cc.root"},
+   {"gg",  "data/new_zz/qzmv/new_qzmv_gg.root"},
   }
  }
 };
@@ -128,16 +143,19 @@ TString funcsetting(TString cname, TString proc, Int_t index=1)
     { //signal
       if (cname.Contains("mzvj"))
       {
+        if (proc=="so") f="keys";
 	if (proc=="zz") f="Voigtian";
       }
       if (cname.Contains("mzjv"))
       {
-        if (proc=="zz") f="Voigtian";
+        if (proc=="so") f="Voigtian";
+        if (proc=="zz") f="DSCB";
 	if (proc=="tt") f="keys";
       }
       if (cname.Contains("vzmj"))
       {
-//	if (proc=="s")  f="Voigtian";
+	if (proc=="s")  f="Voigtian";
+        if (proc=="so") f="Voigtian";
         if (proc=="zz") f="keys";
         if (proc=="ww") f="keys";
         if (proc=="tt") f="keys";
@@ -145,6 +163,7 @@ TString funcsetting(TString cname, TString proc, Int_t index=1)
       if (cname.Contains("vzjm"))
       {
         if (proc=="s")  f="Voigtian";
+        if (proc=="so") f="keys";
         if (proc=="zz") f="Voigtian";
         if (proc=="bb") f="Voigtian";
         if (proc=="tt") f="Voigtian";
@@ -155,6 +174,7 @@ TString funcsetting(TString cname, TString proc, Int_t index=1)
       if (cname.Contains("qzvm"))
       {
 	if (proc=="s")  f="Voigtian";
+        if (proc=="so") f="Voigtian";
         if (proc=="zz") f="Voigtian";
 	if (proc=="bb") f="Voigtian";
 	if (proc=="tt") f="Voigtian";
@@ -166,6 +186,7 @@ TString funcsetting(TString cname, TString proc, Int_t index=1)
       if (cname.Contains("qzmv"))
       {
         if (proc=="s")  f="Voigtian";
+        if (proc=="so") f="Voigtian";
         if (proc=="zz") f="Voigtian";
         if (proc=="bb") f="Voigtian";
 	if (proc=="tt") f="Voigtian";
