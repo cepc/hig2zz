@@ -135,11 +135,11 @@ def main():
 
         # BDT score calculating
         if (combine_opt == 1):
-            X_event = np.array([[t_in.dimuon_m, t_in.dijet_m, t_in.vis_all_rec_m, t_in.n_col_reco, t_in.cos, t_in.vis_all_cos, t_in.dimuon_dijet_angle, t_in.dijet_rec_m, t_in.vis_all_m, t_in.vis_all_p, t_in.vis_all_pt, t_in.jet_lead_e, t_in.jet_lead_pt, t_in.jet_sub_e, t_in.jet_sub_pt]])
+            X_event = np.array([[t_in.dimuon_m, t_in.dijet_m, t_in.vis_all_rec_m, t_in.n_col_reco, t_in.vis_all_cos, t_in.dimuon_dijet_angle, t_in.dijet_rec_m, t_in.vis_all_m, t_in.vis_all_p, t_in.vis_all_pt, t_in.jet_lead_e, t_in.jet_lead_pt, t_in.jet_sub_e, t_in.jet_sub_pt]])
         if (combine_opt == 2):
-            X_event = np.array([[t_in.dimuon_m, t_in.dijet_m, t_in.vis_all_rec_m, t_in.n_col_reco, t_in.cos, t_in.vis_all_cos, t_in.dimuon_dijet_angle, t_in.dimuon_rec_m, t_in.dijet_rec_m,  t_in.vis_all_p, t_in.vis_all_pt, t_in.jet_lead_e, t_in.jet_lead_pt, t_in.jet_sub_e, t_in.jet_sub_pt]])
+            X_event = np.array([[t_in.dimuon_m, t_in.dijet_m, t_in.vis_all_rec_m, t_in.n_col_reco, t_in.vis_all_cos, t_in.dimuon_dijet_angle, t_in.dimuon_rec_m, t_in.dijet_rec_m,  t_in.vis_all_p, t_in.vis_all_pt, t_in.jet_lead_e, t_in.jet_lead_pt, t_in.jet_sub_e, t_in.jet_sub_pt]])
         if (combine_opt == 3):
-            X_event = np.array([[t_in.dimuon_m, t_in.dijet_m, t_in.vis_all_rec_m, t_in.n_col_reco, t_in.cos, t_in.vis_all_cos, t_in.dimuon_dijet_angle, t_in.dimuon_rec_m, t_in.vis_all_m,  t_in.vis_all_p, t_in.vis_all_pt, t_in.jet_lead_e, t_in.jet_lead_pt, t_in.jet_sub_e, t_in.jet_sub_pt]])
+            X_event = np.array([[t_in.dimuon_m, t_in.dijet_m, t_in.vis_all_rec_m, t_in.n_col_reco, t_in.vis_all_cos, t_in.dimuon_dijet_angle, t_in.dimuon_rec_m, t_in.vis_all_m,  t_in.vis_all_p, t_in.vis_all_pt, t_in.jet_lead_e, t_in.jet_lead_pt, t_in.jet_sub_e, t_in.jet_sub_pt]])
 
         BDT_score[0] = bdt.decision_function(X_event) 
 

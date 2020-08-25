@@ -63,13 +63,17 @@ def main():
 	    h_evtflw.GetXaxis().SetBinLabel(6,'80<M_dimuon<100')
 	    h_evtflw.GetXaxis().SetBinLabel(7,'110<M_dimuon_rec<140')
 	    h_evtflw.GetXaxis().SetBinLabel(8,'|Vis_all_cos|<0.95')
-
+            h_evtflw.GetXaxis().SetBinLabel(9,'2D Mass Cut 1')
+            h_evtflw.GetXaxis().SetBinLabel(10,'2D Mass Cut 2')
 	if (flag_zz==2):
             h_evtflw.GetXaxis().SetBinLabel(4,'M_miss < M_dijet')
             h_evtflw.GetXaxis().SetBinLabel(5,'30<npfo<100')
             h_evtflw.GetXaxis().SetBinLabel(6,'80<M_dimuon<100')
             h_evtflw.GetXaxis().SetBinLabel(7,'110<M_dimuon_rec<140')
             h_evtflw.GetXaxis().SetBinLabel(8,'|Vis_all_cos|<0.95')
+            h_evtflw.GetXaxis().SetBinLabel(9,'2D Mass Cut 1')
+            h_evtflw.GetXaxis().SetBinLabel(10,'2D Mass Cut 2')
+
 
     if (combine_opt==2):
         if (flag_zz==1):
@@ -78,12 +82,16 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(6,'75<M_missing<110')
             h_evtflw.GetXaxis().SetBinLabel(7,'110<M_visible<140')
             h_evtflw.GetXaxis().SetBinLabel(8,'|Vis_all_cos|<0.95')
+            h_evtflw.GetXaxis().SetBinLabel(9,'2D Mass Cut 1')
+            h_evtflw.GetXaxis().SetBinLabel(10,'2D Mass Cut 2')
         if (flag_zz==1):
             h_evtflw.GetXaxis().SetBinLabel(4,'M_dimuon < M_dijet')
             h_evtflw.GetXaxis().SetBinLabel(5,'30<npfo<100')
             h_evtflw.GetXaxis().SetBinLabel(6,'75<M_missing<110')
             h_evtflw.GetXaxis().SetBinLabel(7,'110<M_visible<140')
             h_evtflw.GetXaxis().SetBinLabel(8,'|Vis_all_cos|<0.95')
+            h_evtflw.GetXaxis().SetBinLabel(9,'2D Mass Cut 1')
+            h_evtflw.GetXaxis().SetBinLabel(10,'2D Mass Cut 2')
 
     if (combine_opt==3):
         if (flag_zz==1):
@@ -92,12 +100,16 @@ def main():
             h_evtflw.GetXaxis().SetBinLabel(6,'75<M_dijet<105')
             h_evtflw.GetXaxis().SetBinLabel(7,'110<M_dijet_rec<140')
             h_evtflw.GetXaxis().SetBinLabel(8,'|Vis_all_cos|<0.95')
+            h_evtflw.GetXaxis().SetBinLabel(9,'2D Mass Cut 1')
+            h_evtflw.GetXaxis().SetBinLabel(10,'2D Mass Cut 2')
 	if (flag_zz==2):
             h_evtflw.GetXaxis().SetBinLabel(4,'M_missing < M_dimuon')
-            h_evtflw.GetXaxis().SetBinLabel(5,'35<npfo<100')
-            h_evtflw.GetXaxis().SetBinLabel(6,'75<M_dijet<110')
+            h_evtflw.GetXaxis().SetBinLabel(5,'40<npfo<95')
+            h_evtflw.GetXaxis().SetBinLabel(6,'75<M_dijet<105')
             h_evtflw.GetXaxis().SetBinLabel(7,'110<M_dijet_rec<140')
             h_evtflw.GetXaxis().SetBinLabel(8,'|Vis_all_cos|<0.95')
+            h_evtflw.GetXaxis().SetBinLabel(9,'2D Mass Cut 1')
+            h_evtflw.GetXaxis().SetBinLabel(10,'2D Mass Cut 2')
 
     # event flow copying
     h_evtflw_in = fin.Get("hevtflw")
@@ -186,8 +198,11 @@ def main():
                     Cut_Dimuon_Rec_Mass = ( 110 < t_in.dimuon_rec_m[0] and t_in.dimuon_rec_m[0] < 140 )
                     Cut_Vis_Cos = ( -0.95 < t_in.vis_all_cos and t_in.vis_all_cos < 0.95 )
 
+                Cut_2D_1 = ( (t_in.dimuon_rec_m[0] > t_in.dijet_rec_m[0] and t_in.dimuon_rec_m[0] < (-t_in.dijet_rec_m[0]+250)) or (t_in.dimuon_rec_m[0] < t_in.dijet_rec_m[0] and t_in.dimuon_rec_m[0] > (-t_in.dijet_rec_m[0]+250)) )
+                Cut_2D_2 = ( (t_in.dimuon_rec_m[0] > t_in.vis_all_m and t_in.dimuon_rec_m[0] < (-t_in.vis_all_m+250)) or (t_in.dimuon_rec_m[0] < t_in.vis_all_m and t_in.dimuon_rec_m[0] > (-t_in.vis_all_m+250)) )
+
                 BDT_pre_cut = 0
-                BDT_pre_cut = Cut_Missing_dijet * Cut_Npfo * Cut_Dimuon_Mass * Cut_Dimuon_Rec_Mass * Cut_Vis_Cos
+                BDT_pre_cut = Cut_Missing_dijet * Cut_Npfo * Cut_Dimuon_Mass * Cut_Dimuon_Rec_Mass * Cut_Vis_Cos * Cut_2D_1 * Cut_2D_2
 
 	        # event flow and filling
 	        h_evtflw.Fill(2)
@@ -201,6 +216,10 @@ def main():
 		    h_evtflw.Fill(6)
 		if (Cut_Missing_dijet and Cut_Npfo and Cut_Dimuon_Mass and Cut_Dimuon_Rec_Mass and Cut_Vis_Cos):
 	            h_evtflw.Fill(7)
+                if (Cut_Missing_dijet and Cut_Npfo and Cut_Dimuon_Mass and Cut_Dimuon_Rec_Mass and Cut_Vis_Cos and Cut_2D_1):
+                    h_evtflw.Fill(8)
+                if (Cut_Missing_dijet and Cut_Npfo and Cut_Dimuon_Mass and Cut_Dimuon_Rec_Mass and Cut_Vis_Cos and Cut_2D_1 and Cut_2D_2):
+                    h_evtflw.Fill(9)
 
 	    if (combine_opt==2):
 		if (flag_zz==1):
@@ -216,8 +235,11 @@ def main():
                     Cut_Visible_Mass = ( 110 < t_in.vis_all_m and t_in.vis_all_m < 140 )
                     Cut_Vis_Cos = ( -0.95 < t_in.vis_all_cos and t_in.vis_all_cos < 0.95 )
 
+                Cut_2D_1 = ( (t_in.vis_all_m > t_in.dimuon_rec_m[0] and t_in.vis_all_m < (-t_in.dimuon_rec_m[0]+250)) or (t_in.vis_all_m < t_in.dimuon_rec_m[0] and t_in.vis_all_m > (-t_in.dimuon_rec_m[0]+250)) )
+                Cut_2D_2 = ( (t_in.vis_all_m > t_in.dijet_rec_m[0] and t_in.vis_all_m < (-t_in.dijet_rec_m[0]+250)) or (t_in.vis_all_m < t_in.dijet_rec_m[0] and t_in.vis_all_m > (-t_in.dijet_rec_m[0]+250)) )
+
 		BDT_pre_cut = 0
-		BDT_pre_cut = Cut_Dimuon_dijet * Cut_Npfo * Cut_Missing_Mass * Cut_Visible_Mass * Cut_Vis_Cos
+		BDT_pre_cut = Cut_Dimuon_dijet * Cut_Npfo * Cut_Missing_Mass * Cut_Visible_Mass * Cut_Vis_Cos * Cut_2D_1 * Cut_2D_2
 
                 # event flow and filling
                 h_evtflw.Fill(2)
@@ -231,6 +253,11 @@ def main():
                     h_evtflw.Fill(6)
                 if (Cut_Dimuon_dijet and Cut_Npfo and Cut_Missing_Mass and Cut_Visible_Mass and Cut_Vis_Cos):
                     h_evtflw.Fill(7)
+                if (Cut_Dimuon_dijet and Cut_Npfo and Cut_Missing_Mass and Cut_Visible_Mass and Cut_Vis_Cos and Cut_2D_1):
+                    h_evtflw.Fill(8)
+                if (Cut_Dimuon_dijet and Cut_Npfo and Cut_Missing_Mass and Cut_Visible_Mass and Cut_Vis_Cos and Cut_2D_1 and Cut_2D_2):
+                    h_evtflw.Fill(9)
+
 
 	    if (combine_opt==3):
 		if (flag_zz==1):
@@ -241,13 +268,16 @@ def main():
 	            Cut_Vis_Cos = ( -0.95 < t_in.vis_all_cos and t_in.vis_all_cos < 0.95 )
 		if (flag_zz==2):
                     Cut_Missing_dimuon = ( t_in.vis_all_rec_m < t_in.dimuon_m[0] )
-                    Cut_Npfo = ( 35 < t_in.n_col_reco and t_in.n_col_reco < 100 )
-                    Cut_Dijet_Mass = ( 75 < t_in.dijet_m[0] and t_in.dijet_m[0] < 110 )
+                    Cut_Npfo = ( 40 < t_in.n_col_reco and t_in.n_col_reco < 95 )
+                    Cut_Dijet_Mass = ( 75 < t_in.dijet_m[0] and t_in.dijet_m[0] < 105 )
                     Cut_Dijet_Rec_Mass = ( 110 < t_in.dijet_rec_m[0] and t_in.dijet_rec_m[0] < 140 )
                     Cut_Vis_Cos = ( -0.95 < t_in.vis_all_cos and t_in.vis_all_cos < 0.95 )
 
+                Cut_2D_1 = ( (t_in.dijet_rec_m[0] > t_in.dimuon_rec_m[0] and t_in.dijet_rec_m[0] < (-t_in.dimuon_rec_m[0]+250)) or (t_in.dijet_rec_m[0] < t_in.dimuon_rec_m[0] and t_in.dijet_rec_m[0] > (-t_in.dimuon_rec_m[0]+250)) )
+                Cut_2D_2 = ( (t_in.dijet_rec_m[0] > t_in.vis_all_m and t_in.dijet_rec_m[0] < (-t_in.vis_all_m+250)) or (t_in.dijet_rec_m[0] < t_in.vis_all_m and t_in.dijet_rec_m[0] > (-t_in.vis_all_m+250)) )
+
                 BDT_pre_cut = 0
-                BDT_pre_cut = Cut_Missing_dimuon * Cut_Npfo * Cut_Dijet_Mass * Cut_Dijet_Rec_Mass * Cut_Vis_Cos
+                BDT_pre_cut = Cut_Missing_dimuon * Cut_Npfo * Cut_Dijet_Mass * Cut_Dijet_Rec_Mass * Cut_Vis_Cos * Cut_2D_1 * Cut_2D_2
 
 	        # event flow and filling
          	h_evtflw.Fill(2)
@@ -261,6 +291,10 @@ def main():
 	            h_evtflw.Fill(6)
 	        if (Cut_Missing_dimuon and Cut_Npfo and Cut_Dijet_Mass and Cut_Dijet_Rec_Mass and Cut_Vis_Cos):
 	            h_evtflw.Fill(7)
+                if (Cut_Missing_dimuon and Cut_Npfo and Cut_Dijet_Mass and Cut_Dijet_Rec_Mass and Cut_Vis_Cos and Cut_2D_1):
+                    h_evtflw.Fill(8)
+                if (Cut_Missing_dimuon and Cut_Npfo and Cut_Dijet_Mass and Cut_Dijet_Rec_Mass and Cut_Vis_Cos and Cut_2D_1 and Cut_2D_2):
+                    h_evtflw.Fill(9)
 
 	    # Several cuts before BDT
             if (BDT_pre_cut):

@@ -25,3 +25,8 @@ export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
 # New environment
 source /cvmfs/cepc.ihep.ac.cn/software/cepcenv/setup.sh
 cepcenv -r /cvmfs/cepc.ihep.ac.cn/software/cepcsoft use 0.1.0-rc9
+
+# Current settings
+source /cvmfs/cepc.ihep.ac.cn/software/cepcenv/setup.sh
+cepcenv -r /cvmfs/cepc.ihep.ac.cn/software/cepcsoft use 0.1.0-rc9 
+source /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.20.06/x86_64-centos7-gcc48-opt/bin/thisroot.sh

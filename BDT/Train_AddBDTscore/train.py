@@ -49,17 +49,17 @@ def main():
 
     # get root files and convert them to array
     if (combine_opt == 1):
-        branch_names = """dimuon_m,dijet_m,vis_all_rec_m,n_col_reco,cos,vis_all_cos,dimuon_dijet_angle,dijet_rec_m,vis_all_m,vis_all_p,vis_all_pt,jet_lead_e,jet_lead_pt,jet_sub_e,jet_sub_pt""".split(",")
+        branch_names = """dimuon_m,dijet_m,vis_all_rec_m,n_col_reco,vis_all_cos,dimuon_dijet_angle,dijet_rec_m,vis_all_m,vis_all_p,vis_all_pt,jet_lead_e,jet_lead_pt,jet_sub_e,jet_sub_pt""".split(",")
         fin1 = ROOT.TFile("./sample/channel_ll_"+args[1]+"/Before/signal.root")
         fin2 = ROOT.TFile("./sample/channel_ll_"+args[1]+"/Before/bkg_all.root")
 
     if (combine_opt == 2):
-        branch_names = """dimuon_m,dijet_m,vis_all_rec_m,n_col_reco,cos,vis_all_cos,dimuon_dijet_angle,dimuon_rec_m,dijet_rec_m,vis_all_p,vis_all_pt,jet_lead_e,jet_lead_pt,jet_sub_e,jet_sub_pt""".split(",")
+        branch_names = """dimuon_m,dijet_m,vis_all_rec_m,n_col_reco,vis_all_cos,dimuon_dijet_angle,dimuon_rec_m,dijet_rec_m,vis_all_p,vis_all_pt,jet_lead_e,jet_lead_pt,jet_sub_e,jet_sub_pt""".split(",")
         fin1 = ROOT.TFile("./sample/channel_nn_"+args[1]+"/Before/signal.root")
         fin2 = ROOT.TFile("./sample/channel_nn_"+args[1]+"/Before/bkg_all.root")
 
     if (combine_opt == 3):
-        branch_names = """dimuon_m,dijet_m,vis_all_rec_m,n_col_reco,cos,vis_all_cos,dimuon_dijet_angle,dimuon_rec_m,vis_all_m,vis_all_p,vis_all_pt,jet_lead_e,jet_lead_pt,jet_sub_e,jet_sub_pt""".split(",")
+        branch_names = """dimuon_m,dijet_m,vis_all_rec_m,n_col_reco,vis_all_cos,dimuon_dijet_angle,dimuon_rec_m,vis_all_m,vis_all_p,vis_all_pt,jet_lead_e,jet_lead_pt,jet_sub_e,jet_sub_pt""".split(",")
         fin1 = ROOT.TFile("./sample/channel_qq_"+args[1]+"/Before/signal.root")
         fin2 = ROOT.TFile("./sample/channel_qq_"+args[1]+"/Before/bkg_all.root")
 
@@ -123,7 +123,8 @@ def main():
     Training Part
     """
     # Train and test
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.50, random_state=3443)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.50, random_state=420)
+
 
     if (combine_opt == 1):
         if (flag_zz == 1):
@@ -147,7 +148,7 @@ def main():
     importances = bdt.feature_importances_
     f = open('output_importance.txt', 'w')
     print("%-25s%-15s"%('Variable Name','Output Importance'), file=f)
-    for i in range(15):
+    for i in range(14):
         print("%-25s%-15s"%(branch_names[i], importances[i]), file=f)
     f.close 
 

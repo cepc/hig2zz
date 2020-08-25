@@ -86,13 +86,13 @@ def main():
     flag_zz = int(args[4])
 
     ## Event Flow
-    h_evtflw = ROOT.TH1D('hevtflw_sel','eventflow',10,0,10)
+    h_evtflw = ROOT.TH1D('hevtflw_sel','eventflow',12,0,12)
     if (combine_opt==1):
-	last_bin=9
+	last_bin=11
     if (combine_opt==2):
-	last_bin=9
+	last_bin=11
     if (combine_opt==3):
-	last_bin=9
+	last_bin=11
 
     h_evtflw.GetXaxis().SetBinLabel(last_bin,'BDT score')
 
@@ -182,19 +182,19 @@ def main():
 
 	if (combine_opt==1):
 	    if (flag_zz==1):
-		Cut_BDT_score = (t_in.BDT_score > 0.15)
+		Cut_BDT_score = (t_in.BDT_score > 0.14)
 	    if (flag_zz==2):
-		Cut_BDT_score = (t_in.BDT_score > 0.03)
+		Cut_BDT_score = (t_in.BDT_score > 0.01)
 	if (combine_opt==2):
             if (flag_zz==1):
                 Cut_BDT_score = (t_in.BDT_score > -0.01)
             if (flag_zz==2):
-                Cut_BDT_score = (t_in.BDT_score > 0.00)
+                Cut_BDT_score = (t_in.BDT_score > -0.01)
 	if (combine_opt==3):
 	    if (flag_zz==1):
-                Cut_BDT_score = (t_in.BDT_score > -0.05)
+                Cut_BDT_score = (t_in.BDT_score > -0.04)
             if (flag_zz==2):
-                Cut_BDT_score = (t_in.BDT_score > -0.02)
+                Cut_BDT_score = (t_in.BDT_score > -0.01)
 
 	if (Cut_BDT_score):
             h_dimuon_rec_m_final.Fill(t_in.dimuon_rec_m)
@@ -237,11 +237,11 @@ def main():
 
             # Fill event flow
 	    if (combine_opt==1):
-	        h_evtflw.Fill(8)
+	        h_evtflw.Fill(10)
 	    if (combine_opt==2):
-		h_evtflw.Fill(8)
+		h_evtflw.Fill(10)
 	    if (combine_opt==3):
-		h_evtflw.Fill(8)
+		h_evtflw.Fill(10)
 
     fout.Write()
     h_evtflw.Write()
@@ -297,11 +297,11 @@ def copy_histo(f, hname, h_copy, combine_opt):
     
     h_in = f.Get(hname)
     if (combine_opt==1):
-        bin_max=9
+        bin_max=11
     if (combine_opt==2):
-	bin_max=9
+	bin_max=11
     if (combine_opt==3):
-	bin_max=9
+	bin_max=11
 
     for i in range(1, bin_max):
         c1 = h_in.GetBinContent(i)

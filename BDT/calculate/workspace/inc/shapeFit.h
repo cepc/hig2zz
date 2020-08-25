@@ -4,6 +4,12 @@ bool is250=false;
 bool isuseexistingpdf=false;
 const int Nch = 6;
 const TString m_CN[Nch] = {"mzvj","mzjv","vzmj","vzjm","qzvm","qzmv"};
+//const TString m_CN[Nch] = {"mzvj"};
+//const TString m_CN[Nch] = {"mzjv"};
+//const TString m_CN[Nch] = {"vzmj"};
+//const TString m_CN[Nch] = {"vzjm"};
+//const TString m_CN[Nch] = {"qzvm"};
+//const TString m_CN[Nch] = {"qzmv"};
 
 typedef struct
 {
@@ -21,20 +27,20 @@ const channel c[150]=
 {
  {"mzvj", 4, 1, 110, 140,
   "data/new_zz/mzvj/mzvj_sm.root",
-  {"s", "zz", "ww", "tt"},
+  {"s", "so", "ww", "tt"},
   {
    {"s",   "data/new_zz/mzvj/mzvj_sig.root"},
-   {"zz",  "data/new_zz/mzvj/mzvj_zz.root"},
+   {"so",  "data/new_zz/mzvj/mzvj_sig_other.root"},
    {"ww",  "data/new_zz/mzvj/mzvj_ww.root"},
-   {"tt",  "data/new_zz/mzvj/mzvj_tt.root"}
+   {"tt",  "data/new_zz/mzvj/mzvj_tt.root"},
   }
  },
  {"mzjv", 8, 1, 110, 140,
   "data/new_zz/mzjv/mzjv_sm.root",
-  {"s", "zz", "ww", "tt", "bb", "cc", "gg", "zy"},
+  {"s", "so",  "ww", "tt", "bb", "cc", "gg", "zy"},
   {
    {"s",   "data/new_zz/mzjv/mzjv_sig.root"},
-   {"zz",  "data/new_zz/mzjv/mzjv_zz.root"},
+   {"so",  "data/new_zz/mzjv/mzjv_sig_other.root"},
    {"ww",  "data/new_zz/mzjv/mzjv_ww.root"},
    {"tt",  "data/new_zz/mzjv/mzjv_tt.root"},
    {"bb",  "data/new_zz/mzjv/mzjv_bb.root"},
@@ -45,50 +51,51 @@ const channel c[150]=
  },
  {"vzmj", 4, 1, 110, 140,
   "data/new_zz/vzmj/vzmj_sm.root",
-  {"s", "zz", "ww", "tt"},
+  {"s", "so", "ww", "tt"},
   {
    {"s",   "data/new_zz/vzmj/vzmj_sig.root"},
-   {"zz",  "data/new_zz/vzmj/vzmj_zz.root"},
+   {"so",  "data/new_zz/vzmj/vzmj_sig_other.root"},
    {"ww",  "data/new_zz/vzmj/vzmj_ww.root"},
    {"tt",  "data/new_zz/vzmj/vzmj_tt.root"},
   }
  },
- {"vzjm", 6, 1, 110, 140,
+ {"vzjm", 7, 1, 110, 140,
   "data/new_zz/vzjm/vzjm_sm.root",
-  {"s", "zz", "ww", "tt", "bb", "cc"},
+  {"s", "so", "ww", "tt", "bb", "cc", "mm"},
   {
    {"s",   "data/new_zz/vzjm/vzjm_sig.root"},
-   {"zz",  "data/new_zz/vzjm/vzjm_zz.root"},
+   {"so",  "data/new_zz/vzjm/vzjm_sig_other.root"},
    {"ww",  "data/new_zz/vzjm/vzjm_ww.root"},
    {"tt",  "data/new_zz/vzjm/vzjm_tt.root"},
    {"bb",  "data/new_zz/vzjm/vzjm_bb.root"},
    {"cc",  "data/new_zz/vzjm/vzjm_cc.root"},
+   {"mm",  "data/new_zz/vzjm/vzjm_mm.root"},
   }
  },
- {"qzvm", 6, 1, 110, 140,
+ {"qzvm", 7, 1, 110, 140,
   "data/new_zz/qzvm/qzvm_sm.root",
-  {"s", "zz", "ww", "tt", "bb", "cc"},
+  {"s", "so", "ww", "tt", "bb", "cc", "zy"},
   {
    {"s",   "data/new_zz/qzvm/qzvm_sig.root"},
-   {"zz",  "data/new_zz/qzvm/qzvm_zz.root"},
+   {"so",  "data/new_zz/qzvm/qzvm_sig_other.root"},
    {"ww",  "data/new_zz/qzvm/qzvm_ww.root"},
    {"tt",  "data/new_zz/qzvm/qzvm_tt.root"},
    {"bb",  "data/new_zz/qzvm/qzvm_bb.root"},
    {"cc",  "data/new_zz/qzvm/qzvm_cc.root"},
+   {"zy",  "data/new_zz/qzvm/qzvm_az.root"},
   }
  },
- {"qzmv", 8, 1, 110, 140,
+ {"qzmv", 7, 1, 110, 140,
   "data/new_zz/qzmv/qzmv_sm.root",
-  {"s", "zz", "ww", "tt", "bb", "cc", "zy", "mm"},
+  {"s", "so", "ww", "tt", "bb", "cc", "zy"},
   {
    {"s",   "data/new_zz/qzmv/qzmv_sig.root"},
-   {"zz",  "data/new_zz/qzmv/qzmv_zz.root"},
+   {"so",  "data/new_zz/qzmv/qzmv_sig_other.root"},
    {"ww",  "data/new_zz/qzmv/qzmv_ww.root"},
    {"tt",  "data/new_zz/qzmv/qzmv_tt.root"},
    {"bb",  "data/new_zz/qzmv/qzmv_bb.root"},
    {"cc",  "data/new_zz/qzmv/qzmv_cc.root"},
    {"zy",  "data/new_zz/qzmv/qzmv_az.root"},
-   {"mm",  "data/new_zz/qzmv/qzmv_mm.root"}
   }
  }
 };
@@ -134,17 +141,20 @@ TString funcsetting(TString cname, TString proc, Int_t index=1)
     { //signal
       if (cname.Contains("mzvj"))
       {
+	if (proc=="so") f="keys";
 	if (proc=="zz") f="Voigtian";
       }
       if (cname.Contains("mzjv"))
       {
+        if (proc=="so") f="keys";
         if (proc=="zz") f="Voigtian";
 	if (proc=="tt") f="keys";
         if (proc=="zy") f="keys";
       }
       if (cname.Contains("vzmj"))
       {
-//	if (proc=="s")  f="Voigtian";
+	if (proc=="s")  f="keys";
+        if (proc=="so") f="Voigtian";
         if (proc=="zz") f="keys";
         if (proc=="ww") f="keys";
         if (proc=="tt") f="keys";
@@ -152,6 +162,7 @@ TString funcsetting(TString cname, TString proc, Int_t index=1)
       if (cname.Contains("vzjm"))
       { 
         if (proc=="s")  f="Voigtian";
+        if (proc=="so") f="keys";
         if (proc=="zz") f="keys";
         if (proc=="ww") f="keys";
         if (proc=="tt") f="keys";
@@ -161,6 +172,7 @@ TString funcsetting(TString cname, TString proc, Int_t index=1)
       if (cname.Contains("qzvm"))
       {
 	if (proc=="s")  f="Voigtian";
+        if (proc=="so") f="keys";
         if (proc=="zz") f="Voigtian";
 	if (proc=="bb") f="Voigtian";
         if (proc=="tt") f="Voigtian";
@@ -172,6 +184,7 @@ TString funcsetting(TString cname, TString proc, Int_t index=1)
       if (cname.Contains("qzmv"))
       {
         if (proc=="s")  f="Voigtian";
+        if (proc=="so") f="keys";
         if (proc=="zz") f="Voigtian";
         if (proc=="bb") f="Voigtian";
 	if (proc=="tt") f="Voigtian";
