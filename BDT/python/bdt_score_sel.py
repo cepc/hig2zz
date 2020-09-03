@@ -16,13 +16,54 @@ def main():
 
     sig_bg_bdt = ROOT.TH1D('sig_bg_bdt_cut', 'sig_bg_bdt_cut', 401, -2.005, 2.005) 
     sig_n = ROOT.TH1D('sig_n', 'sig_n', 401, -2.005, 2.005)
-    ## Set the range of interest
-    x1 = -0.6
-    x2 = 0.5
 
     combine_opt = int(sys.argv[1])
     flag_zz = int(sys.argv[2])
     tabs = sys.argv[3:]
+
+    ## Set the range of interest
+    if (combine_opt==1):
+        if (flag_zz==1):
+            x1 = -0.45
+            x2 = 0.35
+            bdt_score = 0.14
+            arr_up = 6.6
+            arr_down = 0
+        if (flag_zz==2):
+            x1 = -0.55
+            x2 = 0.1
+            bdt_score = 0.01
+            arr_up = 1.6
+            arr_down = 0
+
+    if (combine_opt==2):
+        if (flag_zz==1):
+            x1 = -0.55
+            x2 = 0.2
+            bdt_score = -0.01
+            arr_up = 7.9
+            arr_down = 0
+        if (flag_zz==2):
+            x1 = -0.55
+            x2 = 0.1
+            bdt_score = -0.01
+            arr_up = 4.1 
+            arr_down = 0
+
+    if (combine_opt==3):
+        if (flag_zz==1):
+            x1 = -0.45
+            x2 = 0.1
+            bdt_score = -0.04
+            arr_up = 2.35 
+            arr_down = 0
+        if (flag_zz==2):
+            x1 = -0.6
+            x2 = 0.1
+            bdt_score = -0.01
+            arr_up = 2.25 
+            arr_down = 0
+
 
     c = ROOT.TCanvas('c', 'c', 1000, 640)
 
@@ -133,15 +174,20 @@ def main():
     #sig_bg_bdt.SetYTitle('S\over{B}')
     sig_bg_bdt.GetYaxis().SetTitleOffset(0.45)
     sig_bg_bdt.GetYaxis().SetTitleSize(0.057)
-    sig_bg_bdt.GetYaxis().SetLabelFont(50)
+    sig_bg_bdt.GetYaxis().SetLabelFont(52)
     sig_bg_bdt.GetYaxis().SetLabelSize(0.05)
-    sig_bg_bdt.GetXaxis().SetLabelFont(50)
+    sig_bg_bdt.GetXaxis().SetLabelFont(52)
     sig_bg_bdt.GetXaxis().SetLabelSize(0.05)
     sig_bg_bdt.SetLineColor(2)
     pad1.SetBottomMargin(0);
     pad1.Draw()
     pad1.cd()
     sig_bg_bdt.Draw('Hist')
+    ar1 = ROOT.TArrow(bdt_score,arr_up, bdt_score, arr_down, 0.02, "|>")
+    ar1.SetLineWidth(2)
+    ar1.SetLineStyle(2)
+    ar1.SetLineColor(1)
+    ar1.Draw()
     c.cd()
     pad2.SetTopMargin(0)
     pad2.SetBottomMargin(0.25)
@@ -152,11 +198,11 @@ def main():
     sig_n.SetYTitle('Number of Signals')
     sig_n.GetYaxis().SetTitleSize(0.06)
     sig_n.GetYaxis().SetTitleOffset(0.35)
-    sig_n.GetYaxis().SetLabelFont(50)
+    sig_n.GetYaxis().SetLabelFont(52)
     sig_n.GetYaxis().SetLabelSize(0.072)
     sig_n.GetXaxis().SetTitleSize(0.072)
     sig_n.GetXaxis().SetTitleOffset(1.1)
-    sig_n.GetXaxis().SetLabelFont(50)
+    sig_n.GetXaxis().SetLabelFont(52)
     sig_n.GetXaxis().SetLabelSize(0.072)
     sig_n.SetLineColor(6)
     sig_n.Draw('Hist')

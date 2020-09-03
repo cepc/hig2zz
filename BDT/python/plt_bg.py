@@ -361,9 +361,9 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt, flag_zz, log_opt):
         s.SetYTitle('Events/GeV') 
 
     s.GetYaxis().SetTitleOffset(1.4)
-    s.GetYaxis().SetLabelFont(50)
+    s.GetYaxis().SetLabelFont(52)
     s.GetYaxis().SetLabelSize(0.034)
-    s.GetXaxis().SetLabelFont(50)
+    s.GetXaxis().SetLabelFont(52)
     s.GetXaxis().SetLabelSize(0.034)
     s.SetLineColor(2)
     s.Draw('Hist')
