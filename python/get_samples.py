@@ -41,8 +41,9 @@ def main():
     file_list = []
     for root, dirs, files in os.walk(src):
         for f in files:
-            if f.endswith('.slcio'):
-                file_list.append(os.path.join(root, f))
+            if os.path.exists(os.path.join(root, f)):
+                if f.endswith('.slcio'):
+                    file_list.append(os.path.join(root, f))
 
     if len(args) == 2:
         save_list_into_file(file_list, dst)
