@@ -29,9 +29,6 @@ INCLUDE_DIRECTORIES( SYSTEM ${Marlin_INCLUDE_DIRS} )
 LINK_LIBRARIES( ${Marlin_LIBRARIES} )
 ADD_DEFINITIONS( ${Marlin_DEFINITIONS} )
 
-
-INCLUDE(/afs/ihep.ac.cn/soft/common/gcc/v01-17-05/ilcutil/v01-01/cmakemodules/FindFastJet.cmake )
-
 #FIND_PACKAGE( FastJet 2.4.2 REQUIRED COMPONENTS SISConePlugin siscone siscone_spherical CDFConesPlugin NestedDefsPlugin EECambridgePlugin JadePlugin )
 FIND_PACKAGE ( FastJet )
 IF ( NOT ${FastJet_VERSION} VERSION_LESS 3 )
