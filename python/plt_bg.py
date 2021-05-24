@@ -16,109 +16,222 @@ def main():
     opt = int(sys.argv[1])
     combine_opt = int(sys.argv[2])
 
-    log_opt_f = 1
-    log_opt_r = 2
-    if (combine_opt==1):
-        draw_signal_bg('h_m_dimuon_raw',0 , 210, 'Dimuon mass (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_mrec_dimuon_raw',50 ,160, 'Dimuon rec mass (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_vis_all_pt_raw', 0, 100, 'Transverse momentum (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_angle_mj_raw',0, 120, 'Muon-jet angle (degree)',combine_opt,opt,log_opt_r)
-#        draw_signal_bg('h_single_jet_theta',0,180, 'Two jet angle (degree)',1)  
-        draw_signal_bg('h_mrec_dimuon_final',100,150, 'Dimuon rec mass (GeV)',combine_opt, opt,log_opt_f) 
-        draw_2d('h_2D_dijet_missing_raw',combine_opt,opt,1)
-        draw_2d('h_2D_dijet_missing_final',combine_opt,opt,2)  
+    SetCEPCCDRStyle()
 
-        if opt == 1: 
-            print('plotting hvvjj channel...')
-            draw_signal_bg('h_npfo_raw', 0, 100, 'Particle flow object',combine_opt,opt,log_opt_r)
-            draw_signal_bg('h_jet_lead_pt_raw',0,50, 'Transverse momentum (GeV)',combine_opt,opt,log_opt_r)
-            draw_signal_bg('h_jet_sub_pt_raw',0,50, 'Transverse momentum (GeV)',combine_opt,opt,log_opt_r)
-            draw_signal_bg('h_jet_lead_e_raw',0,50, 'Energy (GeV)',combine_opt,opt,log_opt_r)
-            draw_signal_bg('h_jet_sub_e_raw',0,50, 'Energy (GeV)',combine_opt,opt,log_opt_r)
-    
-        else:
-            print('plotting hjjvv channel...')
-            draw_signal_bg('h_npfo_raw', 0, 180, 'Particle flow object',combine_opt,opt,log_opt_r)
-            draw_signal_bg('h_jet_lead_pt_raw',0,100, 'Transverse momentum (GeV)',combine_opt,opt,log_opt_r)
-            draw_signal_bg('h_jet_sub_pt_raw',0,100, 'Transverse momentum (GeV)',combine_opt,opt,log_opt_r)
-            draw_signal_bg('h_jet_lead_e_raw',0,100, 'Energy (GeV)',combine_opt,opt,log_opt_r)
-            draw_signal_bg('h_jet_sub_e_raw',0,120, 'Energy (GeV)',combine_opt,opt,log_opt_r)
+    log_opt_f = 1 # not log scale
+    log_opt_r = 2 # log scale
+
+    draw_2d_sig_bg('h_2D_dimuonrec_vis_raw', combine_opt, opt, 1)
+    draw_2d_sig_bg('h_2D_dimuonrec_vis_final', combine_opt, opt, 1)
+    draw_2d_sig_bg('h_2D_dimuonrec_dijetrec_raw', combine_opt, opt, 2)
+    draw_2d_sig_bg('h_2D_dimuonrec_dijetrec_final', combine_opt, opt, 2)
+    draw_2d_sig_bg('h_2D_vis_dijetrec_raw', combine_opt, opt, 3)
+    draw_2d_sig_bg('h_2D_vis_dijetrec_final', combine_opt, opt, 3)
+
+
+    if (combine_opt==1):
+        if (opt==1): 
+            draw_signal_bg('h_npfo_cut', 0, 140, 'Particle Flow Object',combine_opt,opt,log_opt_r,20,90)
+            draw_signal_bg('h_m_dimuon_cut',50,130,'Dimuon Mass(GeV)',combine_opt, opt,log_opt_r,80,100)
+            draw_signal_bg('h_m_dijet_cut',0,80,'Dijets Mass(GeV)',combine_opt, opt,log_opt_r,15,60)
+            draw_signal_bg('h_vis_all_rec_m_cut',30,130,'Missing Mass(GeV)',combine_opt, opt,log_opt_r,75,105)
+            draw_signal_bg('h_cos_cut',-1,1,'cos theta',combine_opt, opt,log_opt_r,0,0)
+            draw_signal_bg('h_vis_all_cos_cut',-1,1,'cos theta_{visible}',combine_opt,opt,log_opt_r,-0.95,0.95)
+            draw_signal_bg('h_angle_mj_cut',0,180,'Angle(dimuon-dijet)',combine_opt,opt,log_opt_r,60,170)
+            draw_signal_bg('h_mrec_dimuon_cut',100,150, 'Dimuon Recoil Mass (GeV)',combine_opt,opt,log_opt_r,110,140)
+            draw_signal_bg('h_mrec_dijet_cut',160,230,'Dijet Recoil Mass(GeV)',combine_opt, opt,log_opt_r,185,220)
+            draw_signal_bg('h_vis_all_m_cut',100,160,'Visible Mass(GeV)',combine_opt, opt,log_opt_f,0,0)
+            draw_signal_bg('h_vis_all_p_cut',0,70,'Visible P(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_vis_all_pt_cut',0,70,'Visible Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_lead_e_cut',0,60,'Leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_lead_pt_cut',0,50,'Leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_sub_e_cut',0,40,'Sub-leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_sub_pt_cut',0,30,'Sub-leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_mrec_dimuon_final',100,150,'Dimuon Recoil Mass(GeV)',combine_opt,opt,log_opt_f,0,0)
+
+	if (opt==2):
+            draw_signal_bg('h_npfo_cut', 0, 140, 'Particle Flow Object',combine_opt,opt,log_opt_r,30,100)
+            draw_signal_bg('h_m_dimuon_cut',50,130,'Dimuon Mass(GeV)',combine_opt, opt,log_opt_r,80,100)
+            draw_signal_bg('h_m_dijet_cut',30,130,'Dijets Mass(GeV)',combine_opt, opt,log_opt_r,60,105)
+            draw_signal_bg('h_vis_all_rec_m_cut',0,80,'Missing Mass(GeV)',combine_opt, opt,log_opt_r,10,55)
+            draw_signal_bg('h_cos_cut',-1,1,'cos theta',combine_opt, opt,log_opt_r,0,0)
+            draw_signal_bg('h_vis_all_cos_cut',-1,1,'cos theta_{visible}',combine_opt,opt,log_opt_r,-0.95,0.95)
+            draw_signal_bg('h_angle_mj_cut',0,180,'Angle(dimuon-dijet)',combine_opt,opt,log_opt_r,60,170)
+            draw_signal_bg('h_mrec_dimuon_cut',100,150, 'Dimuon Recoil Mass (GeV)',combine_opt,opt,log_opt_r,110,140)
+            draw_signal_bg('h_mrec_dijet_cut',90,190,'Dijet Recoil Mass(GeV)',combine_opt, opt,log_opt_r,0,0)
+            draw_signal_bg('h_vis_all_m_cut',170,230,'Visible Mass(GeV)',combine_opt, opt,log_opt_r,175,215)
+            draw_signal_bg('h_vis_all_p_cut',0,60,'Visible P(GeV)',combine_opt,opt,log_opt_r,0,0)
+            draw_signal_bg('h_vis_all_pt_cut',0,60,'Visible Pt(GeV)',combine_opt,opt,log_opt_r,0,0)
+            draw_signal_bg('h_jet_lead_e_cut',30,110,'Leading Jet E(GeV)',combine_opt,opt,log_opt_r,0,0)
+            draw_signal_bg('h_jet_lead_pt_cut',0,90,'Leading Jet Pt(GeV)',combine_opt,opt,log_opt_r,0,0)
+            draw_signal_bg('h_jet_sub_e_cut',0,70,'Sub-leading Jet E(GeV)',combine_opt,opt,log_opt_r,0,0)
+            draw_signal_bg('h_jet_sub_pt_cut',0,60,'Sub-leading Jet Pt(GeV)',combine_opt,opt,log_opt_r,0,0)
+            draw_signal_bg('h_mrec_dimuon_final',100,150,'Dimuon Recoil Mass(GeV)',combine_opt,opt,log_opt_f,0,0) 
 
     if (combine_opt==2):
-        draw_signal_bg('h_vis_all_m_final',100,150,'vis_all_m_final(GeV)',combine_opt, opt,log_opt_f)
-        draw_signal_bg('h_m_dimuon_raw',0 , 210, 'Dimuon mass (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_mrec_dimuon_raw',50 ,160, 'Dimuon rec mass (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_vis_all_pt_raw', 0, 100, 'Transverse momentum (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_angle_mj_raw',0, 120, 'Muon-jet angle (degree)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_npfo_raw', 0, 180, 'Particle flow object',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_jet_lead_pt_raw',0,100, 'Transverse momentum (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_jet_sub_pt_raw',0,100, 'Transverse momentum (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_jet_lead_e_raw',0,100, 'Energy (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_jet_sub_e_raw',0,120, 'Energy (GeV)',combine_opt,opt,log_opt_r)
-        draw_2d('h_2D_dimuon_dijet_raw',combine_opt,opt,1)
-        draw_2d('h_2D_dimuon_dijet_final',combine_opt,opt,2)
-
+	if (opt==1):
+            draw_signal_bg('h_npfo_cut', 0, 120, 'Particle Flow Object',combine_opt,opt,log_opt_r,20,60)
+            draw_signal_bg('h_vis_all_rec_m_cut',50,130,'Missing Mass(GeV)',combine_opt, opt,log_opt_r,75,110)
+            draw_signal_bg('h_m_dimuon_cut',30,120,'Dimuon Mass(GeV)',combine_opt, opt,log_opt_r,60,100)
+            draw_signal_bg('h_m_dijet_cut',0,80,'Dijets Mass(GeV)',combine_opt, opt,log_opt_r,10,55)
+            draw_signal_bg('h_cos_cut',-1,1,'cos theta',combine_opt, opt,log_opt_r,0,0)
+            draw_signal_bg('h_vis_all_cos_cut',-1,1,'cos theta_{visible}',combine_opt,opt,log_opt_r,-0.95,0.95)
+            draw_signal_bg('h_angle_mj_cut',0,180,'Angle(dimuon-dijet)',combine_opt,opt,log_opt_r,0,135)
+            draw_signal_bg('h_mrec_dimuon_cut',100,180, 'Dimuon Recoil Mass (GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_mrec_dijet_cut',140,240,'Dijet Recoil Mass(GeV)',combine_opt, opt,log_opt_f,0,0)
+            draw_signal_bg('h_vis_all_m_cut',90,160,'Visible Mass(GeV)',combine_opt, opt,log_opt_f,110,140)
+            draw_signal_bg('h_vis_all_p_cut',0,80,'Visible P(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_vis_all_pt_cut',0,80,'Visible Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_lead_e_cut',0,60,'Leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_lead_pt_cut',0,60,'Leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_sub_e_cut',0,40,'Sub-leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_sub_pt_cut',0,40,'Sub-leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_vis_all_m_final',100,150,'Visible Mass(GeV)',combine_opt,opt,log_opt_f,0,0)
+	if (opt==2):
+            draw_signal_bg('h_npfo_cut', 0, 120, 'Particle Flow Object',combine_opt,opt,log_opt_r,30,100)
+            draw_signal_bg('h_vis_all_rec_m_cut',50,130,'Missing Mass(GeV)',combine_opt, opt,log_opt_r,75,110)
+            draw_signal_bg('h_m_dimuon_cut',0,80,'Dimuon Mass(GeV)',combine_opt, opt,log_opt_r,10,60)
+            draw_signal_bg('h_m_dijet_cut',30,120,'Dijets Mass(GeV)',combine_opt, opt,log_opt_r,60,100)
+            draw_signal_bg('h_cos_cut',-1,1,'cos theta',combine_opt, opt,log_opt_r,0,0)
+            draw_signal_bg('h_vis_all_cos_cut',-1,1,'cos theta_{visible}',combine_opt,opt,log_opt_r,-0.95,0.95)
+            draw_signal_bg('h_angle_mj_cut',0,180,'Angle(dimuon-dijet)',combine_opt,opt,log_opt_r,0,135)
+#            draw_signal_bg('h_mrec_dimuon_cut',140,240, 'Dimuon Recoil Mass (GeV)',combine_opt,opt,log_opt_f,165,215)
+            draw_signal_bg('h_mrec_dijet_cut',80,200,'Dijet Recoil Mass(GeV)',combine_opt, opt,log_opt_f,0,0)
+            draw_signal_bg('h_vis_all_m_cut',90,160,'Visible Mass(GeV)',combine_opt, opt,log_opt_f,110,140)
+            draw_signal_bg('h_vis_all_p_cut',0,80,'Visible P(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_vis_all_pt_cut',0,80,'Visible Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_lead_e_cut',0,100,'Leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_lead_pt_cut',0,100,'Leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_sub_e_cut',0,70,'Sub-leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_sub_pt_cut',0,70,'Sub-leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_vis_all_m_final',100,150,'Visible Mass(GeV)',combine_opt,opt,log_opt_f,0,0)
     if (combine_opt==3):
-#        draw_signal_bg('h_m_dimuon_final',0,100,'Dimuon mass(GeV)')
-#        draw_signal_bg('h_m_dijet_final',10,100,'Dijet mass(GeV)')
-        draw_signal_bg('h_mrec_dijet_final',100,150,'Dijet rec mass(GeV)',combine_opt, opt,log_opt_f)
-#        draw_signal_bg('h_mrec_dimuon_final',110,220, 'Dimuon rec mass (GeV)')
-#        draw_signal_bg('h_m_visible_final',10,100,'visible_mass_final(GeV)')
-#        draw_signal_bg('h_m_missing_final',65,105,'missing_mass_final(GeV)')
-#        draw_signal_bg('h_vis_all_pt_final',20,70,'vis_all_pt_final(GeV)')
-#        draw_signal_bg('h_vis_all_m_final',115,135,'vis_all_m_final(GeV)',combine_opt, opt,log_opt_f)
-#        draw_signal_bg('h_vis_all_p_final',10,50,'vis_all_p_final(GeV)',combine_opt, opt,combine_opt_f)
-#        draw_signal_bg('h_vis_all_rec_m_final',65,105,'vis_all_rec_m_final((GeV)',combine_opt, opt,log_opt_r)
-#        draw_signal_bg('h_vis_all_cos_final',-1,1,'vis_all_cos_final(GeV)',combine_opt,opt,combine_opt_f)
-#        draw_signal_bg('h_cos_final',-1,1,'cos_final(GeV)',combine_opt, opt,log_opt_f)
-#        draw_signal_bg('h_npfo_final', 0, 100, 'Particle flow object(GeV)',combine_opt,opt,log_opt_f)
-        draw_signal_bg('h_npfo_raw', 0, 200, 'Particle flow object(GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_vis_all_m_raw',0,240,'Visible mass(GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_cos_raw',-1,1,'cos',combine_opt,opt,log_opt_r)
-#        draw_signal_bg('h_jet_lead_e_final',10,75,'jet_lead_e_final(GeV)')
-#        draw_signal_bg('h_jet_sub_e_final',0,50,'jet_sub_e_final(GeV)')
-#        draw_signal_bg('h_angle_mj_final',0,180,'h_angle_mj_final')
-        draw_signal_bg('h_m_dimuon_raw',0,260,'Dimuon mass(GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_mrec_dimuon_raw',0,260,'Dimuon recoil mass (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_m_dijet_raw',0,260,'Dijet mass(GeV)',combine_opt,opt,log_opt_r)
-#        draw_signal_bg('h_mrec_dijet_raw',0,260,'Dijet rec mass(GeV)')
-#        draw_signal_bg('h_m_visible_raw',0,260,'visible mass(GeV)')
-#        draw_signal_bg('h_m_missing_raw',0,260,'missing_mass(GeV)')
-        draw_signal_bg('h_vis_all_pt_raw',0,100,'Visible Pt(GeV)',combine_opt,opt,log_opt_r)
-#        draw_signal_bg('h_vis_all_m_raw',0,240,'vis_all_m(GeV)')
-        draw_signal_bg('h_vis_all_p_raw',0,80,'Visible Pt(GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_vis_all_rec_m_raw',-50,250,'vis_all_rec_m(GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_vis_all_cos_raw',-1,1,'vis_all_cos',combine_opt,opt,log_opt_r)
-#        draw_signal_bg('h_cos_raw',-1,1,'cos')
-        draw_signal_bg('h_jet_lead_e_raw',0,200,'jet_lead_e_raw(GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_jet_sub_e_raw',0,200,'jet_sub_e_raw(GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_jet_lead_pt_raw',0,100, 'Transverse momentum (GeV)',combine_opt,opt,log_opt_r)
-        draw_signal_bg('h_jet_sub_pt_raw',0,100, 'Transverse momentum (GeV)',combine_opt,opt,log_opt_r)
+	if (opt==1):
+            draw_signal_bg('h_npfo_cut', 0, 120, 'Particle Flow Object',combine_opt,opt,log_opt_r,40,95)
+            draw_signal_bg('h_m_dijet_cut',50,130,'Dijets Mass(GeV)',combine_opt, opt,log_opt_r,75,105)
+            draw_signal_bg('h_m_dimuon_cut',0,80,'Dimuon Mass(GeV)',combine_opt, opt,log_opt_r,15,55)
+            draw_signal_bg('h_vis_all_rec_m_cut',10,140,'Missing Mass(GeV)',combine_opt, opt,log_opt_r,70,110)
+            draw_signal_bg('h_cos_cut',-1,1,'cos theta',combine_opt, opt,log_opt_r,0,0)
+            draw_signal_bg('h_vis_all_cos_cut',-1,1,'cos theta_{visible}',combine_opt,opt,log_opt_r,-0.95,0.95)
+            draw_signal_bg('h_angle_mj_cut',0,180,'Angle(dimuon-dijet)',combine_opt,opt,log_opt_r,0,0)
+            draw_signal_bg('h_mrec_dimuon_cut',140,240, 'Dimuon Recoil Mass (GeV)',combine_opt,opt,log_opt_r,175,215)
+            draw_signal_bg('h_mrec_dijet_cut',90,160,'Dijet Recoil Mass(GeV)',combine_opt, opt,log_opt_f,110,140)
+            draw_signal_bg('h_vis_all_m_cut',100,180,'Visible Mass(GeV)',combine_opt, opt,log_opt_f,115,155)
+            draw_signal_bg('h_vis_all_p_cut',0,80,'Visible P(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_vis_all_pt_cut',0,80,'Visible Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_lead_e_cut',40,100,'Leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_lead_pt_cut',0,80,'Leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_sub_e_cut',0,60,'Sub-leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_sub_pt_cut',0,60,'Sub-leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_mrec_dijet_final',100,150,'Dijet Recoil Mass(GeV)',combine_opt,opt,log_opt_f,0,0)
+	if (opt==2):
+            draw_signal_bg('h_npfo_cut', 0, 120, 'Particle Flow Object',combine_opt,opt,log_opt_r,40,95)
+            draw_signal_bg('h_m_dijet_cut',50,130,'Dijets Mass(GeV)',combine_opt, opt,log_opt_r,75,105)
+            draw_signal_bg('h_m_dimuon_cut',0,120,'Dimuon Mass(GeV)',combine_opt, opt,log_opt_r,75,100)
+            draw_signal_bg('h_vis_all_rec_m_cut',0,80,'Missing Mass(GeV)',combine_opt, opt,log_opt_r,10,50)
+            draw_signal_bg('h_cos_cut',-1,1,'cos theta',combine_opt, opt,log_opt_r,0,0)
+            draw_signal_bg('h_vis_all_cos_cut',-1,1,'cos theta_{visible}',combine_opt,opt,log_opt_r,-0.95,0.95)
+            draw_signal_bg('h_angle_mj_cut',0,180,'Angle(dimuon-dijet)',combine_opt,opt,log_opt_r,120,170)
+            draw_signal_bg('h_mrec_dimuon_cut',80,180, 'Dimuon Recoil Mass (GeV)',combine_opt,opt,log_opt_r,115,155)
+            draw_signal_bg('h_mrec_dijet_cut',90,160,'Dijet Recoil Mass(GeV)',combine_opt, opt,log_opt_f,110,140)
+            draw_signal_bg('h_vis_all_m_cut',170,250,'Visible Mass(GeV)',combine_opt, opt,log_opt_f,185,215)
+            draw_signal_bg('h_vis_all_p_cut',0,50,'Visible P(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_vis_all_pt_cut',0,50,'Visible Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_lead_e_cut',40,100,'Leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_lead_pt_cut',0,100,'Leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_sub_e_cut',0,70,'Sub-leading Jet E(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_jet_sub_pt_cut',0,70,'Sub-leading Jet Pt(GeV)',combine_opt,opt,log_opt_f,0,0)
+            draw_signal_bg('h_mrec_dijet_final',100,150,'Dijet Recoil Mass(GeV)',combine_opt,opt,log_opt_f,0,0)
 
-        draw_signal_bg('h_angle_mj_raw',0,180,'h_angle_mj_raw(GeV)',combine_opt,opt,log_opt_r)
-        draw_2d('h_2D_dimuon_missing_raw',combine_opt,opt,1)
-        draw_2d('h_2D_dimuon_missing_final',combine_opt,opt,2)
+#        draw_signal_bg('h_mrec_dijet_raw',100,150,'Dijet rec mass(GeV)',combine_opt, opt,log_opt_f)
+#        draw_signal_bg('h_m_dimuon_raw',0,150,'Dimuon mass(GeV)',combine_opt, opt,log_opt_r)
+#        draw_signal_bg('h_m_dijet_raw',50,130,'Dijets mass(GeV)',combine_opt, opt,log_opt_r)
+#        draw_signal_bg('h_vis_all_m_raw',100,250,'Visible mass(GeV)',combine_opt, opt,log_opt_r)
+#        draw_signal_bg('h_cos_raw',-1,1,'cos_raw(GeV)',combine_opt, opt,log_opt_r)
+#        draw_signal_bg('h_mrec_dimuon_raw',100,250, 'Dimuon rec mass (GeV)',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_jet_lead_e_raw',0,100,'jet_lead_e_raw(GeV)',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_jet_sub_e_raw',0,100,'jet_sub_e_raw(GeV)',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_angle_mj_raw',0,180,'h_angle_mj_raw',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_vis_all_pt_raw',0,250,'Visible Pt(GeV)',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_vis_all_cos_raw',-1,1,'vis_all_cos',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_vis_all_rec_m_raw',0,100,'vis_all_rec_m_raw((GeV)',combine_opt, opt,log_opt_r)
+#        draw_signal_bg('h_npfo_raw', 0, 120, 'Particle flow object(GeV)',combine_opt,opt,log_opt_r)
 
-def draw_signal_bg(pic, x1, x2, title, combine_opt, opt, log_opt):
+#        draw_signal_bg('h_mrec_dijet_final',100,150,'Dijet rec mass(GeV)',combine_opt, opt,log_opt_f)
+#        draw_signal_bg('h_m_dimuon_final',0,150,'Dimuon mass(GeV)',combine_opt, opt,log_opt_r)
+#        draw_signal_bg('h_m_dijet_final',50,130,'Dijets mass(GeV)',combine_opt, opt,log_opt_r)
+#        draw_signal_bg('h_vis_all_m_final',100,250,'Visible mass(GeV)',combine_opt, opt,log_opt_r)
+#        draw_signal_bg('h_cos_final',-1,1,'cos_final(GeV)',combine_opt, opt,log_opt_r)
+#        draw_signal_bg('h_mrec_dimuon_final',100,250, 'Dimuon rec mass (GeV)',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_jet_lead_e_final',0,100,'jet_lead_e_final(GeV)',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_jet_sub_e_final',0,100,'jet_sub_e_final(GeV)',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_angle_mj_final',0,180,'h_angle_mj_final',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_vis_all_pt_final',0,250,'Visible Pt(GeV)',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_vis_all_cos_final',-1,1,'vis_all_cos',combine_opt,opt,log_opt_r)
+#        draw_signal_bg('h_vis_all_rec_m_final',0,100,'vis_all_rec_m_final((GeV)',combine_opt, opt,log_opt_r)
+#        draw_signal_bg('h_npfo_final', 30, 110, 'Particle flow object(GeV)',combine_opt,opt,log_opt_r)
+
+#        draw_2d('h_2D_dimuon_missing_raw',combine_opt,opt,1)
+#        draw_2d('h_2D_dimuon_missing_final',combine_opt,opt,2)
+
+def draw_2d_sig_bg(pic, combine_opt, opt, fig_opt):
+
+    tabs = sys.argv[3:]
+
+    c = ROOT.TCanvas('c', 'c', 600, 600)
+
+    if (combine_opt==1):
+        figfile = './fig/channel_ll_%s/2d_%s.png'%(opt,pic)
+        sample =  ROOT.TFile('./run/channel_ll_%s/llh2zz/hist/ana_File_merged_1.root'%opt)
+    if (combine_opt==2):
+        figfile = './fig/channel_nn_%s/2d_%s.png'%(opt,pic)
+        sample =  ROOT.TFile('./run/channel_nn_%s/nnh2zz/hist/ana_File_merged_1.root'%opt)
+    if (combine_opt==3):
+        figfile = './fig/channel_qq_%s/2d_%s.png'%(opt,pic)
+        sample =  ROOT.TFile('./run/channel_qq_%s/qqh2zz/hist/ana_File_merged_1.root'%opt)
+
+    check_outfile_path(figfile)
+
+    s = sample.Get(pic)
+
+    if (fig_opt==1):
+        s.SetXTitle('Dimuon recoil mass (GeV)')
+        s.SetYTitle('Visible mass (GeV)')
+    if (fig_opt==2):
+        s.SetXTitle('Dimuon recoil mass (GeV)')
+        s.SetYTitle('Dijet recoil mass (GeV)')
+    if (fig_opt==3):
+        s.SetXTitle('Visible mass (GeV)')
+        s.SetYTitle('Dijet recoil mass (GeV)')
+
+    ROOT.gStyle.SetOptStat(000)
+
+    s.SetContour(99)
+    s.Draw("")
+
+    c.SaveAs(figfile)
+
+def draw_signal_bg(pic, x1, x2, title, combine_opt, opt, log_opt,left,right):
 
     tabs = sys.argv[3:]
 
     c = ROOT.TCanvas('c', 'c', 800, 800)
 
-    leg = ROOT.TLegend(0.63, 0.7, 0.90, 0.90)
+    #leg = ROOT.TLegend(0.63, 0.7, 0.90, 0.90)
+    leg = ROOT.TLegend(0.70, 0.83, 0.95, 0.97)
     stack = ROOT.THStack('stack','')
 
     leg.SetTextFont(60)
     leg.SetTextSize(0.02)
 
     if (combine_opt==1):
-        figfile = './fig/channel_ll_%s/sbg_%s.pdf'%(opt,pic)
+        figfile = './fig/channel_ll_%s/sbg_%s.png'%(opt,pic)
         signal_sample =  ROOT.TFile('./run/channel_ll_%s/llh2zz/hist/ana_File_merged_1.root'%opt)
     if (combine_opt==2):
-        figfile = './fig/channel_nn/sbg_%s.pdf'%pic
-        signal_sample =  ROOT.TFile('./run/channel_nn/nnh2zz/hist/ana_File_merged_1.root')
+        figfile = './fig/channel_nn_%s/sbg_%s.png'%(opt,pic)
+        signal_sample =  ROOT.TFile('./run/channel_nn_%s/nnh2zz/hist/ana_File_merged_1.root'%opt)
     if (combine_opt==3):
-        figfile = './fig/channel_qq_%s/sbg_%s.pdf'%(opt,pic)
+        figfile = './fig/channel_qq_%s/sbg_%s.png'%(opt,pic)
         signal_sample =  ROOT.TFile('./run/channel_qq_%s/qqh2zz/hist/ana_File_merged_1.root'%opt)
 
     check_outfile_path(figfile)
@@ -151,7 +264,7 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt, opt, log_opt):
                 if (combine_opt==1): 
                     sample = ROOT.TFile('./run/channel_ll_%s/'%opt + path + '/hist/' + dname + '/ana_File_merged_1.root')
                 if (combine_opt==2):
-                    sample = ROOT.TFile('./run/channel_nn/' + path + '/hist/' + dname + '/ana_File_merged_1.root')
+                    sample = ROOT.TFile('./run/channel_nn_%s/'%opt + path + '/hist/' + dname + '/ana_File_merged_1.root')
                 if (combine_opt==3):
                     sample = ROOT.TFile('./run/channel_qq_%s/'%opt + path + '/hist/' + dname + '/ana_File_merged_1.root')
  
@@ -165,7 +278,7 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt, opt, log_opt):
                     a.Scale(scb)
                     exec('b%s.Add(a)'%tabs.index(t))
 
-    SetCEPCCDRStyle()
+    #SetCEPCCDRStyle()
 
     max0=0
     max1=0
@@ -184,17 +297,17 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt, opt, log_opt):
 
     if (log_opt==2):
     	ROOT.gPad.SetLogy(1)
-#    b0.SetMinimum(0.1)
+        s.SetMinimum(0.01)
     if (log_opt==2):
-        s.SetMaximum(max*10)
+	s.SetMaximum(max*31)
     if (log_opt==1):
-    	s.SetMaximum(max*1.3)
+	s.SetMaximum(max*1.35)
     s.GetXaxis().SetRangeUser(x1, x2)
     s.SetXTitle(title)
 
-    if pic == 'h_min_angle' or pic == 'h_single_jet_theta':
-        s.SetYTitle('Events/degree') 
-    elif pic == 'h_npfo' or pic == 'h_npfo_raw' or pic == 'h_npfo_final':
+    if 'angle' in pic:
+        s.SetYTitle('Events/Degree') 
+    elif ('npfo' in pic) or ('cos' in pic) :
         s.SetYTitle('Events')
     else:
         s.SetYTitle('Events/GeV') 
@@ -223,6 +336,26 @@ def draw_signal_bg(pic, x1, x2, title, combine_opt, opt, log_opt):
     leg.Draw()
     stack.Draw('Hist same')
     s.Draw('Hist same')
+    
+    if left!=right:
+        if log_opt==2:
+    	    arrow_up = max*0.8
+	    arrow_down = 0.01
+        if log_opt==1:
+	    arrow_up = max*0.8
+            arrow_down = 1
+
+        ar1 = ROOT.TArrow(left, arrow_up, left, arrow_down, 0.02, "|>")
+        ar1.SetLineWidth(2)
+        ar1.SetLineStyle(2)
+        ar1.SetLineColor(1)
+        ar1.Draw()
+
+        ar2 = ROOT.TArrow(right, arrow_up, right, arrow_down, 0.02, "|>")
+        ar2.SetLineWidth(2)
+        ar2.SetLineStyle(2)
+        ar2.SetLineColor(1)
+        ar2.Draw()
 
     c.SaveAs(figfile)
 
@@ -231,13 +364,13 @@ def draw_2d(pic, combine_opt, opt, draw_opt):
     c = ROOT.TCanvas('c', 'c', 1600, 1600)
 
     if (combine_opt==1):
-        figfile = './fig/channel_ll_%s/2d_%s.pdf'%(opt,pic)
+        figfile = './fig/channel_ll_%s/2d_%s.png'%(opt,pic)
         sample =  ROOT.TFile('./run/channel_ll_%s/llh2zz/hist/ana_File_merged_1.root'%opt)
     if (combine_opt==2):
-        figfile = './fig/channel_nn/2d_%s.pdf'%pic
-        sample =  ROOT.TFile('./run/channel_nn/nnh2zz/hist/ana_File_merged_1.root')
+        figfile = './fig/channel_nn_%s/2d_%s.png'%(opt,pic)
+        sample =  ROOT.TFile('./run/channel_nn_%s/nnh2zz/hist/ana_File_merged_1.root'%opt)
     if (combine_opt==3):
-        figfile = './fig/channel_qq_%s/2d_%s.pdf'%(opt,pic)
+        figfile = './fig/channel_qq_%s/2d_%s.png'%(opt,pic)
         sample =  ROOT.TFile('./run/channel_qq_%s/qqh2zz/hist/ana_File_merged_1.root'%opt)
 
     check_outfile_path(figfile)
@@ -259,6 +392,7 @@ def draw_2d(pic, combine_opt, opt, draw_opt):
     if (draw_opt==2):
     	s.Draw("colz1")
     c.SaveAs(figfile)
+
 
 def SetCEPCCDRStyle():
 
@@ -327,6 +461,7 @@ def SetCEPCCDRStyle():
     CEPCCDRStyle.SetTitleFontSize(36)
     CEPCCDRStyle.SetTitleXOffset(0.9)
     CEPCCDRStyle.SetTitleYOffset(1.0)
+
     #axis
     CEPCCDRStyle.SetTitleColor(1, "XYZ")
     CEPCCDRStyle.SetTitleFont(43, "XYZ")
