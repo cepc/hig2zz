@@ -21,14 +21,13 @@ void qq_ntuple(TString a,TString b);
 void qzmv()
 {
     qq_ntuple("qzmv_cc.root"  ,   "new_qzmv_cc.root");
-    qq_ntuple("qzmv_gg.root"  ,   "new_qzmv_gg.root");
-    qq_ntuple("qzmv_mm.root"  ,   "new_qzmv_mm.root");
-    qq_ntuple("qzmv_az.root"  ,   "new_qzmv_az.root");
     qq_ntuple("qzmv_bb.root"  ,   "new_qzmv_bb.root");
     qq_ntuple("qzmv_sm.root"  ,   "new_qzmv_sm.root");
     qq_ntuple("qzmv_tt.root"  ,   "new_qzmv_tt.root");
     qq_ntuple("qzmv_ww.root"  ,   "new_qzmv_ww.root");
-    qq_ntuple("qzmv_zz.root"  ,   "new_qzmv_zz.root");
+    qq_ntuple("qzmv_gg.root"  ,   "new_qzmv_gg.root");
+    qq_ntuple("qzmv_az.root"  ,   "new_qzmv_az.root");
+    qq_ntuple("qzmv_sig_other.root"  ,   "new_qzmv_sig_other.root");
     qq_ntuple("qzmv_sig.root"  ,  "new_qzmv_sig.root");
 }
 
@@ -50,24 +49,16 @@ void qq_ntuple(TString a,TString b)
   Float_t g1CosPolar,g2CosPolar, g1E, g2E, g1rcCos, g2rcCos, ggE, ggM, rcM, g1PTrans, g2PTrans, ggPTrans, rcCosPolar, g1g2cos;
   Float_t LD0, LZ0, NLD0, NLZ0, weightf;
 
-//    data->SetBranchAddress("ggM",          &ggM); // For recoil M, recoilM is MCtruth.
-  //  data->SetBranchAddress("KMass34",   &mH);
-  //  data->SetBranchAddress("KReco34",   &mZ);
-  //  data->SetBranchAddress("KMass12",   &mjj);
-  //  data->SetBranchAddress("KReco12",   &rjj);
-
   Long64_t nentries = Ts->GetEntries();
 
   cout<<nentries<<endl;
    Double_t BDTs, BDTb, recoEs, recoEb, invmass, recmass, type;
    Ts->SetBranchAddress("scale",   &weight);
-  //  Tb->SetBranchAddress("BDT",   &BDTb);
    Ts->SetBranchAddress("dijet_rec_m",  &invmass);
 
   TTree *output=new TTree("HiggsTree",  "HiggsTree");
   output->Branch("Mass_H", &mH, "Mass_H/F"); 
   output->Branch("weight", &weightf, "weight/F");
-//   output->Branch("BDT"      ,&BDTs,    "BDT/F");
 
      for (Long64_t i=0; i<nentries;i++)
     {
